@@ -6,8 +6,8 @@
 */
 return [
 	'name' => 'Cpanel Licensing',
-	'description' => 'Allows selling of Cpanel Server and VPS License Types.  More info at https://www.netenberg.com/cpanel.php',
-	'help' => 'It provides more than one million end users the ability to quickly install dozens of the leading open source content management systems into their web space.  	Must have a pre-existing cPanel license with cPanelDirect to purchase a cpanel license. Allow 10 minutes for activation.',
+	'description' => 'Allows selling of Cpanel Server and VPS License Types.  More info at https://cpanel.com/',
+	'help' => 'cPanel monthly license.  WHM/cPanel allows you to administer individual accounts, reseller accounts &amp; performing basic system and control panel maintenance via a secure interface. cPanel Control Panel (Client Interface) cPanel is designed for the end users of your system and allows them to control everything from adding / removing email accounts to administering MySQL databases.',
 	'module' => 'licenses',
 	'author' => 'detain@interserver.net',
 	'home' => 'https://github.com/detain/myadmin-cpanel',
