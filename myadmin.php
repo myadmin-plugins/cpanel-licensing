@@ -10,8 +10,8 @@ return [
 	'help' => 'cPanel monthly license.  WHM/cPanel allows you to administer individual accounts, reseller accounts &amp; performing basic system and control panel maintenance via a secure interface. cPanel Control Panel (Client Interface) cPanel is designed for the end users of your system and allows them to control everything from adding / removing email accounts to administering MySQL databases.',
 	'module' => 'licenses',
 	'author' => 'detain@interserver.net',
-	'home' => 'https://github.com/detain/myadmin-cpanel',
-	'repo' => 'https://github.com/detain/myadmin-cpanel',
+	'home' => 'https://github.com/detain/myadmin-cpanel-licensing',
+	'repo' => 'https://github.com/detain/myadmin-cpanel-licensing',
 	'version' => '1.0.0',
 	'type' => 'licenses',
 	'hooks' => [
