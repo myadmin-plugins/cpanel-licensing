@@ -17,8 +17,8 @@ return [
 	'hooks' => [
 		'licenses.settings' => ['Detain\MyAdminCpanel\Plugin', 'Settings'],
 		'licenses.activate' => ['Detain\MyAdminCpanel\Plugin', 'Activate'],
-		/* 'function.requirements' => ['Detain\MyAdminCpanel\Plugin', 'Requirements'],
 		'licenses.change_ip' => ['Detain\MyAdminCpanel\Plugin', 'ChangeIp'],
+		/* 'function.requirements' => ['Detain\MyAdminCpanel\Plugin', 'Requirements'],
 		'ui.menu' => ['Detain\MyAdminCpanel\Plugin', 'Menu'] */
 	],
 ];

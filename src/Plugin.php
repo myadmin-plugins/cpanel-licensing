@@ -22,21 +22,21 @@ class Plugin {
 	}
 
 	public static function ChangeIp(GenericEvent $event) {
-		if ($event['category'] == SERVICE_TYPES_FANTASTICO) {
+		if ($event['category'] == SERVICE_TYPES_CPANEL) {
 			$license = $event->getSubject();
 			$settings = get_module_settings('licenses');
-			$cpanel = new Cpanel(FANTASTICO_USERNAME, FANTASTICO_PASSWORD);
+			function_requirements('deactivate_cpanel');
+			function_requirements('activate_cpanel');
 			myadmin_log('licenses', 'info', "IP Change - (OLD:".$license->get_ip().") (NEW:{$event['newip']})", __LINE__, __FILE__);
-			$result = $cpanel->editIp($license->get_ip(), $event['newip']);
-			if (isset($result['faultcode'])) {
-				myadmin_log('licenses', 'error', 'Cpanel editIp('.$license->get_ip().', '.$event['newip'].') returned Fault '.$result['faultcode'].': '.$result['fault'], __LINE__, __FILE__);
-				$event['status'] = 'error';
-				$event['status_text'] = 'Error Code '.$result['faultcode'].': '.$result['fault'];
-			} else {
+			if (deactivate_cpanel($license->get_ip()) == true) {
+				activate_cpanel($event['newip'], $event['field1']);
 				$GLOBALS['tf']->history->add($settings['TABLE'], 'change_ip', $event['newip'], $license->get_ip());
 				$license->set_ip($event['newip'])->save();
 				$event['status'] = 'ok';
 				$event['status_text'] = 'The IP Address has been changed.';
+			} else {
+				$event['status'] = 'error';
+				$event['status_text'] = 'Error occurred during deactivation.';
 			}
 			$event->stopPropagation();
 		}
