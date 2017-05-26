@@ -2,7 +2,7 @@
 
 namespace Detain\MyAdminCpanel;
 
-use Detain\Cpanel\Cpanel;
+//use Detain\Cpanel\Cpanel;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Plugin {
