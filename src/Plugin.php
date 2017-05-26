@@ -21,6 +21,25 @@ class Plugin {
 		}
 	}
 
+	public static function Deactivate(GenericEvent $event) {
+		$license = $event->getSubject();
+		if ($event['category'] == SERVICE_TYPES_CPANEL) {
+			myadmin_log('licenses', 'info', 'CPanel Deactivation', __LINE__, __FILE__);
+			function_requirements('deactivate_cpanel');
+			deactivate_cpanel($license->get_ip());
+			$license_extra = @myadmin_unstringify($license->get_extra());
+			if ($license_extra !== false && isset($license_extra['ksplice']) && $license_extra['ksplice'] == 1 && isset($license_extra['ksplice_uuid']) && $license_extra['ksplice_uuid'] != '') {
+				function_requirements('deactivate_ksplice');
+				deactivate_ksplice((is_uuid($license_extra['ksplice_uuid']) ? $license_extra['ksplice_uuid'] : $license->get_ip()));
+			}
+			if ($license_extra !== false && isset($license_extra['kcare']) && $license_extra['kcare'] == 1) {
+				function_requirements('deactivate_kcare');
+				deactivate_kcare($license->get_ip());
+			}
+			$event->stopPropagation();
+		}
+	}
+
 	public static function ChangeIp(GenericEvent $event) {
 		if ($event['category'] == SERVICE_TYPES_CPANEL) {
 			$license = $event->getSubject();
