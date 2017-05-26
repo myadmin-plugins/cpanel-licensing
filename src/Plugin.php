@@ -13,7 +13,7 @@ class Plugin {
 	public static function Activate(GenericEvent $event) {
 		// will be executed when the licenses.license event is dispatched
 		$license = $event->getSubject();
-		if ($event['category'] == SERVICE_TYPES_FANTASTICO) {
+		if ($event['category'] == SERVICE_TYPES_CPANEL) {
 			myadmin_log('licenses', 'info', 'Cpanel Activation', __LINE__, __FILE__);
 			function_requirements('activate_cpanel');
 			activate_cpanel($license->get_ip(), $event['field1']);
