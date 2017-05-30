@@ -68,7 +68,7 @@ class Plugin {
 		if ($GLOBALS['tf']->ima == 'admin') {
 			$menu->add_link($module, 'choice=none.reusable_cpanel', 'icons/database_warning_48.png', 'ReUsable Cpanel Licenses');
 			$menu->add_link($module, 'choice=none.cpanel_list', 'icons/database_warning_48.png', 'Cpanel Licenses Breakdown');
-			$menu->add_link('licensesapi', 'choice=none.cpanel_licenses_list', 'whm/createacct.gif', 'List all Cpanel Licenses');
+			$menu->add_link($module.'api', 'choice=none.cpanel_licenses_list', 'whm/createacct.gif', 'List all Cpanel Licenses');
 		}
 	}
 
