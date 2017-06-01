@@ -19,7 +19,7 @@ return [
 		'licenses.activate' => ['Detain\MyAdminCpanel\Plugin', 'Activate'],
 		'licenses.deactivate' => ['Detain\MyAdminCpanel\Plugin', 'Deactivate'],
 		'licenses.change_ip' => ['Detain\MyAdminCpanel\Plugin', 'ChangeIp'],
-		/* 'function.requirements' => ['Detain\MyAdminCpanel\Plugin', 'Requirements'],
-		'ui.menu' => ['Detain\MyAdminCpanel\Plugin', 'Menu'] */
+		'function.requirements' => ['Detain\MyAdminCpanel\Plugin', 'Requirements'],
+		'ui.menu' => ['Detain\MyAdminCpanel\Plugin', 'Menu']
 	],
 ];

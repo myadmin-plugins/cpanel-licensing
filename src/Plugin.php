@@ -66,27 +66,25 @@ class Plugin {
 		$menu = $event->getSubject();
 		$module = 'licenses';
 		if ($GLOBALS['tf']->ima == 'admin') {
-			$menu->add_link($module, 'choice=none.reusable_cpanel', 'icons/database_warning_48.png', 'ReUsable Cpanel Licenses');
-			$menu->add_link($module, 'choice=none.cpanel_list', 'icons/database_warning_48.png', 'Cpanel Licenses Breakdown');
-			$menu->add_link($module.'api', 'choice=none.cpanel_licenses_list', 'whm/createacct.gif', 'List all Cpanel Licenses');
+			$menu->add_link($module, 'choice=none.unbilled_cpanel', 'icons/database_warning_48.png', 'Unbilled CPanel');
+			$menu->add_link($module.'api', 'choice=none.cpanel_list', 'whm/createacct.gif', 'List all CPanel Licenses');
 		}
 	}
 
 	public static function Requirements(GenericEvent $event) {
 		// will be executed when the licenses.loader event is dispatched
 		$loader = $event->getSubject();
-		$loader->add_requirement('crud_cpanel_list', '/../vendor/detain/crud/src/crud/crud_cpanel_list.php');
-		$loader->add_requirement('crud_reusable_cpanel', '/../vendor/detain/crud/src/crud/crud_reusable_cpanel.php');
-		$loader->add_requirement('get_cpanel_licenses', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('get_cpanel_list', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('cpanel_licenses_list', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('cpanel_list', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('get_available_cpanel', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('activate_cpanel', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('get_reusable_cpanel', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('reusable_cpanel', '/licenses/cpanel.functions.inc.php');
-		$loader->add_requirement('class.cpanel', '/../vendor/detain/cpanel/class.cpanel.inc.php');
-		$loader->add_requirement('vps_add_cpanel', '/vps/addons/vps_add_cpanel.php');
+		$loader->add_requirement('activate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('deactivate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('verify_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('get_license_data', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('get_cpanel_licenses', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('cpanel_list', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('unbilled_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/unbilled_cpanel.php');
+		$loader->add_requirement('unbilled_cpanel_old', '/../vendor/detain/myadmin-cpanel-licensing/src/unbilled_cpanel_old.php');
+		$loader->add_requirement('cpanel_ksplice_addon', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel_ksplice_addon.php');
+		$loader->add_requirement('cpanel_kcare_addon', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel_kcare_addon.php');
+		$loader->add_requirement('class.Cpanel', '/../vendor/detain/cpanel-licensing/Cpanel.php');
 	}
 
 	public static function Settings(GenericEvent $event) {
