@@ -90,9 +90,9 @@ class Plugin {
 	public static function Settings(GenericEvent $event) {
 		// will be executed when the licenses.settings event is dispatched
 		$settings = $event->getSubject();
-		$settings->add_text_setting('apisettings', 'cpanel_licensing_username', 'Cpanel Licensing Username:', 'Cpanel Licensing Username', $settings->get_setting('CPANEL_LICENSING_USERNAME'));
-		$settings->add_text_setting('apisettings', 'cpanel_licensing_password', 'Cpanel Licensing Password:', 'Cpanel Licensing Password', $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
-		$settings->add_text_setting('apisettings', 'cpanel_licensing_group', 'Cpanel Licensing Group:', 'Cpanel Licensing Group', $settings->get_setting('CPANEL_LICENSING_GROUP'));
+		$settings->add_text_setting('licenses', 'apisettings', 'cpanel_licensing_username', 'Cpanel Licensing Username:', 'Cpanel Licensing Username', $settings->get_setting('CPANEL_LICENSING_USERNAME'));
+		$settings->add_text_setting('licenses', 'apisettings', 'cpanel_licensing_password', 'Cpanel Licensing Password:', 'Cpanel Licensing Password', $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
+		$settings->add_text_setting('licenses', 'apisettings', 'cpanel_licensing_group', 'Cpanel Licensing Group:', 'Cpanel Licensing Group', $settings->get_setting('CPANEL_LICENSING_GROUP'));
 		$settings->add_dropdown_setting('stock', 'outofstock_licenses_cpanel', 'Out Of Stock CPanel Licenses', 'Enable/Disable Sales Of This Type', $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), array('0', '1'), array('No', 'Yes', ));
 	}
 
