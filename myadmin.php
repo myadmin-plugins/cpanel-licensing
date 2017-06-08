@@ -13,7 +13,7 @@ return [
 	'home' => 'https://github.com/detain/myadmin-cpanel-licensing',
 	'repo' => 'https://github.com/detain/myadmin-cpanel-licensing',
 	'version' => '1.0.0',
-	'type' => 'licenses',
+	'type' => 'service',
 	'hooks' => [
 		'licenses.settings' => ['Detain\MyAdminCpanel\Plugin', 'Settings'],
 		'licenses.activate' => ['Detain\MyAdminCpanel\Plugin', 'Activate'],
