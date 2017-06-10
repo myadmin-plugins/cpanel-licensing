@@ -97,3 +97,4 @@ class Plugin {
 	}
 
 }
+namespace Detain\MyAdminCpanel;
