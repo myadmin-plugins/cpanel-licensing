@@ -1,6 +1,6 @@
 <?php
 
-namespace Detain\MyAdminCpanel;
+namespace MyAdmin\Licenses\Cpanel;
 
 //use Detain\Cpanel\Cpanel;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -97,4 +97,4 @@ class Plugin {
 	}
 
 }
-namespace Detain\MyAdminCpanel;
+namespace MyAdmin\Licenses\Cpanel;
