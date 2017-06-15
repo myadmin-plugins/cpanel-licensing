@@ -77,7 +77,7 @@ class Plugin {
 		$loader->add_requirement('activate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_requirement('deactivate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_requirement('verify_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
-		$loader->add_requirement('get_license_data', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('get_cpanel_license_data_by_ip', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_requirement('get_cpanel_licenses', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_requirement('cpanel_list', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_requirement('unbilled_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/unbilled_cpanel.php');

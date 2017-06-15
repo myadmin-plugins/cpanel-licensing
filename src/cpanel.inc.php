@@ -98,7 +98,7 @@ function verify_cpanel($ip) {
 }
 
 /**
- * get_license_data()
+ * get_cpanel_license_data_by_ip()
  * gets cpanel license data
  *
  * Sample output
@@ -123,7 +123,7 @@ function verify_cpanel($ip) {
  * @param string $ip ip address
  * @return array the array of cpanel data
  */
-function get_license_data($ip) {
+function get_cpanel_license_data_by_ip($ip) {
 	if (!valid_ip($ip, false))
 		return false;
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
