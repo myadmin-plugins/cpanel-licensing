@@ -19,12 +19,12 @@ class Plugin {
 
 	public static function Hooks() {
 		return [
-			'licenses.settings' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Settings'],
-			'licenses.activate' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Activate'],
-			'licenses.deactivate' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Deactivate'],
-			'licenses.change_ip' => ['MyAdmin\Licenses\Cpanel\Plugin', 'ChangeIp'],
-			'function.requirements' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Requirements'],
-			'ui.menu' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Menu'],
+			'licenses.settings' => [__CLASS__, 'Settings'],
+			'licenses.activate' => [__CLASS__, 'Activate'],
+			'licenses.deactivate' => [__CLASS__, 'Deactivate'],
+			'licenses.change_ip' => [__CLASS__, 'ChangeIp'],
+			'function.requirements' => [__CLASS__, 'Requirements'],
+			'ui.menu' => [__CLASS__, 'Menu'],
 		];
 	}
 
