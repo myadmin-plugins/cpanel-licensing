@@ -115,4 +115,3 @@ class Plugin {
 	}
 
 }
-namespace MyAdmin\Licenses\Cpanel;
