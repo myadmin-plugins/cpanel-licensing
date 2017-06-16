@@ -7,7 +7,25 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Plugin {
 
+	public static $name = 'Cpanel Licensing';
+	public static $description = 'Allows selling of Cpanel Server and VPS License Types.  More info at https://cpanel.com/';
+	public static $help = 'cPanel monthly license.  WHM/cPanel allows you to administer individual accounts, reseller accounts &amp; performing basic system and control panel maintenance via a secure interface. cPanel Control Panel (Client Interface) cPanel is designed for the end users of your system and allows them to control everything from adding / removing email accounts to administering MySQL databases.';
+	public static $module = 'licenses';
+	public static $type = 'service';
+
+
 	public function __construct() {
+	}
+
+	public static function Hooks() {
+		return [
+			'licenses.settings' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Settings'],
+			'licenses.activate' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Activate'],
+			'licenses.deactivate' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Deactivate'],
+			'licenses.change_ip' => ['MyAdmin\Licenses\Cpanel\Plugin', 'ChangeIp'],
+			'function.requirements' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Requirements'],
+			'ui.menu' => ['MyAdmin\Licenses\Cpanel\Plugin', 'Menu'],
+		];
 	}
 
 	public static function Activate(GenericEvent $event) {
