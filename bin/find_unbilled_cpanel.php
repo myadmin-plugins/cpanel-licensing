@@ -10,16 +10,16 @@ $webpage = false;
 define('VERBOSE_MODE', false);
 
 $db = get_module_db('licenses');
-$db_vps = get_module_db('vps');
-$db_vps2 = get_module_db('vps');
-$db_innertell = get_module_db('innertell');
-$db_cms = get_module_db('mb');
+$dbVps = get_module_db('vps');
+$dbVps2 = get_module_db('vps');
+$dbInnertell = get_module_db('innertell');
+$dbCms = get_module_db('mb');
 $GLOBALS['tf']->session->create(160308, 'services');
 $GLOBALS['tf']->session->verify();
 $whitelist = explode("\n", trim(`export PATH="\$PATH:/bin:/usr/bin:/sbin:/usr/sbin"; cat /home/interser/public_html/misha/cpanel_whitelist.txt`));
 $licenses = [];
 $tocheck = [];
-$good_ips = [];
+$goodIps = [];
 $ipOutput = [];
 $session_id = $GLOBALS['tf']->session->sessionid;
 $serviceTypes = get_license_types();
@@ -41,17 +41,17 @@ foreach ($status['licenses'] as $key => $license2)
 	$licenses[$license['ip']] = $license;
 	if (in_array($license['ip'], $whitelist))
 	{
-		$good_ips[] = $license['ip'];
+		$goodIps[] = $license['ip'];
 		continue;
 	}
 	$tocheck[$license['ip']] = $license;
 }
 
-$db_innertell->query("select primary_ipv4 from servers left join location on order_id=servers.server_id where servers.server_status='active' and primary_ipv4 is not null and (server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or server_dedicated_cp=1 or server_dedicated_cp=6) and primary_ipv4 in ('" . implode("','", array_keys($tocheck)) . "')", __LINE__, __FILE__);
-while ($db_innertell->next_record(MYSQL_ASSOC))
+$dbInnertell->query("select primary_ipv4 from servers left join location on order_id=servers.server_id where servers.server_status='active' and primary_ipv4 is not null and (server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or server_dedicated_cp=1 or server_dedicated_cp=6) and primary_ipv4 in ('" . implode("','", array_keys($tocheck)) . "')", __LINE__, __FILE__);
+while ($dbInnertell->next_record(MYSQL_ASSOC))
 {
-	$good_ips[] = $db_innertell->Record['primary_ipv4'];
-	unset($tocheck[$db_innertell->Record['primary_ipv4']]);
+	$goodIps[] = $dbInnertell->Record['primary_ipv4'];
+	unset($tocheck[$dbInnertell->Record['primary_ipv4']]);
 }
 /*
 $db->query("select license_ip from licenses left join services on services_id=license_type where services_module='licenses' and services_category=1 and license_status='active' and license_ip in ('" . implode("','", array_keys($tocheck)) . "')", __LINE__, __FILE__);
@@ -61,10 +61,10 @@ while ($db->next_record(MYSQL_ASSOC))
 }
 */
 /*
-$db_vps->query("select vps_ip from vps, repeat_invoices where vps_status='active' and concat('CPanel for VPS ', vps.vps_id)=repeat_invoices.repeat_invoices_description and vps_ip in ('" . implode("','", array_keys($tocheck)) . "')");
-while ($db_vps->next_record(MYSQL_ASSOC))
+$dbVps->query("select vps_ip from vps, repeat_invoices where vps_status='active' and concat('CPanel for VPS ', vps.vps_id)=repeat_invoices.repeat_invoices_description and vps_ip in ('" . implode("','", array_keys($tocheck)) . "')");
+while ($dbVps->next_record(MYSQL_ASSOC))
 {
-	unset($tocheck[$db_vps->Record['vps_ip']]);
+	unset($tocheck[$dbVps->Record['vps_ip']]);
 }
 */
 foreach ($tocheck as $ip => $license)
@@ -73,12 +73,12 @@ foreach ($tocheck as $ip => $license)
 	{
 		$ipOutput[$license['ip']] = [];
 	}
-	$db_cms->query("select * from client_package, package_type where client_package.pack_id=package_type.pack_id and cp_comments like '%$license[ip]%' and pack_name like '%Cpanel%' and cp_status=2");
-	if ($db_cms->num_rows() > 0)
+	$dbCms->query("select * from client_package, package_type where client_package.pack_id=package_type.pack_id and cp_comments like '%$license[ip]%' and pack_name like '%Cpanel%' and cp_status=2");
+	if ($dbCms->num_rows() > 0)
 	{
-		$good_ips[] = $license['ip'];
+		$goodIps[] = $license['ip'];
 	}
-	if (!in_array($license['ip'], $good_ips))
+	if (!in_array($license['ip'], $goodIps))
 	{
 		$db->query("select licenses.*, services_name from licenses left join services on services_id=license_type where services_module='licensese' and license_ip='{$license['ip']}' and services_category=1");
 		if ($db->num_rows() > 0)
@@ -89,7 +89,7 @@ foreach ($tocheck as $ip => $license)
 				$url = false;
 				if ($db->Record['license_status'] == 'active' && $db->Record['services_name'] == $license['package'])
 				{
-					$good_ips[] = $license['ip'];
+					$goodIps[] = $license['ip'];
 				}
 				elseif ($db->Record['license_status'] != 'active' && $db->Record['services_name'] == $license['package'])
 				{
@@ -107,20 +107,20 @@ foreach ($tocheck as $ip => $license)
 			}
 		}
 	}
-	if (!in_array($license['ip'], $good_ips))
+	if (!in_array($license['ip'], $goodIps))
 	{
-		$db_vps->query("select * from vps left join repeat_invoices on concat('CPanel for VPS ', vps.vps_id) = repeat_invoices.repeat_invoices_description where vps_ip='{$license['ip']}'");
-		if ($db_vps->num_rows() > 0)
+		$dbVps->query("select * from vps left join repeat_invoices on concat('CPanel for VPS ', vps.vps_id) = repeat_invoices.repeat_invoices_description where vps_ip='{$license['ip']}'");
+		if ($dbVps->num_rows() > 0)
 		{
-			while ($db_vps->next_record())
+			while ($dbVps->next_record())
 			{
-				$vps = $db_vps->Record;
+				$vps = $dbVps->Record;
 				if ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] != null)
 			{
-					$db_vps2->query("select * from invoices where invoices_extra=" . $vps['repeat_invoices_id'] . " and invoices_type=1 and invoices_paid=1 and invoices_date >= date_sub('" . mysql_now() . "', INTERVAL 2 MONTH)");
-					if ($db_vps2->num_rows() > 0)
+					$dbVps2->query("select * from invoices where invoices_extra=" . $vps['repeat_invoices_id'] . " and invoices_type=1 and invoices_paid=1 and invoices_date >= date_sub('" . mysql_now() . "', INTERVAL 2 MONTH)");
+					if ($dbVps2->num_rows() > 0)
 					{
-						$good_ips[] = $license['ip'];
+						$goodIps[] = $license['ip'];
 					}
 					else
 					{
@@ -142,42 +142,42 @@ foreach ($tocheck as $ip => $license)
 			}
 		}
 	}
-	if (!in_array($license['ip'], $good_ips))
+	if (!in_array($license['ip'], $goodIps))
 	{
-		$db_innertell->query("select vlans_comment from ips, vlans where ips_ip='{$license['ip']}' and ips_vlan=vlans_id");
-		if ($db_innertell->num_rows() > 0)
+		$dbInnertell->query("select vlans_comment from ips, vlans where ips_ip='{$license['ip']}' and ips_vlan=vlans_id");
+		if ($dbInnertell->num_rows() > 0)
 		{
-			$db_innertell->next_record();
-			$server = str_replace(array('append ', 'Append '), array('', ''), trim($db_innertell->Record['vlans_comment']));
-			$db_innertell->query("select * from servers where server_hostname like '%$server%' order by status");
-			if ($db_innertell->num_rows() > 0)
+			$dbInnertell->next_record();
+			$server = str_replace(array('append ', 'Append '), array('', ''), trim($dbInnertell->Record['vlans_comment']));
+			$dbInnertell->query("select * from servers where server_hostname like '%$server%' order by status");
+			if ($dbInnertell->num_rows() > 0)
 			{
-				$db_innertell->next_record();
-				$server_dedicated_tag = explode(',', $db_innertell->Record['server_dedicated_tag']);
-				if ($db_innertell->Record['server_username'] == 'john@interserver.net')
+				$dbInnertell->next_record();
+				$server_dedicated_tag = explode(',', $dbInnertell->Record['server_dedicated_tag']);
+				if ($dbInnertell->Record['server_username'] == 'john@interserver.net')
 				{
-					$ipOutput[$license['ip']][] = 'Used By ' . $db_innertell->Record['server_hostname'];
+					$ipOutput[$license['ip']][] = 'Used By ' . $dbInnertell->Record['server_hostname'];
 				}
-				elseif ($db_innertell->Record['status'] == 'active')
+				elseif ($dbInnertell->Record['status'] == 'active')
 				{
-					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6 )) || $db_innertell->Record['server_dedicated_cp'] == 1 || $db_innertell->Record['server_dedicated_cp'] == 6)
+					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6 )) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
 					{
-						$good_ips[] = $license['ip'];
+						$goodIps[] = $license['ip'];
 					}
 					else
 					{
-						$ipOutput[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but no CPanel';
+						$ipOutput[$license['ip']][] = 'Innertell Order ' . $dbInnertell->Record['id'] . ' found but no CPanel';
 					}
 				}
 				else
 				{
-					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6 )) || $db_innertell->Record['server_dedicated_cp'] == 1 || $db_innertell->Record['server_dedicated_cp'] == 6)
+					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6 )) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
 					{
-						$ipOutput[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but status ' . $db_innertell->Record['status'];
+						$ipOutput[$license['ip']][] = 'Innertell Order ' . $dbInnertell->Record['id'] . ' found but status ' . $dbInnertell->Record['status'];
 					}
 					else
 					{
-						$ipOutput[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but status ' . $db_innertell->Record['status'] . ' and no CPanel';
+						$ipOutput[$license['ip']][] = 'Innertell Order ' . $dbInnertell->Record['id'] . ' found but status ' . $dbInnertell->Record['status'] . ' and no CPanel';
 					}
 				}
 			}
@@ -191,7 +191,7 @@ foreach ($tocheck as $ip => $license)
 $errors = 0;
 foreach ($tocheck as $ip => $license)
 {
-	if (!in_array($ip, $good_ips))
+	if (!in_array($ip, $goodIps))
 	{
 		$errors++;
 		echo 'IP ' . $ip . ' Has errors (' . $license['hostname'] . ' ' . $license['package'] . ")\n";
