@@ -20,7 +20,7 @@ $whitelist = explode("\n", trim(`export PATH="\$PATH:/bin:/usr/bin:/sbin:/usr/sb
 $licenses = [];
 $tocheck = [];
 $good_ips = [];
-$ip_output = [];
+$ipOutput = [];
 $session_id = $GLOBALS['tf']->session->sessionid;
 $serviceTypes = get_license_types();
 $cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
@@ -69,9 +69,9 @@ while ($db_vps->next_record(MYSQL_ASSOC))
 */
 foreach ($tocheck as $ip => $license)
 {
-	if (!isset($ip_output[$license['ip']]))
+	if (!isset($ipOutput[$license['ip']]))
 	{
-		$ip_output[$license['ip']] = [];
+		$ipOutput[$license['ip']] = [];
 	}
 	$db_cms->query("select * from client_package, package_type where client_package.pack_id=package_type.pack_id and cp_comments like '%$license[ip]%' and pack_name like '%Cpanel%' and cp_status=2");
 	if ($db_cms->num_rows() > 0)
@@ -93,16 +93,16 @@ foreach ($tocheck as $ip => $license)
 				}
 				elseif ($db->Record['license_status'] != 'active' && $db->Record['services_name'] == $license['package'])
 				{
-					$ip_output[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but status is ' . $db->Record['license_status'];
+					$ipOutput[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but status is ' . $db->Record['license_status'];
 					// $db->query("update licenses set license_type=$license_type where license_id='{$db->Record['license_id']}'");
 				}
 				elseif ($db->Record['license_status'] == 'active' && $db->Record['services_name'] != $license['package'])
 				{
-					$ip_output[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $license['package']);
+					$ipOutput[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $license['package']);
 				}
 				else
 				{
-					$ip_output[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but status is ' . $db->Record['license_status'] . ' and type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $license['package']);
+					$ipOutput[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but status is ' . $db->Record['license_status'] . ' and type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $license['package']);
 				}
 			}
 		}
@@ -124,20 +124,20 @@ foreach ($tocheck as $ip => $license)
 					}
 					else
 					{
-						$ip_output[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Has Cpanel But Hasnt Paid In 2+ Months';
+						$ipOutput[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Has Cpanel But Hasnt Paid In 2+ Months';
 					}
 				}
 				elseif ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] == null)
 				{
-					$ip_output[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Found but no CPanel';
+					$ipOutput[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Found but no CPanel';
 				}
 				elseif ($vps['vps_status'] != 'active' && $vps['repeat_invoices_id'] != null)
 				{
-					$ip_output[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Found with CPanel but VPS status is ' . $vps['vps_status'];
+					$ipOutput[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Found with CPanel but VPS status is ' . $vps['vps_status'];
 				}
 				else
 				{
-					$ip_output[$license['ip']][] = "VPS " . $vps['vps_id'] . " Found But Status " . $vps['vps_status'] . ' and no CPanel';
+					$ipOutput[$license['ip']][] = "VPS " . $vps['vps_id'] . " Found But Status " . $vps['vps_status'] . ' and no CPanel';
 				}
 			}
 		}
@@ -156,7 +156,7 @@ foreach ($tocheck as $ip => $license)
 				$server_dedicated_tag = explode(',', $db_innertell->Record['server_dedicated_tag']);
 				if ($db_innertell->Record['server_username'] == 'john@interserver.net')
 				{
-					$ip_output[$license['ip']][] = 'Used By ' . $db_innertell->Record['server_hostname'];
+					$ipOutput[$license['ip']][] = 'Used By ' . $db_innertell->Record['server_hostname'];
 				}
 				elseif ($db_innertell->Record['status'] == 'active')
 				{
@@ -166,24 +166,24 @@ foreach ($tocheck as $ip => $license)
 					}
 					else
 					{
-						$ip_output[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but no CPanel';
+						$ipOutput[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but no CPanel';
 					}
 				}
 				else
 				{
 					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6 )) || $db_innertell->Record['server_dedicated_cp'] == 1 || $db_innertell->Record['server_dedicated_cp'] == 6)
 					{
-						$ip_output[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but status ' . $db_innertell->Record['status'];
+						$ipOutput[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but status ' . $db_innertell->Record['status'];
 					}
 					else
 					{
-						$ip_output[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but status ' . $db_innertell->Record['status'] . ' and no CPanel';
+						$ipOutput[$license['ip']][] = 'Innertell Order ' . $db_innertell->Record['id'] . ' found but status ' . $db_innertell->Record['status'] . ' and no CPanel';
 					}
 				}
 			}
 			else
 			{
-				$ip_output[$license['ip']][] = 'VLAN for ' . $server . ' found but no servers match';
+				$ipOutput[$license['ip']][] = 'VLAN for ' . $server . ' found but no servers match';
 			}
 		}
 	}
@@ -195,9 +195,9 @@ foreach ($tocheck as $ip => $license)
 	{
 		$errors++;
 		echo 'IP ' . $ip . ' Has errors (' . $license['hostname'] . ' ' . $license['package'] . ")\n";
-		if (sizeof($ip_output[$ip]) > 0)
+		if (sizeof($ipOutput[$ip]) > 0)
 		{
-			foreach ($ip_output[$ip] as $error)
+			foreach ($ipOutput[$ip] as $error)
 			{
 				echo '	' . $error . "\n";
 			}

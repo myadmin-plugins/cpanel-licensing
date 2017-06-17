@@ -43,7 +43,7 @@ function unbilled_cpanel() {
 	$licenses = [];
 	$tocheck = [];
 	$good_ips = [];
-	$ip_output = [];
+	$ipOutput = [];
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$status = $cpl->fetchLicenses();
 	foreach ($status['licenses'] as $key => $license2) {
@@ -88,8 +88,8 @@ function unbilled_cpanel() {
 	}
 	*/
 	foreach ($tocheck as $ip => $license) {
-		if (!isset($ip_output[$license['ip']])) {
-			$ip_output[$license['ip']] = [];
+		if (!isset($ipOutput[$license['ip']])) {
+			$ipOutput[$license['ip']] = [];
 		}
 		$db_cms->query("select * from client_package, package_type where client_package.pack_id=package_type.pack_id and cp_comments like '%{$license['ip']}%' and pack_name like '%Cpanel%' and cp_status=2");
 		if ($db_cms->num_rows() > 0) {
@@ -104,12 +104,12 @@ function unbilled_cpanel() {
 					if ($db->Record['license_status'] == 'active' && $db->Record['services_field1'] == $license['package']) {
 						$good_ips[] = $license['ip'];
 					} elseif ($db->Record['license_status'] != 'active' && $db->Record['services_field1'] == $license['package']) {
-						$ip_output[$license['ip']][] = 'CPanelDirect License ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_license&id=' . $db->Record['license_id']) . '" target=_blank>' . $db->Record['license_id'] . '</a>' . ' Found but status is ' . $db->Record['license_status'];
+						$ipOutput[$license['ip']][] = 'CPanelDirect License ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_license&id=' . $db->Record['license_id']) . '" target=_blank>' . $db->Record['license_id'] . '</a>' . ' Found but status is ' . $db->Record['license_status'];
 						// $db->query("update licenses set license_type=$license_type where license_id='{$db->Record['license_id']}'");
 					} elseif ($db->Record['license_status'] == 'active' && $db->Record['services_field1'] != $license['package']) {
-						$ip_output[$license['ip']][] = 'CPanelDirect License ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_license&id=' . $db->Record['license_id']) . '" target=_blank>' . $db->Record['license_id'] . '</a>' . ' Found but type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $services[$license['package']]);
+						$ipOutput[$license['ip']][] = 'CPanelDirect License ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_license&id=' . $db->Record['license_id']) . '" target=_blank>' . $db->Record['license_id'] . '</a>' . ' Found but type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $services[$license['package']]);
 					} else {
-						$ip_output[$license['ip']][] = 'CPanelDirect License ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_license&id=' . $db->Record['license_id']) . '" target=_blank>' . $db->Record['license_id'] . '</a>' . ' Found but status is ' . $db->Record['license_status'] . ' and type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $services[$license['package']]);
+						$ipOutput[$license['ip']][] = 'CPanelDirect License ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_license&id=' . $db->Record['license_id']) . '" target=_blank>' . $db->Record['license_id'] . '</a>' . ' Found but status is ' . $db->Record['license_status'] . ' and type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $services[$license['package']]);
 					}
 				}
 			}
@@ -127,14 +127,14 @@ function unbilled_cpanel() {
 						if ($db_vps2->num_rows() > 0) {
 							$good_ips[] = $license['ip'];
 						} else {
-							$ip_output[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Has Cpanel But Has not Paid In 2+ Months';
+							$ipOutput[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Has Cpanel But Has not Paid In 2+ Months';
 						}
 					} elseif ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] == null) {
-						$ip_output[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Found but no CPanel';
+						$ipOutput[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Found but no CPanel';
 					} elseif ($vps['vps_status'] != 'active' && $vps['repeat_invoices_id'] != null) {
-						$ip_output[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Found with CPanel but VPS status is ' . $vps['vps_status'];
+						$ipOutput[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Found with CPanel but VPS status is ' . $vps['vps_status'];
 					} else {
-						$ip_output[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Found But Status ' . $vps['vps_status'] . ' and no CPanel';
+						$ipOutput[$license['ip']][] = 'VPS ' . '<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id=' . $vps['vps_id']) . '" target=_blank>' . $vps['vps_id'] . '</a>' . ' Found But Status ' . $vps['vps_status'] . ' and no CPanel';
 					}
 				}
 			}
@@ -152,23 +152,23 @@ function unbilled_cpanel() {
 						if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$good_ips[] = $license['ip'];
 						} else {
-							$ip_output[$license['ip']][] = 'Used By ' . $db->Record['server_hostname'];
+							$ipOutput[$license['ip']][] = 'Used By ' . $db->Record['server_hostname'];
 						}
 					} elseif ($db->Record['server_status'] == 'active') {
 						if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$good_ips[] = $license['ip'];
 						} else {
-							$ip_output[$license['ip']][] = 'Innertell Order ' . '<a href="' . $GLOBALS['tf']->link('view_order.php', 'id=' . $db->Record['id']) . '">' . $db->Record['id'] . '</a>' . ' found but no CPanel';
+							$ipOutput[$license['ip']][] = 'Innertell Order ' . '<a href="' . $GLOBALS['tf']->link('view_order.php', 'id=' . $db->Record['id']) . '">' . $db->Record['id'] . '</a>' . ' found but no CPanel';
 						}
 					} else {
 						if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
-							$ip_output[$license['ip']][] = 'Innertell Order ' . '<a href="' . $GLOBALS['tf']->link('view_order.php', 'id=' . $db->Record['id']) . '" target=_blank>' . $db->Record['id'] . '</a>' . ' found but status ' . $db->Record['server_status'];
+							$ipOutput[$license['ip']][] = 'Innertell Order ' . '<a href="' . $GLOBALS['tf']->link('view_order.php', 'id=' . $db->Record['id']) . '" target=_blank>' . $db->Record['id'] . '</a>' . ' found but status ' . $db->Record['server_status'];
 						} else {
-							$ip_output[$license['ip']][] = 'Innertell Order ' . '<a href="' . $GLOBALS['tf']->link('view_order.php', 'id=' . $db->Record['id']) . '" target=_blank>' . $db->Record['id'] . '</a>' . ' found but status ' . $db->Record['server_status'] . ' and no CPanel';
+							$ipOutput[$license['ip']][] = 'Innertell Order ' . '<a href="' . $GLOBALS['tf']->link('view_order.php', 'id=' . $db->Record['id']) . '" target=_blank>' . $db->Record['id'] . '</a>' . ' found but status ' . $db->Record['server_status'] . ' and no CPanel';
 						}
 					}
 				} else {
-					$ip_output[$license['ip']][] = 'VLAN for ' . $server . ' found but no orders match';
+					$ipOutput[$license['ip']][] = 'VLAN for ' . $server . ' found but no orders match';
 				}
 			}
 		}
@@ -200,13 +200,13 @@ function unbilled_cpanel() {
 				$table->set_col_options('style="min-width: 350px;"');
 			} else
 				echo "$ip	" . $license['hostname'] . '	' . str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]) . '	';
-			if (sizeof($ip_output[$ip]) > 0)
+			if (sizeof($ipOutput[$ip]) > 0)
 				if ($out_type == 'table')
-					add_output(implode('<br>', $ip_output[$ip]));
+					add_output(implode('<br>', $ipOutput[$ip]));
 				elseif ($out_type == 'tftable')
-					$table->add_field(implode('<br>', $ip_output[$ip]), 'r');
+					$table->add_field(implode('<br>', $ipOutput[$ip]), 'r');
 				else
-					echo strip_tags(implode(', ', $ip_output[$ip]));
+					echo strip_tags(implode(', ', $ipOutput[$ip]));
 			elseif ($out_type == 'table')
 					add_output("I was unable to find this IP {$ip} anywhere.");
 				elseif ($out_type == 'tftable')
