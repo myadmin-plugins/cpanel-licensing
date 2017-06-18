@@ -17,7 +17,7 @@ class Plugin {
 	public function __construct() {
 	}
 
-	public static function Hooks() {
+	public static function getHooks() {
 		return [
 			'licenses.settings' => [__CLASS__, 'Settings'],
 			'licenses.activate' => [__CLASS__, 'Activate'],
