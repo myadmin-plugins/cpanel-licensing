@@ -19,7 +19,7 @@ class Plugin {
 
 	public static function getHooks() {
 		return [
-			'licenses.settings' => [__CLASS__, 'Settings'],
+			'licenses.settings' => [__CLASS__, 'getSettings'],
 			'licenses.activate' => [__CLASS__, 'Activate'],
 			'licenses.deactivate' => [__CLASS__, 'Deactivate'],
 			'licenses.change_ip' => [__CLASS__, 'ChangeIp'],
@@ -105,7 +105,7 @@ class Plugin {
 		$loader->add_requirement('class.Cpanel', '/../vendor/detain/cpanel-licensing/Cpanel.php');
 	}
 
-	public static function Settings(GenericEvent $event) {
+	public static function getSettings(GenericEvent $event) {
 		// will be executed when the licenses.settings event is dispatched
 		$settings = $event->getSubject();
 		$settings->add_text_setting('licenses', 'CPanel', 'cpanel_licensing_username', 'Cpanel Licensing Username:', 'Cpanel Licensing Username', $settings->get_setting('CPANEL_LICENSING_USERNAME'));
