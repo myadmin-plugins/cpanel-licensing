@@ -67,7 +67,7 @@ while ($dbVps->next_record(MYSQL_ASSOC))
 	unset($tocheck[$dbVps->Record['vps_ip']]);
 }
 */
-foreach ($tocheck as $ip => $license)
+foreach ($tocheck as $ipAddress => $license)
 {
 	if (!isset($ipOutput[$license['ip']]))
 	{
@@ -189,15 +189,15 @@ foreach ($tocheck as $ip => $license)
 	}
 }
 $errors = 0;
-foreach ($tocheck as $ip => $license)
+foreach ($tocheck as $ipAddress => $license)
 {
-	if (!in_array($ip, $goodIps))
+	if (!in_array($ipAddress, $goodIps))
 	{
 		$errors++;
-		echo 'IP ' . $ip . ' Has errors (' . $license['hostname'] . ' ' . $license['package'] . ")\n";
-		if (sizeof($ipOutput[$ip]) > 0)
+		echo 'IP ' . $ipAddress . ' Has errors (' . $license['hostname'] . ' ' . $license['package'] . ")\n";
+		if (sizeof($ipOutput[$ipAddress]) > 0)
 		{
-			foreach ($ipOutput[$ip] as $error)
+			foreach ($ipOutput[$ipAddress] as $error)
 			{
 				echo '	' . $error . "\n";
 			}

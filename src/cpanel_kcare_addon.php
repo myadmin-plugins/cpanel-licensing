@@ -29,7 +29,7 @@ function cpanel_kcare_addon() {
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
 		$license_info = $db->Record;
-		$ip = $db->Record[$settings['PREFIX'] . '_ip'];
+		$ipAddress = $db->Record[$settings['PREFIX'] . '_ip'];
 		if ($license_info[$settings['PREFIX'] . '_status'] != 'active') {
 			add_output('Only Active ' . $settings['TBLNAME']);
 			return;
@@ -52,10 +52,10 @@ function cpanel_kcare_addon() {
 			$cl = new \Detain\Cloudlinux\Cloudlinux(CLOUDLINUX_LOGIN, CLOUDLINUX_KEY);
 			$type = 16;
 			//if (!$cl->isLicensed($db->Record[$settings['PREFIX'] . '_ip'], $serviceTypes[$db->Record[$settings['PREFIX'] . '_type']]['services_field1']))
-			$response = $cl->isLicensed($ip, true);
+			$response = $cl->isLicensed($ipAddress, true);
 			myadmin_log('licenses', 'info', 'Response: ' . json_encode($response), __LINE__, __FILE__);
 			if (!is_array($response) || !in_array($type, array_values($response))) {
-				$response = $cl->license($ip, $type);
+				$response = $cl->license($ipAddress, $type);
 				//$license_extra = $response['mainKeyNumber'] . ',' . $response['productKey'];
 				myadmin_log('licenses', 'info', 'Response: ' . json_encode($response), __LINE__, __FILE__);
 			}

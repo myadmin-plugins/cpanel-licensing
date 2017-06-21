@@ -28,7 +28,7 @@ function cpanel_ksplice_addon() {
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
 		$license_info = $db->Record;
-		$ip = $db->Record[$settings['PREFIX'] . '_ip'];
+		$ipAddress = $db->Record[$settings['PREFIX'] . '_ip'];
 		if ($license_info[$settings['PREFIX'] . '_status'] != 'active') {
 			add_output('Only Active ' . $settings['TBLNAME']);
 			return;

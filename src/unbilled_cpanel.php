@@ -87,7 +87,7 @@ function unbilled_cpanel() {
 	unset($tocheck[$dbVps->Record['vps_ip']]);
 	}
 	*/
-	foreach ($tocheck as $ip => $license) {
+	foreach ($tocheck as $ipAddress => $license) {
 		if (!isset($ipOutput[$license['ip']])) {
 			$ipOutput[$license['ip']] = [];
 		}
@@ -180,18 +180,18 @@ function unbilled_cpanel() {
 	else
 		echo "Unbilled CPanel Licenses\n";
 	$errors = 0;
-	foreach ($tocheck as $ip => $license) {
-		if (!in_array($ip, $goodIps)) {
+	foreach ($tocheck as $ipAddress => $license) {
+		if (!in_array($ipAddress, $goodIps)) {
 			$errors++;
 			if ($outType == 'table')
 				add_output('<tr style="vertical-align: top;"><td>
-				<a href="search.php?comments=no&search=' . $ip . '&expand=1" target=_blank>' . $ip . '</a>
-				(<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip=' . $ip) . '" target=_blank>cancel</a>)</td>
+				<a href="search.php?comments=no&search=' . $ipAddress . '&expand=1" target=_blank>' . $ipAddress . '</a>
+				(<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip=' . $ipAddress) . '" target=_blank>cancel</a>)</td>
 				<td>' . $license['hostname'] . '</td><td>' . str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]) . '</td><td>'
 				);
 			elseif ($outType == 'tftable') {
 				$table->set_col_options('style="width: 210px;"');
-				$table->add_field('<a href="search.php?comments=no&search=' . $ip . '&expand=1" target=_blank>' . $ip . '</a> (<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip=' . $ip) . '" target=_blank>cancel</a>)', 'r');
+				$table->add_field('<a href="search.php?comments=no&search=' . $ipAddress . '&expand=1" target=_blank>' . $ipAddress . '</a> (<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip=' . $ipAddress) . '" target=_blank>cancel</a>)', 'r');
 				$table->set_col_options('');
 				//					$table->set_col_options('style="width: 225px;"');
 				$table->add_field($license['hostname'], 'r');
@@ -199,20 +199,20 @@ function unbilled_cpanel() {
 				$table->add_field(str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]), 'r');
 				$table->set_col_options('style="min-width: 350px;"');
 			} else
-				echo "$ip	" . $license['hostname'] . '	' . str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]) . '	';
-			if (sizeof($ipOutput[$ip]) > 0)
+				echo "$ipAddress	" . $license['hostname'] . '	' . str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]) . '	';
+			if (sizeof($ipOutput[$ipAddress]) > 0)
 				if ($outType == 'table')
-					add_output(implode('<br>', $ipOutput[$ip]));
+					add_output(implode('<br>', $ipOutput[$ipAddress]));
 				elseif ($outType == 'tftable')
-					$table->add_field(implode('<br>', $ipOutput[$ip]), 'r');
+					$table->add_field(implode('<br>', $ipOutput[$ipAddress]), 'r');
 				else
-					echo strip_tags(implode(', ', $ipOutput[$ip]));
+					echo strip_tags(implode(', ', $ipOutput[$ipAddress]));
 			elseif ($outType == 'table')
-					add_output("I was unable to find this IP {$ip} anywhere.");
+					add_output("I was unable to find this IP {$ipAddress} anywhere.");
 				elseif ($outType == 'tftable')
-					$table->add_field("I was unable to find this IP {$ip} anywhere.", 'r');
+					$table->add_field("I was unable to find this IP {$ipAddress} anywhere.", 'r');
 				else
-					echo "I was unable to find this IP {$ip} anywhere.";
+					echo "I was unable to find this IP {$ipAddress} anywhere.";
 			if ($outType == 'table')
 				add_output('</td></tr>');
 			elseif ($outType == 'tftable')
