@@ -19,19 +19,19 @@ function cpanel_kcare_addon() {
 	page_title('CPanel KCare Addon');
 	$settings = get_module_settings('licenses');
 	$db = get_module_db('licenses');
-	$id = (int)$GLOBALS['tf']->variables->request['id'];
+	$id = (int) $GLOBALS['tf']->variables->request['id'];
 	$services_cpanel_type = SERVICE_TYPES_CPANEL;
 	if ($GLOBALS['tf']->ima == 'admin') {
 		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$services_cpanel_type})", __LINE__, __FILE__);
 	} else {
-		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$services_cpanel_type}) and {$settings['PREFIX']}_custid='" . get_custid($GLOBALS['tf']->session->account_id, 'licenses') . "'", __LINE__, __FILE__);
+		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$services_cpanel_type}) and {$settings['PREFIX']}_custid='".get_custid($GLOBALS['tf']->session->account_id, 'licenses')."'", __LINE__, __FILE__);
 	}
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
 		$license_info = $db->Record;
-		$ipAddress = $db->Record[$settings['PREFIX'] . '_ip'];
-		if ($license_info[$settings['PREFIX'] . '_status'] != 'active') {
-			add_output('Only Active ' . $settings['TBLNAME']);
+		$ipAddress = $db->Record[$settings['PREFIX'].'_ip'];
+		if ($license_info[$settings['PREFIX'].'_status'] != 'active') {
+			add_output('Only Active '.$settings['TBLNAME']);
 			return;
 		}
 		if (!isset($GLOBALS['tf']->variables->request['submitbutton'])) {
@@ -53,14 +53,14 @@ function cpanel_kcare_addon() {
 			$type = 16;
 			//if (!$cl->isLicensed($db->Record[$settings['PREFIX'] . '_ip'], $serviceTypes[$db->Record[$settings['PREFIX'] . '_type']]['services_field1']))
 			$response = $cl->isLicensed($ipAddress, true);
-			myadmin_log('licenses', 'info', 'Response: ' . json_encode($response), __LINE__, __FILE__);
+			myadmin_log('licenses', 'info', 'Response: '.json_encode($response), __LINE__, __FILE__);
 			if (!is_array($response) || !in_array($type, array_values($response))) {
 				$response = $cl->license($ipAddress, $type);
 				//$license_extra = $response['mainKeyNumber'] . ',' . $response['productKey'];
-				myadmin_log('licenses', 'info', 'Response: ' . json_encode($response), __LINE__, __FILE__);
+				myadmin_log('licenses', 'info', 'Response: '.json_encode($response), __LINE__, __FILE__);
 			}
 			$license_extra['kcare'] = 1;
-			$db->query("update licenses set license_extra='" . $db->real_escape(myadmin_stringify($license_extra)) . "' where license_id=$id", __LINE__, __FILE__);
+			$db->query("update licenses set license_extra='".$db->real_escape(myadmin_stringify($license_extra))."' where license_id=$id", __LINE__, __FILE__);
 			add_output('KCare License activated');
 		}
 	}

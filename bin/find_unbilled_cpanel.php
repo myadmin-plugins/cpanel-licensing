@@ -5,7 +5,7 @@
 * (c)2012 Interserver                                                                *
 \************************************************************************************/
 
-require_once(__DIR__ . '/../../../include/functions.inc.php');
+require_once(__DIR__.'/../../../include/functions.inc.php');
 $webpage = false;
 define('VERBOSE_MODE', false);
 
@@ -47,7 +47,7 @@ foreach ($status['licenses'] as $key => $license2)
 	$tocheck[$license['ip']] = $license;
 }
 
-$dbInnertell->query("select primary_ipv4 from servers left join location on order_id=servers.server_id where servers.server_status='active' and primary_ipv4 is not null and (server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or server_dedicated_cp=1 or server_dedicated_cp=6) and primary_ipv4 in ('" . implode("','", array_keys($tocheck)) . "')", __LINE__, __FILE__);
+$dbInnertell->query("select primary_ipv4 from servers left join location on order_id=servers.server_id where servers.server_status='active' and primary_ipv4 is not null and (server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or server_dedicated_cp=1 or server_dedicated_cp=6) and primary_ipv4 in ('".implode("','", array_keys($tocheck))."')", __LINE__, __FILE__);
 while ($dbInnertell->next_record(MYSQL_ASSOC))
 {
 	$goodIps[] = $dbInnertell->Record['primary_ipv4'];
@@ -93,16 +93,16 @@ foreach ($tocheck as $ipAddress => $license)
 				}
 				elseif ($db->Record['license_status'] != 'active' && $db->Record['services_name'] == $license['package'])
 				{
-					$ipOutput[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but status is ' . $db->Record['license_status'];
+					$ipOutput[$license['ip']][] = 'CPanelDirect License '.$db->Record['license_id'].' Found but status is '.$db->Record['license_status'];
 					// $db->query("update licenses set license_type=$license_type where license_id='{$db->Record['license_id']}'");
 				}
 				elseif ($db->Record['license_status'] == 'active' && $db->Record['services_name'] != $license['package'])
 				{
-					$ipOutput[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $license['package']);
+					$ipOutput[$license['ip']][] = 'CPanelDirect License '.$db->Record['license_id'].' Found but type is '.str_replace('INTERSERVER-', '', $db->Record['services_name']).' instead of '.str_replace('INTERSERVER-', '', $license['package']);
 				}
 				else
 				{
-					$ipOutput[$license['ip']][] = 'CPanelDirect License ' . $db->Record['license_id'] . ' Found but status is ' . $db->Record['license_status'] . ' and type is ' . str_replace('INTERSERVER-', '', $db->Record['services_name']) . ' instead of ' . str_replace('INTERSERVER-', '', $license['package']);
+					$ipOutput[$license['ip']][] = 'CPanelDirect License '.$db->Record['license_id'].' Found but status is '.$db->Record['license_status'].' and type is '.str_replace('INTERSERVER-', '', $db->Record['services_name']).' instead of '.str_replace('INTERSERVER-', '', $license['package']);
 				}
 			}
 		}
@@ -117,27 +117,27 @@ foreach ($tocheck as $ipAddress => $license)
 				$vps = $dbVps->Record;
 				if ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] != null)
 			{
-					$dbVps2->query("select * from invoices where invoices_extra=" . $vps['repeat_invoices_id'] . " and invoices_type=1 and invoices_paid=1 and invoices_date >= date_sub('" . mysql_now() . "', INTERVAL 2 MONTH)");
+					$dbVps2->query("select * from invoices where invoices_extra=".$vps['repeat_invoices_id']." and invoices_type=1 and invoices_paid=1 and invoices_date >= date_sub('".mysql_now()."', INTERVAL 2 MONTH)");
 					if ($dbVps2->num_rows() > 0)
 					{
 						$goodIps[] = $license['ip'];
 					}
 					else
 					{
-						$ipOutput[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Has Cpanel But Hasnt Paid In 2+ Months';
+						$ipOutput[$license['ip']][] = 'VPS '.$vps['vps_id'].' Has Cpanel But Hasnt Paid In 2+ Months';
 					}
 				}
 				elseif ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] == null)
 				{
-					$ipOutput[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Found but no CPanel';
+					$ipOutput[$license['ip']][] = 'VPS '.$vps['vps_id'].' Found but no CPanel';
 				}
 				elseif ($vps['vps_status'] != 'active' && $vps['repeat_invoices_id'] != null)
 				{
-					$ipOutput[$license['ip']][] = 'VPS ' . $vps['vps_id'] . ' Found with CPanel but VPS status is ' . $vps['vps_status'];
+					$ipOutput[$license['ip']][] = 'VPS '.$vps['vps_id'].' Found with CPanel but VPS status is '.$vps['vps_status'];
 				}
 				else
 				{
-					$ipOutput[$license['ip']][] = "VPS " . $vps['vps_id'] . " Found But Status " . $vps['vps_status'] . ' and no CPanel';
+					$ipOutput[$license['ip']][] = "VPS ".$vps['vps_id']." Found But Status ".$vps['vps_status'].' and no CPanel';
 				}
 			}
 		}
@@ -156,34 +156,34 @@ foreach ($tocheck as $ipAddress => $license)
 				$server_dedicated_tag = explode(',', $dbInnertell->Record['server_dedicated_tag']);
 				if ($dbInnertell->Record['server_username'] == 'john@interserver.net')
 				{
-					$ipOutput[$license['ip']][] = 'Used By ' . $dbInnertell->Record['server_hostname'];
+					$ipOutput[$license['ip']][] = 'Used By '.$dbInnertell->Record['server_hostname'];
 				}
 				elseif ($dbInnertell->Record['status'] == 'active')
 				{
-					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6 )) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
+					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
 					{
 						$goodIps[] = $license['ip'];
 					}
 					else
 					{
-						$ipOutput[$license['ip']][] = 'Innertell Order ' . $dbInnertell->Record['id'] . ' found but no CPanel';
+						$ipOutput[$license['ip']][] = 'Innertell Order '.$dbInnertell->Record['id'].' found but no CPanel';
 					}
 				}
 				else
 				{
-					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6 )) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
+					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
 					{
-						$ipOutput[$license['ip']][] = 'Innertell Order ' . $dbInnertell->Record['id'] . ' found but status ' . $dbInnertell->Record['status'];
+						$ipOutput[$license['ip']][] = 'Innertell Order '.$dbInnertell->Record['id'].' found but status '.$dbInnertell->Record['status'];
 					}
 					else
 					{
-						$ipOutput[$license['ip']][] = 'Innertell Order ' . $dbInnertell->Record['id'] . ' found but status ' . $dbInnertell->Record['status'] . ' and no CPanel';
+						$ipOutput[$license['ip']][] = 'Innertell Order '.$dbInnertell->Record['id'].' found but status '.$dbInnertell->Record['status'].' and no CPanel';
 					}
 				}
 			}
 			else
 			{
-				$ipOutput[$license['ip']][] = 'VLAN for ' . $server . ' found but no servers match';
+				$ipOutput[$license['ip']][] = 'VLAN for '.$server.' found but no servers match';
 			}
 		}
 	}
@@ -194,12 +194,12 @@ foreach ($tocheck as $ipAddress => $license)
 	if (!in_array($ipAddress, $goodIps))
 	{
 		$errors++;
-		echo 'IP ' . $ipAddress . ' Has errors (' . $license['hostname'] . ' ' . $license['package'] . ")\n";
+		echo 'IP '.$ipAddress.' Has errors ('.$license['hostname'].' '.$license['package'].")\n";
 		if (sizeof($ipOutput[$ipAddress]) > 0)
 		{
 			foreach ($ipOutput[$ipAddress] as $error)
 			{
-				echo '	' . $error . "\n";
+				echo '	'.$error."\n";
 			}
 		}
 		else
@@ -208,5 +208,5 @@ foreach ($tocheck as $ipAddress => $license)
 		}
 	}
 }
-echo $errors . '/' . sizeof($licenses) . ' Licenses have matching problems' . "\n";
+echo $errors.'/'.sizeof($licenses).' Licenses have matching problems'."\n";
 $GLOBALS['tf']->session->destroy();

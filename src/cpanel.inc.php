@@ -19,7 +19,7 @@
  */
 function activate_cpanel($ipAddress, $package) {
 	$module = 'licenses';
-	$package = (int)$package;
+	$package = (int) $package;
 	myadmin_log('licenses', 'info', "activate_cpanel($ipAddress, $package) Called", __LINE__, __FILE__);
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	//$groups = $cpl->fetchGroups();
@@ -60,7 +60,7 @@ function deactivate_cpanel($ipAddress = false) {
 		$request = array('liscid' => $liscid);
 		$response = $cpl->expireLicense($request);
 		request_log('licenses', false, __FUNCTION__, 'cpanel', 'expireLicense', $request, $response);
-		myadmin_log('licenses', 'info', "deactivate_cpanel({$ipAddress}) returned " . json_encode($response['attr']), __LINE__, __FILE__);
+		myadmin_log('licenses', 'info', "deactivate_cpanel({$ipAddress}) returned ".json_encode($response['attr']), __LINE__, __FILE__);
 		if ($response['attr']['reason'] == 'OK')
 			return true;
 		else
