@@ -20,8 +20,7 @@ $db = get_module_db('licenses');
 $cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 $status = $cpl->fetchLicenses();
 echo "Got " . sizeof($status['licenses']) . " Licenses\n";
-foreach ($status['licenses'] as $key => $license2)
-{
+foreach ($status['licenses'] as $key => $license2) {
 	$license = [];
 	$license['ip'] = $license2['ip'];
 	$license['liscid'] = $license2['licenseid'];
@@ -36,8 +35,7 @@ foreach ($status['licenses'] as $key => $license2)
 	$line = implode(',', array($license['ip'], $license['liscid'], $license['hostname'], $license['os'], $license['distro'], $license['version'], $license['envtype'], $license['osver'], $license['package'], $license['status']));
 	$query = "update licenses set license_extra='".$db->real_escape($line)."' where license_ip='$license[ip]' and license_type in (1,2,3,9,10,15)";
 	$db->query($query, __LINE__, __FILE__);
-	if ($license['hostname'] != '')
-	{
+	if ($license['hostname'] != '') {
 		$query = "update licenses set license_hostname='" . $db->real_escape($license['hostname']) . "' where license_ip='$license[ip]'";
 		$db->query($query, __LINE__, __FILE__);
 		//echo '('.$license['hostname'].' = '.$license['ip'].") ";

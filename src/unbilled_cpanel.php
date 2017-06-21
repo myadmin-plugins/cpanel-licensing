@@ -12,7 +12,7 @@
 /**
  * unbilled_cpanel()
  *
- * @return void
+ * @return false|null
  */
 function unbilled_cpanel() {
 	function_requirements('has_acl');
