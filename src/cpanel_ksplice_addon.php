@@ -65,7 +65,7 @@ function cpanel_ksplice_addon() {
 			$uuid = $ksplice->ip_to_uuid($db->Record[$settings['PREFIX'] . '_ip']);
 			myadmin_log('licenses', 'info', "Got UUID $uuid from IP " . $db->Record[$settings['PREFIX'] . '_ip'], __LINE__, __FILE__);
 			$ksplice->authorize_machine($uuid, true);
-			myadmin_log('licenses', 'info', 'Response: ' . $ksplice->response_raw, __LINE__, __FILE__);
+			myadmin_log('licenses', 'info', 'Response: ' . $ksplice->responseRaw, __LINE__, __FILE__);
 			myadmin_log('licenses', 'info', 'Response: ' . json_encode($ksplice->response), __LINE__, __FILE__);
 			$serviceExtra['ksplice_uuid'] = $uuid;
 			$serviceExtra['ksplice'] = 1;
