@@ -12,13 +12,13 @@
 /**
  * unbilled_cpanel()
  *
- * @return false|null
+ * @return FALSE|null
  */
 function unbilled_cpanel() {
 	function_requirements('has_acl');
 	if ($GLOBALS['tf']->ima != 'admin' || !has_acl('view_service')) {
 		dialog('Not admin', 'Not Admin or you lack the permissions to view this page.');
-		return false;
+		return FALSE;
 	}
 	$db = get_module_db('licenses');
 	$dbVps = get_module_db('vps');
@@ -26,7 +26,7 @@ function unbilled_cpanel() {
 	$dbInnertell = get_module_db('innertell');
 	$dbCms = get_module_db('mb');
 	$type = SERVICE_TYPES_CPANEL;
-	if (!isset($GLOBALS['webpage']) || $GLOBALS['webpage'] != false) {
+	if (!isset($GLOBALS['webpage']) || $GLOBALS['webpage'] != FALSE) {
 		page_title('Unbilled CPanel Licenses');
 		if (class_exists('TFTable')) {
 			$outType = 'tftable';
@@ -65,7 +65,7 @@ function unbilled_cpanel() {
 		}
 		$tocheck[$license['ip']] = $license;
 	}
-	$db->query("select location.primary_ipv4 from servers left join location on location.order_id=servers.server_id where servers.server_status='active' and location.primary_ipv4 is not null and (servers.server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or servers.server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or servers.server_dedicated_cp=1 or servers.server_dedicated_cp=6) and location.primary_ipv4 in ('".implode("','", array_keys($tocheck))."')", __LINE__, __FILE__);
+	$db->query("select location.primary_ipv4 from servers left join location on location.order_id=servers.server_id where servers.server_status='active' and location.primary_ipv4 is not NULL and (servers.server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or servers.server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or servers.server_dedicated_cp=1 or servers.server_dedicated_cp=6) and location.primary_ipv4 in ('".implode("','", array_keys($tocheck))."')", __LINE__, __FILE__);
 	while ($db->next_record(MYSQL_ASSOC)) {
 		$goodIps[] = $db->Record['primary_ipv4'];
 		unset($tocheck[$db->Record['primary_ipv4']]);
@@ -100,7 +100,7 @@ function unbilled_cpanel() {
 			if ($db->num_rows() > 0) {
 				while ($db->next_record(MYSQL_ASSOC)) {
 					//$url = 'https://cpaneldirect.net/index.php?choice=none.view_license&id=' . $db->Record['license_id'] . '&sessionid=' . $session_id;
-					$url = false;
+					$url = FALSE;
 					if ($db->Record['license_status'] == 'active' && $db->Record['services_field1'] == $license['package']) {
 						$goodIps[] = $license['ip'];
 					} elseif ($db->Record['license_status'] != 'active' && $db->Record['services_field1'] == $license['package']) {
@@ -119,7 +119,7 @@ function unbilled_cpanel() {
 			if ($dbVps->num_rows() > 0) {
 				while ($dbVps->next_record()) {
 					$vps = $dbVps->Record;
-					if ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] != null) {
+					if ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] != NULL) {
 						$dbVps2->query(
 							'select * from invoices where invoices_extra='.$vps['repeat_invoices_id']." and invoices_type=1 and invoices_paid=1 and invoices_date >= date_sub('".mysql_now()."', INTERVAL ".
 							(1 + $vps['repeat_invoices_frequency']).' MONTH)'
@@ -129,9 +129,9 @@ function unbilled_cpanel() {
 						} else {
 							$ipOutput[$license['ip']][] = 'VPS '.'<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id='.$vps['vps_id']).'" target=_blank>'.$vps['vps_id'].'</a>'.' Has Cpanel But Has not Paid In 2+ Months';
 						}
-					} elseif ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] == null) {
+					} elseif ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] == NULL) {
 						$ipOutput[$license['ip']][] = 'VPS '.'<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id='.$vps['vps_id']).'" target=_blank>'.$vps['vps_id'].'</a>'.' Found but no CPanel';
-					} elseif ($vps['vps_status'] != 'active' && $vps['repeat_invoices_id'] != null) {
+					} elseif ($vps['vps_status'] != 'active' && $vps['repeat_invoices_id'] != NULL) {
 						$ipOutput[$license['ip']][] = 'VPS '.'<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id='.$vps['vps_id']).'" target=_blank>'.$vps['vps_id'].'</a>'.' Found with CPanel but VPS status is '.$vps['vps_status'];
 					} else {
 						$ipOutput[$license['ip']][] = 'VPS '.'<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.view_vps&id='.$vps['vps_id']).'" target=_blank>'.$vps['vps_id'].'</a>'.' Found But Status '.$vps['vps_status'].' and no CPanel';

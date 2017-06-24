@@ -14,7 +14,7 @@ function cpanel_list() {
 	if ($GLOBALS['tf']->ima == 'admin') {
 		$table = new TFTable;
 		$table->set_title('CPanel License List');
-		$header = false;
+		$header = FALSE;
 		function_requirements('get_cpanel_licenses');
 		$licenses = get_cpanel_licenses();
 		foreach ($licenses['licenses'] as $lid => $data) {
@@ -23,7 +23,7 @@ function cpanel_list() {
 					$table->add_field(ucwords(str_replace('_', ' ', $field)));
 				}
 				$table->add_row();
-				$header = true;
+				$header = TRUE;
 			}
 			foreach ($data as $key => $field) {
 				$table->add_field($field);
@@ -32,5 +32,5 @@ function cpanel_list() {
 		}
 		add_output($table->get_table());
 	}
-	//add_output('<div style="text-align: left;"><pre>' . var_export(get_softaculous_licenses(), true) . '</pre></div>');
+	//add_output('<div style="text-align: left;"><pre>' . var_export(get_softaculous_licenses(), TRUE) . '</pre></div>');
 }

@@ -45,11 +45,11 @@ class Plugin {
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($license->get_ip());
 			$serviceExtra = @myadmin_unstringify($license->get_extra());
-			if ($serviceExtra !== false && isset($serviceExtra['ksplice']) && $serviceExtra['ksplice'] == 1 && isset($serviceExtra['ksplice_uuid']) && $serviceExtra['ksplice_uuid'] != '') {
+			if ($serviceExtra !== FALSE && isset($serviceExtra['ksplice']) && $serviceExtra['ksplice'] == 1 && isset($serviceExtra['ksplice_uuid']) && $serviceExtra['ksplice_uuid'] != '') {
 				function_requirements('deactivate_ksplice');
 				deactivate_ksplice((is_uuid($serviceExtra['ksplice_uuid']) ? $serviceExtra['ksplice_uuid'] : $license->get_ip()));
 			}
-			if ($serviceExtra !== false && isset($serviceExtra['kcare']) && $serviceExtra['kcare'] == 1) {
+			if ($serviceExtra !== FALSE && isset($serviceExtra['kcare']) && $serviceExtra['kcare'] == 1) {
 				function_requirements('deactivate_kcare');
 				deactivate_kcare($license->get_ip());
 			}
@@ -64,7 +64,7 @@ class Plugin {
 			function_requirements('deactivate_cpanel');
 			function_requirements('activate_cpanel');
 			myadmin_log(self::$module, 'info', "IP Change - (OLD:".$license->get_ip().") (NEW:{$event['newip']})", __LINE__, __FILE__);
-			if (deactivate_cpanel($license->get_ip()) == true) {
+			if (deactivate_cpanel($license->get_ip()) == TRUE) {
 				activate_cpanel($event['newip'], $event['field1']);
 				$GLOBALS['tf']->history->add($settings['TABLE'], 'change_ip', $event['newip'], $license->get_ip());
 				$license->set_ip($event['newip'])->save();
@@ -107,7 +107,7 @@ class Plugin {
 		$settings->add_text_setting(self::$module, 'CPanel', 'cpanel_licensing_username', 'Cpanel Licensing Username:', 'Cpanel Licensing Username', $settings->get_setting('CPANEL_LICENSING_USERNAME'));
 		$settings->add_text_setting(self::$module, 'CPanel', 'cpanel_licensing_password', 'Cpanel Licensing Password:', 'Cpanel Licensing Password', $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
 		$settings->add_text_setting(self::$module, 'CPanel', 'cpanel_licensing_group', 'Cpanel Licensing Group:', 'Cpanel Licensing Group', $settings->get_setting('CPANEL_LICENSING_GROUP'));
-		$settings->add_dropdown_setting(self::$module, 'CPanel', 'outofstock_licenses_cpanel', 'Out Of Stock CPanel Licenses', 'Enable/Disable Sales Of This Type', $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), array('0', '1'), array('No', 'Yes', ));
+		$settings->add_dropdown_setting(self::$module, 'CPanel', 'outofstock_licenses_cpanel', 'Out Of Stock CPanel Licenses', 'Enable/Disable Sales Of This Type', $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), array('0', '1'), array('No', 'Yes',));
 	}
 
 }
