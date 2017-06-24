@@ -147,21 +147,21 @@ function unbilled_cpanel() {
 				$db->query("select * from servers where server_hostname like '%$server%' order by server_status");
 				if ($db->num_rows() > 0) {
 					$db->next_record(MYSQL_ASSOC);
-					$dedicated_tag = explode(',', $db->Record['server_dedicated_tag']);
+					$dedicatedTag = explode(',', $db->Record['server_dedicated_tag']);
 					if ($db->Record['server_username'] == 'john@interserver.net') {
-						if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
+						if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$goodIps[] = $license['ip'];
 						} else {
 							$ipOutput[$license['ip']][] = 'Used By '.$db->Record['server_hostname'];
 						}
 					} elseif ($db->Record['server_status'] == 'active') {
-						if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
+						if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$goodIps[] = $license['ip'];
 						} else {
 							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'">'.$db->Record['id'].'</a>'.' found but no CPanel';
 						}
 					} else {
-						if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
+						if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'];
 						} else {
 							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'].' and no CPanel';

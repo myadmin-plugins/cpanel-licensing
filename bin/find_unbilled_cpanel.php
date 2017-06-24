@@ -153,14 +153,14 @@ foreach ($tocheck as $ipAddress => $license)
 			if ($dbInnertell->num_rows() > 0)
 			{
 				$dbInnertell->next_record();
-				$server_dedicated_tag = explode(',', $dbInnertell->Record['server_dedicated_tag']);
+				$serverDedicatedTag = explode(',', $dbInnertell->Record['server_dedicated_tag']);
 				if ($dbInnertell->Record['server_username'] == 'john@interserver.net')
 				{
 					$ipOutput[$license['ip']][] = 'Used By '.$dbInnertell->Record['server_hostname'];
 				}
 				elseif ($dbInnertell->Record['status'] == 'active')
 				{
-					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
+					if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
 					{
 						$goodIps[] = $license['ip'];
 					}
@@ -171,7 +171,7 @@ foreach ($tocheck as $ipAddress => $license)
 				}
 				else
 				{
-					if ((sizeof($dedicated_tag) > 8 && ($dedicated_tag[7] == 1 || $dedicated_tag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
+					if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6)
 					{
 						$ipOutput[$license['ip']][] = 'Innertell Order '.$dbInnertell->Record['id'].' found but status '.$dbInnertell->Record['status'];
 					}
