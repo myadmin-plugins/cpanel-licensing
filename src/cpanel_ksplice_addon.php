@@ -28,8 +28,8 @@ function cpanel_ksplice_addon() {
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
 		$serviceInfo = $db->Record;
-		$ipAddress = $db->Record[$settings['PREFIX'] . '_ip'];
-		if ($serviceInfo[$settings['PREFIX'] . '_status'] != 'active') {
+		$ipAddress = $db->Record[$settings['PREFIX'].'_ip'];
+		if ($serviceInfo[$settings['PREFIX'].'_status'] != 'active') {
 			add_output('Only Active ' . $settings['TBLNAME']);
 			return;
 		}
@@ -62,8 +62,8 @@ function cpanel_ksplice_addon() {
 				$serviceExtra = [];
 			}
 			$ksplice = new \Detain\MyAdminKsplice\Ksplice(KSPLICE_API_USERNAME, KSPLICE_API_KEY);
-			$uuid = $ksplice->ip_to_uuid($db->Record[$settings['PREFIX'] . '_ip']);
-			myadmin_log('licenses', 'info', "Got UUID $uuid from IP " . $db->Record[$settings['PREFIX'] . '_ip'], __LINE__, __FILE__);
+			$uuid = $ksplice->ip_to_uuid($db->Record[$settings['PREFIX'].'_ip']);
+			myadmin_log('licenses', 'info', "Got UUID $uuid from IP " . $db->Record[$settings['PREFIX'].'_ip'], __LINE__, __FILE__);
 			$ksplice->authorize_machine($uuid, true);
 			myadmin_log('licenses', 'info', 'Response: ' . $ksplice->responseRaw, __LINE__, __FILE__);
 			myadmin_log('licenses', 'info', 'Response: ' . json_encode($ksplice->response), __LINE__, __FILE__);

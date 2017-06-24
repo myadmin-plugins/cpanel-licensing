@@ -51,7 +51,7 @@ function cpanel_kcare_addon() {
 			}
 			$cl = new \Detain\Cloudlinux\Cloudlinux(CLOUDLINUX_LOGIN, CLOUDLINUX_KEY);
 			$type = 16;
-			//if (!$cl->isLicensed($db->Record[$settings['PREFIX'] . '_ip'], $serviceTypes[$db->Record[$settings['PREFIX'] . '_type']]['services_field1']))
+			//if (!$cl->isLicensed($db->Record[$settings['PREFIX'].'_ip'], $serviceTypes[$db->Record[$settings['PREFIX'].'_type']]['services_field1']))
 			$response = $cl->isLicensed($ipAddress, true);
 			myadmin_log('licenses', 'info', 'Response: '.json_encode($response), __LINE__, __FILE__);
 			if (!is_array($response) || !in_array($type, array_values($response))) {
