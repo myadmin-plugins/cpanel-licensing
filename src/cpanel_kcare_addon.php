@@ -20,11 +20,11 @@ function cpanel_kcare_addon() {
 	$settings = get_module_settings('licenses');
 	$db = get_module_db('licenses');
 	$id = (int) $GLOBALS['tf']->variables->request['id'];
-	$services_cpanel_type = SERVICE_TYPES_CPANEL;
+	$servicesCpanelType = SERVICE_TYPES_CPANEL;
 	if ($GLOBALS['tf']->ima == 'admin') {
-		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$services_cpanel_type})", __LINE__, __FILE__);
+		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$servicesCpanelType})", __LINE__, __FILE__);
 	} else {
-		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$services_cpanel_type}) and {$settings['PREFIX']}_custid='".get_custid($GLOBALS['tf']->session->account_id, 'licenses')."'", __LINE__, __FILE__);
+		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$servicesCpanelType}) and {$settings['PREFIX']}_custid='".get_custid($GLOBALS['tf']->session->account_id, 'licenses')."'", __LINE__, __FILE__);
 	}
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
