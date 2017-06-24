@@ -24,7 +24,7 @@ class Plugin {
 			'licenses.deactivate' => [__CLASS__, 'Deactivate'],
 			'licenses.change_ip' => [__CLASS__, 'ChangeIp'],
 			'function.requirements' => [__CLASS__, 'getRequirements'],
-			'ui.menu' => [__CLASS__, 'Menu'],
+			'ui.menu' => [__CLASS__, 'getMenu'],
 		];
 	}
 
@@ -79,7 +79,7 @@ class Plugin {
 		}
 	}
 
-	public static function Menu(GenericEvent $event) {
+	public static function getMenu(GenericEvent $event) {
 		// will be executed when the licenses.settings event is dispatched
 		$menu = $event->getSubject();
 		$module = 'licenses';
