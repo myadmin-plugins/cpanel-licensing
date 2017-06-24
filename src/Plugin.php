@@ -20,7 +20,7 @@ class Plugin {
 	public static function getHooks() {
 		return [
 			'licenses.settings' => [__CLASS__, 'getSettings'],
-			'licenses.activate' => [__CLASS__, 'Activate'],
+			'licenses.activate' => [__CLASS__, 'getActivate'],
 			'licenses.deactivate' => [__CLASS__, 'Deactivate'],
 			'licenses.change_ip' => [__CLASS__, 'ChangeIp'],
 			'function.requirements' => [__CLASS__, 'getRequirements'],
@@ -28,7 +28,7 @@ class Plugin {
 		];
 	}
 
-	public static function Activate(GenericEvent $event) {
+	public static function getActivate(GenericEvent $event) {
 		$license = $event->getSubject();
 		if ($event['category'] == SERVICE_TYPES_CPANEL) {
 			myadmin_log('licenses', 'info', 'Cpanel Activation', __LINE__, __FILE__);
