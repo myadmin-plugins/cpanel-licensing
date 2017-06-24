@@ -57,9 +57,9 @@ function cpanel_ksplice_addon() {
 			$table->add_row();
 			add_output($table->get_table());
 		} else {
-			$license_extra = @myadmin_unstringify($license_info['license_extra']);
-			if ($license_extra === false) {
-				$license_extra = [];
+			$serviceExtra = @myadmin_unstringify($license_info['license_extra']);
+			if ($serviceExtra === false) {
+				$serviceExtra = [];
 			}
 			$ksplice = new \Detain\MyAdminKsplice\Ksplice(KSPLICE_API_USERNAME, KSPLICE_API_KEY);
 			$uuid = $ksplice->ip_to_uuid($db->Record[$settings['PREFIX'] . '_ip']);
@@ -67,9 +67,9 @@ function cpanel_ksplice_addon() {
 			$ksplice->authorize_machine($uuid, true);
 			myadmin_log('licenses', 'info', 'Response: ' . $ksplice->response_raw, __LINE__, __FILE__);
 			myadmin_log('licenses', 'info', 'Response: ' . json_encode($ksplice->response), __LINE__, __FILE__);
-			$license_extra['ksplice_uuid'] = $uuid;
-			$license_extra['ksplice'] = 1;
-			$db->query("update licenses set license_extra='" . $db->real_escape(myadmin_stringify($license_extra)) . "' where license_id=$id", __LINE__, __FILE__);
+			$serviceExtra['ksplice_uuid'] = $uuid;
+			$serviceExtra['ksplice'] = 1;
+			$db->query("update licenses set license_extra='" . $db->real_escape(myadmin_stringify($serviceExtra)) . "' where license_id=$id", __LINE__, __FILE__);
 			add_output('KSplice License activated');
 		}
 	}

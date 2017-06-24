@@ -45,9 +45,9 @@ function cpanel_kcare_addon() {
 			$table->add_row();
 			add_output($table->get_table());
 		} else {
-			$license_extra = @myadmin_unstringify($license_info['license_extra']);
-			if ($license_extra === false) {
-				$license_extra = [];
+			$serviceExtra = @myadmin_unstringify($license_info['license_extra']);
+			if ($serviceExtra === false) {
+				$serviceExtra = [];
 			}
 			$cl = new \Detain\Cloudlinux\Cloudlinux(CLOUDLINUX_LOGIN, CLOUDLINUX_KEY);
 			$type = 16;
@@ -56,11 +56,11 @@ function cpanel_kcare_addon() {
 			myadmin_log('licenses', 'info', 'Response: '.json_encode($response), __LINE__, __FILE__);
 			if (!is_array($response) || !in_array($type, array_values($response))) {
 				$response = $cl->license($ipAddress, $type);
-				//$license_extra = $response['mainKeyNumber'] . ',' . $response['productKey'];
+				//$serviceExtra = $response['mainKeyNumber'] . ',' . $response['productKey'];
 				myadmin_log('licenses', 'info', 'Response: '.json_encode($response), __LINE__, __FILE__);
 			}
-			$license_extra['kcare'] = 1;
-			$db->query("update licenses set license_extra='".$db->real_escape(myadmin_stringify($license_extra))."' where license_id=$id", __LINE__, __FILE__);
+			$serviceExtra['kcare'] = 1;
+			$db->query("update licenses set license_extra='".$db->real_escape(myadmin_stringify($serviceExtra))."' where license_id=$id", __LINE__, __FILE__);
 			add_output('KCare License activated');
 		}
 	}

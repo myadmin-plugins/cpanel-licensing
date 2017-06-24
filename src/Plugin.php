@@ -45,12 +45,12 @@ class Plugin {
 			myadmin_log('licenses', 'info', 'CPanel Deactivation', __LINE__, __FILE__);
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($license->get_ip());
-			$license_extra = @myadmin_unstringify($license->get_extra());
-			if ($license_extra !== false && isset($license_extra['ksplice']) && $license_extra['ksplice'] == 1 && isset($license_extra['ksplice_uuid']) && $license_extra['ksplice_uuid'] != '') {
+			$serviceExtra = @myadmin_unstringify($license->get_extra());
+			if ($serviceExtra !== false && isset($serviceExtra['ksplice']) && $serviceExtra['ksplice'] == 1 && isset($serviceExtra['ksplice_uuid']) && $serviceExtra['ksplice_uuid'] != '') {
 				function_requirements('deactivate_ksplice');
-				deactivate_ksplice((is_uuid($license_extra['ksplice_uuid']) ? $license_extra['ksplice_uuid'] : $license->get_ip()));
+				deactivate_ksplice((is_uuid($serviceExtra['ksplice_uuid']) ? $serviceExtra['ksplice_uuid'] : $license->get_ip()));
 			}
-			if ($license_extra !== false && isset($license_extra['kcare']) && $license_extra['kcare'] == 1) {
+			if ($serviceExtra !== false && isset($serviceExtra['kcare']) && $serviceExtra['kcare'] == 1) {
 				function_requirements('deactivate_kcare');
 				deactivate_kcare($license->get_ip());
 			}
