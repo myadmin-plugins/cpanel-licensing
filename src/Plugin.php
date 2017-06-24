@@ -21,7 +21,7 @@ class Plugin {
 		return [
 			self::$module.'.settings' => [__CLASS__, 'getSettings'],
 			self::$module.'.activate' => [__CLASS__, 'getActivate'],
-			self::$module.'.deactivate' => [__CLASS__, 'Deactivate'],
+			self::$module.'.deactivate' => [__CLASS__, 'getDeactivate'],
 			self::$module.'.change_ip' => [__CLASS__, 'getChangeIp'],
 			'function.requirements' => [__CLASS__, 'getRequirements'],
 			'ui.menu' => [__CLASS__, 'getMenu'],
@@ -38,7 +38,7 @@ class Plugin {
 		}
 	}
 
-	public static function Deactivate(GenericEvent $event) {
+	public static function getgetDeactivate(GenericEvent $event) {
 		$license = $event->getSubject();
 		if ($event['category'] == SERVICE_TYPES_CPANEL) {
 			myadmin_log(self::$module, 'info', 'CPanel Deactivation', __LINE__, __FILE__);
