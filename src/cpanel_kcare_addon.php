@@ -28,9 +28,9 @@ function cpanel_kcare_addon() {
 	}
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
-		$license_info = $db->Record;
+		$serviceInfo = $db->Record;
 		$ipAddress = $db->Record[$settings['PREFIX'].'_ip'];
-		if ($license_info[$settings['PREFIX'].'_status'] != 'active') {
+		if ($serviceInfo[$settings['PREFIX'].'_status'] != 'active') {
 			add_output('Only Active '.$settings['TBLNAME']);
 			return;
 		}
@@ -45,7 +45,7 @@ function cpanel_kcare_addon() {
 			$table->add_row();
 			add_output($table->get_table());
 		} else {
-			$serviceExtra = @myadmin_unstringify($license_info['license_extra']);
+			$serviceExtra = @myadmin_unstringify($serviceInfo['license_extra']);
 			if ($serviceExtra === false) {
 				$serviceExtra = [];
 			}
