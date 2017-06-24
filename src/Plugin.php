@@ -22,7 +22,7 @@ class Plugin {
 			self::$module.'.settings' => [__CLASS__, 'getSettings'],
 			self::$module.'.activate' => [__CLASS__, 'getActivate'],
 			self::$module.'.deactivate' => [__CLASS__, 'Deactivate'],
-			self::$module.'.change_ip' => [__CLASS__, 'ChangeIp'],
+			self::$module.'.change_ip' => [__CLASS__, 'getChangeIp'],
 			'function.requirements' => [__CLASS__, 'getRequirements'],
 			'ui.menu' => [__CLASS__, 'getMenu'],
 		];
@@ -57,7 +57,7 @@ class Plugin {
 		}
 	}
 
-	public static function ChangeIp(GenericEvent $event) {
+	public static function getChangeIp(GenericEvent $event) {
 		if ($event['category'] == SERVICE_TYPES_CPANEL) {
 			$license = $event->getSubject();
 			$settings = get_module_settings(self::$module);
