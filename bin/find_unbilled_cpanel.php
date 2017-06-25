@@ -76,7 +76,7 @@ foreach ($tocheck as $ipAddress => $license) {
 		$db->query("select licenses.*, services_name from licenses left join services on services_id=license_type where services_module='licensese' and license_ip='{$license['ip']}' and services_category=1");
 		if ($db->num_rows() > 0) {
 			while ($db->next_record()) {
-				//$url = 'https://cpaneldirect.net/index.php?choice=none.view_license&id='.$db->Record['license_id'] . '&sessionid='.$session_id;
+				//$url = 'https://cpaneldirect.net/index.php?choice=none.view_license&id='.$db->Record['license_id'].'&sessionid='.$session_id;
 				$url = FALSE;
 				if ($db->Record['license_status'] == 'active' && $db->Record['services_name'] == $license['package']) {
 					$goodIps[] = $license['ip'];

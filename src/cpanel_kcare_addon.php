@@ -56,7 +56,7 @@ function cpanel_kcare_addon() {
 			myadmin_log('licenses', 'info', 'Response: '.json_encode($response), __LINE__, __FILE__);
 			if (!is_array($response) || !in_array($type, array_values($response))) {
 				$response = $cl->license($ipAddress, $type);
-				//$serviceExtra = $response['mainKeyNumber'] . ','.$response['productKey'];
+				//$serviceExtra = $response['mainKeyNumber'].','.$response['productKey'];
 				myadmin_log('licenses', 'info', 'Response: '.json_encode($response), __LINE__, __FILE__);
 			}
 			$serviceExtra['kcare'] = 1;
