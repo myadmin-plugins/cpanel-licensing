@@ -99,7 +99,7 @@ function unbilled_cpanel() {
 			$db->query("select licenses.*, services_name, services_field1 from licenses left join services on services_id=license_type where license_ip='{$license['ip']}' and services_category={$type}");
 			if ($db->num_rows() > 0) {
 				while ($db->next_record(MYSQL_ASSOC)) {
-					//$url = 'https://cpaneldirect.net/index.php?choice=none.view_license&id=' . $db->Record['license_id'] . '&sessionid=' . $session_id;
+					//$url = 'https://cpaneldirect.net/index.php?choice=none.view_license&id='.$db->Record['license_id'] . '&sessionid='.$session_id;
 					$url = FALSE;
 					if ($db->Record['license_status'] == 'active' && $db->Record['services_field1'] == $license['package']) {
 						$goodIps[] = $license['ip'];
@@ -185,9 +185,9 @@ function unbilled_cpanel() {
 			$errors++;
 			if ($outType == 'table')
 				add_output('<tr style="vertical-align: top;"><td>
-				<a href="search.php?comments=no&search=' . $ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a>
-				(<a href="' . $GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip='.$ipAddress).'" target=_blank>cancel</a>)</td>
-				<td>' . $license['hostname'].'</td><td>'.str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]).'</td><td>'
+				<a href="search.php?comments=no&search='.$ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a>
+				(<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip='.$ipAddress).'" target=_blank>cancel</a>)</td>
+				<td>'.$license['hostname'].'</td><td>'.str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]).'</td><td>'
 				);
 			elseif ($outType == 'tftable') {
 				$table->set_col_options('style="width: 210px;"');

@@ -30,7 +30,7 @@ function cpanel_ksplice_addon() {
 		$serviceInfo = $db->Record;
 		$ipAddress = $db->Record[$settings['PREFIX'].'_ip'];
 		if ($serviceInfo[$settings['PREFIX'].'_status'] != 'active') {
-			add_output('Only Active ' . $settings['TBLNAME']);
+			add_output('Only Active '.$settings['TBLNAME']);
 			return;
 		}
 		if (!isset($GLOBALS['tf']->variables->request['submitbutton'])) {
@@ -65,8 +65,8 @@ function cpanel_ksplice_addon() {
 			$uuid = $ksplice->ip_to_uuid($db->Record[$settings['PREFIX'].'_ip']);
 			myadmin_log('licenses', 'info', "Got UUID $uuid from IP " . $db->Record[$settings['PREFIX'].'_ip'], __LINE__, __FILE__);
 			$ksplice->authorize_machine($uuid, TRUE);
-			myadmin_log('licenses', 'info', 'Response: ' . $ksplice->responseRaw, __LINE__, __FILE__);
-			myadmin_log('licenses', 'info', 'Response: ' . json_encode($ksplice->response), __LINE__, __FILE__);
+			myadmin_log('licenses', 'info', 'Response: '.$ksplice->responseRaw, __LINE__, __FILE__);
+			myadmin_log('licenses', 'info', 'Response: '.json_encode($ksplice->response), __LINE__, __FILE__);
 			$serviceExtra['ksplice_uuid'] = $uuid;
 			$serviceExtra['ksplice'] = 1;
 			$db->query("update licenses set license_extra='" . $db->real_escape(myadmin_stringify($serviceExtra)) . "' where license_id=$id", __LINE__, __FILE__);
