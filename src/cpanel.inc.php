@@ -77,7 +77,7 @@ function deactivate_cpanel($ipAddress = FALSE) {
  * @return string the response from cpanel or 'Not Active' if no response
  */
 function verify_cpanel($ipAddress) {
-	if (!valid_ip($ipAddress, FALSE))
+	if (!validIp($ipAddress, FALSE))
 		return FALSE;
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$request = array('ip' => $ipAddress);
@@ -124,7 +124,7 @@ function verify_cpanel($ipAddress) {
  * @return array the array of cpanel data
  */
 function get_cpanel_license_data_by_ip($ipAddress) {
-	if (!valid_ip($ipAddress, FALSE))
+	if (!validIp($ipAddress, FALSE))
 		return FALSE;
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$request = array('ip' => $ipAddress);
