@@ -150,12 +150,12 @@ foreach ($tocheck as $ipAddress => $license) {
 		echo 'IP '.$ipAddress.' Has errors ('.$license['hostname'].' '.$license['package'].")\n";
 		if (sizeof($ipOutput[$ipAddress]) > 0) {
 			foreach ($ipOutput[$ipAddress] as $error) {
-				echo '	'.$error."\n";
+				echo '	'.$error.PHP_EOL;
 			}
 		} else {
 			echo 'I was unable to find this IP anywhere, so not sure where it might have come from.';
 		}
 	}
 }
-echo $errors.'/'.sizeof($licenses).' Licenses have matching problems'."\n";
+echo $errors.'/'.sizeof($licenses).' Licenses have matching problems'.PHP_EOL;
 $GLOBALS['tf']->session->destroy();
