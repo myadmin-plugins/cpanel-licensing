@@ -5,7 +5,7 @@
 * (c)2012 Interserver                                                                *
 \************************************************************************************/
 
-require_once(__DIR__.'/../../../include/functions.inc.php');
+require_once(__DIR__.'/../../../../include/functions.inc.php');
 $webpage = FALSE;
 define('VERBOSE_MODE', FALSE);
 
