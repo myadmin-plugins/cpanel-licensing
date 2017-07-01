@@ -21,6 +21,7 @@ class Plugin {
 		return [
 			self::$module.'.settings' => [__CLASS__, 'getSettings'],
 			self::$module.'.activate' => [__CLASS__, 'getActivate'],
+			self::$module.'.reactivate' => [__CLASS__, 'getActivate'],
 			self::$module.'.deactivate' => [__CLASS__, 'getDeactivate'],
 			self::$module.'.change_ip' => [__CLASS__, 'getChangeIp'],
 			'function.requirements' => [__CLASS__, 'getRequirements'],
