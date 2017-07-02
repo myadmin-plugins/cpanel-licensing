@@ -23,7 +23,6 @@ function unbilled_cpanel() {
 	$db = get_module_db('licenses');
 	$dbVps = get_module_db('vps');
 	$dbVps2 = get_module_db('vps');
-	$dbInnertell = get_module_db('innertell');
 	$dbCms = get_module_db('mb');
 	$type = SERVICE_TYPES_CPANEL;
 	if (!isset($GLOBALS['webpage']) || $GLOBALS['webpage'] != FALSE) {
@@ -46,7 +45,8 @@ function unbilled_cpanel() {
 	$ipOutput = [];
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$status = $cpl->fetchLicenses();
-	foreach ($status['licenses'] as $key => $license2) {
+	$statusValues = array_values($status['licenses']);
+	foreach ($statusValues as $license2) {
 		$license = [];
 		$license['ip'] = $license2['ip'];
 		$license['liscid'] = $license2['licenseid'];
@@ -99,8 +99,6 @@ function unbilled_cpanel() {
 			$db->query("select licenses.*, services_name, services_field1 from licenses left join services on services_id=license_type where license_ip='{$license['ip']}' and services_category={$type}");
 			if ($db->num_rows() > 0) {
 				while ($db->next_record(MYSQL_ASSOC)) {
-					//$url = 'https://cpaneldirect.net/index.php?choice=none.view_license&id='.$db->Record['license_id'].'&sessionid='.$session_id;
-					$url = FALSE;
 					if ($db->Record['license_status'] == 'active' && $db->Record['services_field1'] == $license['package']) {
 						$goodIps[] = $license['ip'];
 					} elseif ($db->Record['license_status'] != 'active' && $db->Record['services_field1'] == $license['package']) {

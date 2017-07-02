@@ -28,7 +28,6 @@ function cpanel_ksplice_addon() {
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
 		$serviceInfo = $db->Record;
-		$ipAddress = $db->Record[$settings['PREFIX'].'_ip'];
 		if ($serviceInfo[$settings['PREFIX'].'_status'] != 'active') {
 			add_output('Only Active '.$settings['TBLNAME']);
 			return;

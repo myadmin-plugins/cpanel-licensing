@@ -17,17 +17,16 @@ function cpanel_list() {
 		$header = FALSE;
 		function_requirements('get_cpanel_licenses');
 		$licenses = get_cpanel_licenses();
-		foreach ($licenses['licenses'] as $lid => $data) {
+		$licensesValues = array_values($licenses['lienses']);
+		foreach ($licensesValues as $data) {
 			if (!$header) {
-				foreach (array_keys($data) as $field) {
+				foreach (array_keys($data) as $field)
 					$table->add_field(ucwords(str_replace('_', ' ', $field)));
-				}
 				$table->add_row();
 				$header = TRUE;
 			}
-			foreach ($data as $key => $field) {
+			foreach ($data as $key => $field)
 				$table->add_field($field);
-			}
 			$table->add_row();
 		}
 		add_output($table->get_table());

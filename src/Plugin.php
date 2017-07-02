@@ -81,7 +81,6 @@ class Plugin {
 
 	public static function getMenu(GenericEvent $event) {
 		$menu = $event->getSubject();
-		$module = self::$module;
 		if ($GLOBALS['tf']->ima == 'admin') {
 			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', 'icons/database_warning_48.png', 'Unbilled CPanel');
 			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', 'whm/createacct.gif', 'List all CPanel Licenses');
