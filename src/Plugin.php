@@ -45,7 +45,7 @@ class Plugin {
 			myadmin_log(self::$module, 'info', 'CPanel Deactivation', __LINE__, __FILE__);
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($serviceClass->getIp());
-			$serviceExtra = @myadmin_unstringify($serviceClass->get_extra());
+			$serviceExtra = @myadmin_unstringify($serviceClass->getExtra());
 			if ($serviceExtra !== FALSE && isset($serviceExtra['ksplice']) && $serviceExtra['ksplice'] == 1 && isset($serviceExtra['ksplice_uuid']) && $serviceExtra['ksplice_uuid'] != '') {
 				function_requirements('deactivate_ksplice');
 				deactivate_ksplice((is_uuid($serviceExtra['ksplice_uuid']) ? $serviceExtra['ksplice_uuid'] : $serviceClass->getIp()));
