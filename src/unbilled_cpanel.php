@@ -35,8 +35,6 @@ function unbilled_cpanel() {
 			$outType = 'table';
 	} else
 		$outType = 'text';
-	$serviceTypes = get_license_types();
-	$dir = __DIR__;
 	//209.159.155.230,4893465,Printnow.Gr,Linux,centos enterprise 5.8,11.32.3.19,virtuozzo,2.6.18-238.19.1.el5.028stab092.2PAE,INTERSERVER-INTERNAL-VZZO,1
 	$whitelist = explode("\n", trim(`cat /home/interser/public_html/misha/cpanel_whitelist.txt`));
 	$licenses = [];

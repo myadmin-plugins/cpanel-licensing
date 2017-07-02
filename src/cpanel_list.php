@@ -25,7 +25,8 @@ function cpanel_list() {
 				$table->add_row();
 				$header = TRUE;
 			}
-			foreach ($data as $key => $field)
+			$dataValues = array_values($data);
+			foreach ($dataValues as  $field)
 				$table->add_field($field);
 			$table->add_row();
 		}
