@@ -17,12 +17,12 @@ function cpanel_ksplice_addon() {
 	page_title('CPanel KSplice Addon');
 	$settings = get_module_settings('licenses');
 	$db = get_module_db('licenses');
-	$id = (int)$GLOBALS['tf']->variables->request['id'];
+	$id = (int) $GLOBALS['tf']->variables->request['id'];
 	$servicesCpanelType = SERVICE_TYPES_CPANEL;
 	if ($GLOBALS['tf']->ima == 'admin') {
 		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$servicesCpanelType})", __LINE__, __FILE__);
 	} else {
-		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$servicesCpanelType}) and {$settings['PREFIX']}_custid='" . get_custid($GLOBALS['tf']->session->account_id, 'licenses') . "'", __LINE__, __FILE__);
+		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$servicesCpanelType}) and {$settings['PREFIX']}_custid='".get_custid($GLOBALS['tf']->session->account_id, 'licenses')."'", __LINE__, __FILE__);
 	}
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
@@ -61,13 +61,13 @@ function cpanel_ksplice_addon() {
 			}
 			$ksplice = new \Detain\MyAdminKsplice\Ksplice(KSPLICE_API_USERNAME, KSPLICE_API_KEY);
 			$uuid = $ksplice->ipToUuid($db->Record[$settings['PREFIX'].'_ip']);
-			myadmin_log('licenses', 'info', "Got UUID $uuid from IP " . $db->Record[$settings['PREFIX'].'_ip'], __LINE__, __FILE__);
+			myadmin_log('licenses', 'info', "Got UUID $uuid from IP ".$db->Record[$settings['PREFIX'].'_ip'], __LINE__, __FILE__);
 			$ksplice->authorizeMachine($uuid, TRUE);
 			myadmin_log('licenses', 'info', 'Response: '.$ksplice->responseRaw, __LINE__, __FILE__);
 			myadmin_log('licenses', 'info', 'Response: '.json_encode($ksplice->response), __LINE__, __FILE__);
 			$serviceExtra['ksplice_uuid'] = $uuid;
 			$serviceExtra['ksplice'] = 1;
-			$db->query("update licenses set license_extra='" . $db->real_escape(myadmin_stringify($serviceExtra)) . "' where license_id=$id", __LINE__, __FILE__);
+			$db->query("update licenses set license_extra='".$db->real_escape(myadmin_stringify($serviceExtra))."' where license_id=$id", __LINE__, __FILE__);
 			add_output('KSplice License activated');
 		}
 	}
