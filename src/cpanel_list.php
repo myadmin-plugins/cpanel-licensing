@@ -3,7 +3,6 @@
  * License Related Functionality
  * Last Changed: $LastChangedDate: 2017-05-26 04:46:46 -0400 (Fri, 26 May 2017) $
  * @author detain
- * @version $Revision: 24805 $
  * @copyright 2017
  * @package MyAdmin
  * @category Licenses
