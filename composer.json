@@ -1,34 +1,34 @@
 {
-	"name": "detain/myadmin-cpanel-licensing",
-	"type": "myadmin-plugin",
-	"description": "Cpanel Licensing Class",
-	"keywords": ["cpanel","administration","license"],
-	"license": "LGPL-2.1",
-	"authors": [
-		{
-			"name": "Joe Huss",
-			"homepage": "https://my.interserver.net/"
-		}
-	],
-	"config": {
-		"bin-dir": "vendor/bin",
-		"minimum-stability": "dev"
-	},
-	"require": {
-		"php": ">=5.0.0",
-		"ext-soap": "*",
+    "name": "detain/myadmin-cpanel-licensing",
+    "type": "myadmin-plugin",
+    "description": "Cpanel Licensing Class",
+    "keywords": ["cpanel","administration","license"],
+    "license": "LGPL-2.1",
+    "authors": [
+        {
+            "name": "Joe Huss",
+            "homepage": "https://my.interserver.net/"
+        }
+    ],
+    "config": {
+        "bin-dir": "vendor/bin",
+        "minimum-stability": "dev"
+    },
+    "require": {
+        "php": ">=5.0.0",
+        "ext-soap": "*",
 "symfony/event-dispatcher": "*",
 "detain/myadmin-plugin-installer": "dev-master",
 "detain/cpanel-licensing": "*"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "*",
-		"vlucas/phpdotenv": "*",
-		"codeclimate/php-test-reporter": "dev-master",
-		"satooshi/php-coveralls": "*",
-		"codacy/coverage": "dev-master"
-	},
-	"autoload": {
-		"psr-4": {"MyAdmin\\Licenses\\Cpanel\\": "src/"}
-	}
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "vlucas/phpdotenv": "*",
+        "codeclimate/php-test-reporter": "dev-master",
+        "satooshi/php-coveralls": "*",
+        "codacy/coverage": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {"MyAdmin\\Licenses\\Cpanel\\": "src/"}
+    }
 }
