@@ -19,7 +19,7 @@ function cpanel_kcare_addon() {
 	$settings = get_module_settings('licenses');
 	$db = get_module_db('licenses');
 	$id = (int) $GLOBALS['tf']->variables->request['id'];
-	$servicesCpanelType = SERVICE_TYPES_CPANEL;
+	$servicesCpanelType = get_service_define('CPANEL');
 	if ($GLOBALS['tf']->ima == 'admin') {
 		$db->query("select * from {$settings['TABLE']} where {$settings['PREFIX']}_id='{$id}' and {$settings['PREFIX']}_type in (select services_id from services where services_type={$servicesCpanelType})", __LINE__, __FILE__);
 	} else {

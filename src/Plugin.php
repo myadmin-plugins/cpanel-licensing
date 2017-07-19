@@ -32,7 +32,7 @@ class Plugin {
 
 	public static function getActivate(GenericEvent $event) {
 		$serviceClass = $event->getSubject();
-		if ($event['category'] == SERVICE_TYPES_CPANEL) {
+		if ($event['category'] == get_service_define('CPANEL')) {
 			myadmin_log(self::$module, 'info', 'Cpanel Activation', __LINE__, __FILE__);
 			function_requirements('activate_cpanel');
 			activate_cpanel($serviceClass->getIp(), $event['field1']);
@@ -42,7 +42,7 @@ class Plugin {
 
 	public static function getDeactivate(GenericEvent $event) {
 		$serviceClass = $event->getSubject();
-		if ($event['category'] == SERVICE_TYPES_CPANEL) {
+		if ($event['category'] == get_service_define('CPANEL')) {
 			myadmin_log(self::$module, 'info', 'CPanel Deactivation', __LINE__, __FILE__);
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($serviceClass->getIp());
@@ -61,7 +61,7 @@ class Plugin {
 
 	public static function getDeactivateIp(GenericEvent $event) {
 		$serviceClass = $event->getSubject();
-		if ($event['category'] == SERVICE_TYPES_CPANEL) {
+		if ($event['category'] == get_service_define('CPANEL')) {
 			myadmin_log(self::$module, 'info', 'CPanel Deactivation', __LINE__, __FILE__);
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($serviceClass->getIp());
@@ -70,7 +70,7 @@ class Plugin {
 	}
 
 	public static function getChangeIp(GenericEvent $event) {
-		if ($event['category'] == SERVICE_TYPES_CPANEL) {
+		if ($event['category'] == get_service_define('CPANEL')) {
 			$serviceClass = $event->getSubject();
 			$settings = get_module_settings(self::$module);
 			function_requirements('deactivate_cpanel');

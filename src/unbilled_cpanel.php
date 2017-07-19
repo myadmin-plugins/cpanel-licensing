@@ -23,7 +23,7 @@ function unbilled_cpanel() {
 	$dbVps = get_module_db('vps');
 	$dbVps2 = get_module_db('vps');
 	$dbCms = get_module_db('mb');
-	$type = SERVICE_TYPES_CPANEL;
+	$type = get_service_define('CPANEL');
 	if (!isset($GLOBALS['webpage']) || $GLOBALS['webpage'] != FALSE) {
 		page_title('Unbilled CPanel Licenses');
 		if (class_exists('TFTable')) {
