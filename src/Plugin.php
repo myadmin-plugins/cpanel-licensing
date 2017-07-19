@@ -23,6 +23,7 @@ class Plugin {
 			self::$module.'.activate' => [__CLASS__, 'getActivate'],
 			self::$module.'.reactivate' => [__CLASS__, 'getActivate'],
 			self::$module.'.deactivate' => [__CLASS__, 'getDeactivate'],
+			self::$module.'.deactivate_ip' => [__CLASS__, 'getDeactivateIp'],
 			self::$module.'.change_ip' => [__CLASS__, 'getChangeIp'],
 			'function.requirements' => [__CLASS__, 'getRequirements'],
 			'ui.menu' => [__CLASS__, 'getMenu'],
@@ -54,6 +55,16 @@ class Plugin {
 				function_requirements('deactivate_kcare');
 				deactivate_kcare($serviceClass->getIp());
 			}
+			$event->stopPropagation();
+		}
+	}
+
+	public static function getDeactivateIp(GenericEvent $event) {
+		$serviceClass = $event->getSubject();
+		if ($event['category'] == SERVICE_TYPES_CPANEL) {
+			myadmin_log(self::$module, 'info', 'CPanel Deactivation', __LINE__, __FILE__);
+			function_requirements('deactivate_cpanel');
+			deactivate_cpanel($serviceClass->getIp());
 			$event->stopPropagation();
 		}
 	}
