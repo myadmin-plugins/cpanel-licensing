@@ -99,7 +99,6 @@ function verify_cpanel($ipAddress) {
 /**
  * get_cpanel_license_data_by_ip()
  * gets cpanel license data
- *
  * Sample output
  * [ip] => 209.67.63.2
  * [hostname] => neo.internetwebserver.net
@@ -120,7 +119,7 @@ function verify_cpanel($ipAddress) {
  * [updateexpiretime] => 0
  *
  * @param string $ipAddress ip address
- * @return array the array of cpanel data
+ * @return array|bool
  */
 function get_cpanel_license_data_by_ip($ipAddress) {
 	if (!validIp($ipAddress, FALSE))
