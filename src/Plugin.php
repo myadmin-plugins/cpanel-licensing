@@ -5,6 +5,11 @@ namespace MyAdmin\Licenses\Cpanel;
 //use Detain\Cpanel\Cpanel;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
+/**
+ * Class Plugin
+ *
+ * @package MyAdmin\Licenses\Cpanel
+ */
 class Plugin {
 
 	public static $name = 'Cpanel Licensing';
@@ -13,10 +18,15 @@ class Plugin {
 	public static $module = 'licenses';
 	public static $type = 'service';
 
-
+	/**
+	 * Plugin constructor.
+	 */
 	public function __construct() {
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function getHooks() {
 		return [
 			self::$module.'.settings' => [__CLASS__, 'getSettings'],
@@ -30,6 +40,9 @@ class Plugin {
 		];
 	}
 
+	/**
+	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+	 */
 	public static function getActivate(GenericEvent $event) {
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
@@ -40,6 +53,9 @@ class Plugin {
 		}
 	}
 
+	/**
+	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+	 */
 	public static function getDeactivate(GenericEvent $event) {
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
@@ -59,6 +75,9 @@ class Plugin {
 		}
 	}
 
+	/**
+	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+	 */
 	public static function getDeactivateIp(GenericEvent $event) {
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
@@ -69,6 +88,9 @@ class Plugin {
 		}
 	}
 
+	/**
+	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+	 */
 	public static function getChangeIp(GenericEvent $event) {
 		if ($event['category'] == get_service_define('CPANEL')) {
 			$serviceClass = $event->getSubject();
@@ -90,6 +112,9 @@ class Plugin {
 		}
 	}
 
+	/**
+	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+	 */
 	public static function getMenu(GenericEvent $event) {
 		$menu = $event->getSubject();
 		if ($GLOBALS['tf']->ima == 'admin') {
@@ -98,6 +123,9 @@ class Plugin {
 		}
 	}
 
+	/**
+	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+	 */
 	public static function getRequirements(GenericEvent $event) {
 		$loader = $event->getSubject();
 		$loader->add_requirement('activate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
@@ -113,6 +141,9 @@ class Plugin {
 		$loader->add_requirement('class.Cpanel', '/../vendor/detain/cpanel-licensing/Cpanel.php');
 	}
 
+	/**
+	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+	 */
 	public static function getSettings(GenericEvent $event) {
 		$settings = $event->getSubject();
 		$settings->add_text_setting(self::$module, 'CPanel', 'cpanel_licensing_username', 'Cpanel Licensing Username:', 'Cpanel Licensing Username', $settings->get_setting('CPANEL_LICENSING_USERNAME'));

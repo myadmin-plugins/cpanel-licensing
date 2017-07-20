@@ -7,12 +7,11 @@
  * @package MyAdmin
  * @category Licenses
  */
-
 /**
  * cpanel_kcare_addon()
  *
  * @return void
- * @throws \XmlRpcException
+ * @throws \Detain\Cloudlinux\XmlRpcException
  */
 function cpanel_kcare_addon() {
 	page_title('CPanel KCare Addon');

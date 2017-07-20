@@ -41,7 +41,7 @@ function activate_cpanel($ipAddress, $package) {
 /**
  * deactivate_cpanel()
  *
- * @param string|false $ipAddress the ip to deactivate, or FALSE to use the request variable ip
+ * @param bool|false|string $ipAddress the ip to deactivate, or FALSE to use the request variable ip
  * @return bool TRUE if successfull, flase otherwise
  */
 function deactivate_cpanel($ipAddress = FALSE) {
