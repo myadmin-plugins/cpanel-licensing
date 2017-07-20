@@ -97,7 +97,7 @@ class Plugin {
 			$settings = get_module_settings(self::$module);
 			function_requirements('deactivate_cpanel');
 			function_requirements('activate_cpanel');
-			myadmin_log(self::$module, 'info', "IP Change - (OLD:".$serviceClass->getIp().") (NEW:{$event['newip']})", __LINE__, __FILE__);
+			myadmin_log(self::$module, 'info', 'IP Change - (OLD:' .$serviceClass->getIp().") (NEW:{$event['newip']})", __LINE__, __FILE__);
 			if (deactivate_cpanel($serviceClass->getIp()) == TRUE) {
 				activate_cpanel($event['newip'], $event['field1']);
 				$GLOBALS['tf']->history->add($settings['TABLE'], 'change_ip', $event['newip'], $serviceClass->getIp());

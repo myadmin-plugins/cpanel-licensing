@@ -97,7 +97,7 @@ foreach ($tocheck as $ipAddress => $license) {
 			while ($dbVps->next_record()) {
 				$vps = $dbVps->Record;
 				if ($vps['vps_status'] == 'active' && $vps['repeat_invoices_id'] != NULL) {
-					$dbVps2->query("select * from invoices where invoices_extra=".$vps['repeat_invoices_id']." and invoices_type=1 and invoices_paid=1 and invoices_date >= date_sub('".mysql_now()."', INTERVAL 2 MONTH)");
+					$dbVps2->query('select * from invoices where invoices_extra=' . $vps['repeat_invoices_id']." and invoices_type=1 and invoices_paid=1 and invoices_date >= date_sub('".mysql_now()."', INTERVAL 2 MONTH)");
 					if ($dbVps2->num_rows() > 0) {
 						$goodIps[] = $license['ip'];
 					} else {
@@ -108,7 +108,7 @@ foreach ($tocheck as $ipAddress => $license) {
 				} elseif ($vps['vps_status'] != 'active' && $vps['repeat_invoices_id'] != NULL) {
 					$ipOutput[$license['ip']][] = 'VPS '.$vps['vps_id'].' Found with CPanel but VPS status is '.$vps['vps_status'];
 				} else {
-					$ipOutput[$license['ip']][] = "VPS ".$vps['vps_id']." Found But Status ".$vps['vps_status'].' and no CPanel';
+					$ipOutput[$license['ip']][] = 'VPS ' . $vps['vps_id']. ' Found But Status ' . $vps['vps_status'].' and no CPanel';
 				}
 			}
 		}
