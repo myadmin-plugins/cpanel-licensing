@@ -125,13 +125,13 @@ foreach ($tocheck as $ipAddress => $license) {
 				if ($dbInnertell->Record['server_username'] == 'john@interserver.net') {
 					$ipOutput[$license['ip']][] = 'Used By '.$dbInnertell->Record['server_hostname'];
 				} elseif ($dbInnertell->Record['status'] == 'active') {
-					if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6) {
+					if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6) {
 						$goodIps[] = $license['ip'];
 					} else {
 						$ipOutput[$license['ip']][] = 'Innertell Order '.$dbInnertell->Record['id'].' found but no CPanel';
 					}
 				} else {
-					if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6) {
+					if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6) {
 						$ipOutput[$license['ip']][] = 'Innertell Order '.$dbInnertell->Record['id'].' found but status '.$dbInnertell->Record['status'];
 					} else {
 						$ipOutput[$license['ip']][] = 'Innertell Order '.$dbInnertell->Record['id'].' found but status '.$dbInnertell->Record['status'].' and no CPanel';
@@ -148,7 +148,7 @@ foreach ($tocheck as $ipAddress => $license) {
 	if (!in_array($ipAddress, $goodIps)) {
 		$errors++;
 		echo 'IP '.$ipAddress.' Has errors ('.$license['hostname'].' '.$license['package'].")\n";
-		if (sizeof($ipOutput[$ipAddress]) > 0) {
+		if (count($ipOutput[$ipAddress]) > 0) {
 			foreach ($ipOutput[$ipAddress] as $error) {
 				echo '	'.$error.PHP_EOL;
 			}
@@ -157,5 +157,5 @@ foreach ($tocheck as $ipAddress => $license) {
 		}
 	}
 }
-echo $errors.'/'.sizeof($licenses).' Licenses have matching problems'.PHP_EOL;
+echo $errors.'/'.count($licenses).' Licenses have matching problems'.PHP_EOL;
 $GLOBALS['tf']->session->destroy();

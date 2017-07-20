@@ -144,19 +144,19 @@ function unbilled_cpanel() {
 					$db->next_record(MYSQL_ASSOC);
 					$dedicatedTag = explode(',', $db->Record['server_dedicated_tag']);
 					if ($db->Record['server_username'] == 'john@interserver.net') {
-						if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
+						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$goodIps[] = $license['ip'];
 						} else {
 							$ipOutput[$license['ip']][] = 'Used By '.$db->Record['server_hostname'];
 						}
 					} elseif ($db->Record['server_status'] == 'active') {
-						if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
+						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$goodIps[] = $license['ip'];
 						} else {
 							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'">'.$db->Record['id'].'</a>'.' found but no CPanel';
 						}
 					} else {
-						if ((sizeof($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
+						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'];
 						} else {
 							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'].' and no CPanel';
@@ -195,7 +195,7 @@ function unbilled_cpanel() {
 				$table->set_col_options('style="min-width: 350px;"');
 			} else
 				echo "$ipAddress	".$license['hostname'].'	'.str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]).'	';
-			if (sizeof($ipOutput[$ipAddress]) > 0)
+			if (count($ipOutput[$ipAddress]) > 0)
 				if ($outType == 'table')
 					add_output(implode('<br>', $ipOutput[$ipAddress]));
 				elseif ($outType == 'tftable')
@@ -217,15 +217,15 @@ function unbilled_cpanel() {
 		}
 	}
 	if ($outType == 'table') {
-		add_output('<tr><td colspan=4 align=center>'.$errors.'/'.sizeof($licenses).' Licenses have matching problems</td></tr></table>');
+		add_output('<tr><td colspan=4 align=center>'.$errors.'/'.count($licenses).' Licenses have matching problems</td></tr></table>');
 		add_output('</body></html>');
 	} elseif ($outType == 'tftable') {
 		$table->set_colspan(4);
-		$table->add_field($errors.'/'.sizeof($licenses).' Licenses have matching problems');
+		$table->add_field($errors.'/'.count($licenses).' Licenses have matching problems');
 		$table->add_row();
 		add_output($table->get_table());
 		add_output('</body></html>');
 	} else
-		echo $errors.'/'.sizeof($licenses)." Licenses have matching problems\n";
+		echo $errors.'/'.count($licenses)." Licenses have matching problems\n";
 	//echo $GLOBALS['output'];
 }
