@@ -138,7 +138,7 @@ function unbilled_cpanel() {
 			$db->query("select vlans_comment from ips, vlans where ips_ip='$license[ip]' and ips_vlan=vlans_id");
 			if ($db->num_rows() > 0) {
 				$db->next_record(MYSQL_ASSOC);
-				$server = str_replace(array('append ', 'Append '), array('', ''), trim($db->Record['vlans_comment']));
+				$server = str_replace(['append ', 'Append '], ['', ''], trim($db->Record['vlans_comment']));
 				$db->query("select * from servers where server_hostname like '%$server%' order by server_status");
 				if ($db->num_rows() > 0) {
 					$db->next_record(MYSQL_ASSOC);
@@ -182,7 +182,7 @@ function unbilled_cpanel() {
 				add_output('<tr style="vertical-align: top;"><td>
 				<a href="search.php?comments=no&search='.$ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a>
 				(<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip='.$ipAddress).'" target=_blank>cancel</a>)</td>
-				<td>'.$license['hostname'].'</td><td>'.str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]).'</td><td>'
+				<td>'.$license['hostname'].'</td><td>'.str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]).'</td><td>'
 				);
 			elseif ($outType == 'tftable') {
 				$table->set_col_options('style="width: 210px;"');
@@ -191,10 +191,10 @@ function unbilled_cpanel() {
 				//					$table->set_col_options('style="width: 225px;"');
 				$table->add_field($license['hostname'], 'r');
 				$table->set_col_options('style="min-width: 135px; max-width: 150px;"');
-				$table->add_field(str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]), 'r');
+				$table->add_field(str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]), 'r');
 				$table->set_col_options('style="min-width: 350px;"');
 			} else
-				echo "$ipAddress	".$license['hostname'].'	'.str_replace(array('INTERSERVER-', ' License'), array('', ''), $services[$license['package']]).'	';
+				echo "$ipAddress	".$license['hostname'].'	'.str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]).'	';
 			if (count($ipOutput[$ipAddress]) > 0)
 				if ($outType == 'table')
 					add_output(implode('<br>', $ipOutput[$ipAddress]));

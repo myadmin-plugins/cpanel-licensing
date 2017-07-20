@@ -25,13 +25,13 @@ function activate_cpanel($ipAddress, $package) {
 	//myadmin_log('licenses', 'info', json_encode($groups));
 	//$groupid = array_search(CPANEL_LICENSING_GROUP, $groups['groups']);
 	//myadmin_log('licenses', 'info', $groupid, __LINE__, __FILE__);
-	$request = array(
+	$request = [
 		'ip' => $ipAddress,
 		'groupid' => CPANEL_LICENSING_GROUP,
 		'packageid' => $package,
 		'force' => 1,
 		'reactivateok' => 1,
-	);
+	];
 	$response = $cpl->activateLicense($request);
 	request_log($module, convert_custid($GLOBALS['tf']->session->account_id, $module), __FUNCTION__, 'cpanel', 'activateLicense', $request, $response);
 	myadmin_log('licenses', 'info', json_encode($response['attr']), __LINE__, __FILE__);
@@ -51,12 +51,12 @@ function deactivate_cpanel($ipAddress = FALSE) {
 	if (trim($ipAddress) == '')
 		return TRUE;
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
-	$request = array('ip' => $ipAddress);
+	$request = ['ip' => $ipAddress];
 	$response = $cpl->fetchLicenseId($request);
 	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'fetchLicenseId', $request, $response);
 	if (isset($response['licenseid']) && isset($response['licenseid']['value'])) {
 		$liscid = $response['licenseid']['value'];
-		$request = array('liscid' => $liscid);
+		$request = ['liscid' => $liscid];
 		$response = $cpl->expireLicense($request);
 		request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'expireLicense', $request, $response);
 		myadmin_log('licenses', 'info', "deactivate_cpanel({$ipAddress}) returned ".json_encode($response['attr']), __LINE__, __FILE__);
@@ -79,7 +79,7 @@ function verify_cpanel($ipAddress) {
 	if (!validIp($ipAddress, FALSE))
 		return FALSE;
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
-	$request = array('ip' => $ipAddress);
+	$request = ['ip' => $ipAddress];
 	$status = $cpl->fetchLicenseRaw($request);
 	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'expireLicense', $request, $status);
 	if ($status['attr']['status'] == 1) {
@@ -126,7 +126,7 @@ function get_cpanel_license_data_by_ip($ipAddress) {
 	if (!validIp($ipAddress, FALSE))
 		return FALSE;
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
-	$request = array('ip' => $ipAddress);
+	$request = ['ip' => $ipAddress];
 	$status = $cpl->fetchLicenseRaw($request);
 	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'fetchLicenseRaw', $request, $status);
 	if (!isset($status['license'])) {

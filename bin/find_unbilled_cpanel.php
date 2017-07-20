@@ -117,7 +117,7 @@ foreach ($tocheck as $ipAddress => $license) {
 		$dbInnertell->query("select vlans_comment from ips, vlans where ips_ip='{$license['ip']}' and ips_vlan=vlans_id");
 		if ($dbInnertell->num_rows() > 0) {
 			$dbInnertell->next_record();
-			$server = str_replace(array('append ', 'Append '), array('', ''), trim($dbInnertell->Record['vlans_comment']));
+			$server = str_replace(['append ', 'Append '], ['', ''], trim($dbInnertell->Record['vlans_comment']));
 			$dbInnertell->query("select * from servers where server_hostname like '%$server%' order by status");
 			if ($dbInnertell->num_rows() > 0) {
 				$dbInnertell->next_record();

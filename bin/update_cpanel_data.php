@@ -32,7 +32,7 @@ foreach ($status['licenses'] as $key => $license2) {
 	$license['osver'] = $license2['osver'];
 	$license['package'] = $license2['packageid'];
 	$license['status'] = $license2['status'];
-	$line = implode(',', array($license['ip'], $license['liscid'], $license['hostname'], $license['os'], $license['distro'], $license['version'], $license['envtype'], $license['osver'], $license['package'], $license['status']));
+	$line = implode(',', [$license['ip'], $license['liscid'], $license['hostname'], $license['os'], $license['distro'], $license['version'], $license['envtype'], $license['osver'], $license['package'], $license['status']]);
 	$query = "update licenses set license_extra='".$db->real_escape($line)."' where license_ip='$license[ip]' and license_type in (1,2,3,9,10,15)";
 	$db->query($query, __LINE__, __FILE__);
 	if ($license['hostname'] != '') {
