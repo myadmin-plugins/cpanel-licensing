@@ -132,8 +132,7 @@ function get_cpanel_license_data_by_ip($ipAddress) {
 	if (!isset($status['license'])) {
 		return FALSE;
 	}
-	$data = $status['license'];
-	return $data;
+	return $status['license'];
 }
 
 /**
