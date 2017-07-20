@@ -30,7 +30,7 @@ function activate_cpanel($ipAddress, $package) {
 		'groupid' => CPANEL_LICENSING_GROUP,
 		'packageid' => $package,
 		'force' => 1,
-		'reactivateok' => 1,
+		'reactivateok' => 1
 	];
 	$response = $cpl->activateLicense($request);
 	request_log($module, convert_custid($GLOBALS['tf']->session->account_id, $module), __FUNCTION__, 'cpanel', 'activateLicense', $request, $response);
