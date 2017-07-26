@@ -19,7 +19,7 @@ $GLOBALS['tf']->session->verify();
 $db = get_module_db('licenses');
 $cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 $status = $cpl->fetchLicenses();
-echo 'Got ' .count($status['licenses'])." Licenses\n";
+echo 'Got '.count($status['licenses'])." Licenses\n";
 foreach ($status['licenses'] as $key => $license2) {
 	$license = [];
 	$license['ip'] = $license2['ip'];
