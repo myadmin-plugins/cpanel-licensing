@@ -33,7 +33,7 @@ function cpanel_ksplice_addon() {
 			return;
 		}
 		if (!isset($GLOBALS['tf']->variables->request['submitbutton'])) {
-			$table = new TFTable;
+			$table = new \TFTable;
 			$table->add_hidden('choice', 'none.cpanel_ksplice_addon');
 			$table->add_hidden('id', $id);
 			$table->set_title('KSplice');

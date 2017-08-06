@@ -11,7 +11,7 @@
 function cpanel_list() {
 	page_title('CPanel License List');
 	if ($GLOBALS['tf']->ima == 'admin') {
-		$table = new TFTable;
+		$table = new \TFTable;
 		$table->set_title('CPanel License List');
 		$header = FALSE;
 		function_requirements('get_cpanel_licenses');

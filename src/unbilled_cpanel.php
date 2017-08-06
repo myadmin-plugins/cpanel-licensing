@@ -29,7 +29,7 @@ function unbilled_cpanel() {
 		page_title('Unbilled CPanel Licenses');
 		if (class_exists('TFTable')) {
 			$outType = 'tftable';
-			$table = new TFTable;
+			$table = new \TFTable;
 			$table->alternate_rows();
 		} else
 			$outType = 'table';
