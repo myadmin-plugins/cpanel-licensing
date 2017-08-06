@@ -12,6 +12,8 @@
  *
  * @return void
  * @throws \Detain\Cloudlinux\XmlRpcException
+ * @throws \Exception
+ * @throws \SmartyException
  */
 function cpanel_kcare_addon() {
 	page_title('CPanel KCare Addon');

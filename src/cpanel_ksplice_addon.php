@@ -7,11 +7,12 @@
  * @package MyAdmin
  * @category Licenses
  */
-
 /**
  * cpanel_ksplice_addon()
  *
  * @return void
+ * @throws \Exception
+ * @throws \SmartyException
  */
 function cpanel_ksplice_addon() {
 	page_title('CPanel KSplice Addon');

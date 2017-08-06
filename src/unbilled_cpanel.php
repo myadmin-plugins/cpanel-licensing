@@ -7,11 +7,12 @@
  * @package MyAdmin
  * @category Licenses
  */
-
 /**
  * unbilled_cpanel()
  *
  * @return FALSE|null
+ * @throws \Exception
+ * @throws \SmartyException
  */
 function unbilled_cpanel() {
 	function_requirements('has_acl');
