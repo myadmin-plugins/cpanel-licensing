@@ -2,7 +2,7 @@
 <?php
 /**
 * Updates our data with whats in cpanels db
-* @author Joe Huss <detain@corpmail.interserver.net>
+* @author Joe Huss <detain@interserver.net>
 * @package MyAdmin
 * @subpackage Scripts
 * @subpackage update_cpanel_data
