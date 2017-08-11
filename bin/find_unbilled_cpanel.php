@@ -122,7 +122,7 @@ foreach ($tocheck as $ipAddress => $license) {
 			if ($dbInnertell->num_rows() > 0) {
 				$dbInnertell->next_record();
 				$serverDedicatedTag = explode(',', $dbInnertell->Record['server_dedicated_tag']);
-				if ($dbInnertell->Record['server_username'] == 'john@interserver.net') {
+				if ($dbInnertell->Record['server_custid'] == 2304) {
 					$ipOutput[$license['ip']][] = 'Used By '.$dbInnertell->Record['server_hostname'];
 				} elseif ($dbInnertell->Record['status'] == 'active') {
 					if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $dbInnertell->Record['server_dedicated_cp'] == 1 || $dbInnertell->Record['server_dedicated_cp'] == 6) {

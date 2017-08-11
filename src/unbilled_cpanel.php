@@ -144,7 +144,7 @@ function unbilled_cpanel() {
 				if ($db->num_rows() > 0) {
 					$db->next_record(MYSQL_ASSOC);
 					$dedicatedTag = explode(',', $db->Record['server_dedicated_tag']);
-					if ($db->Record['server_username'] == 'john@interserver.net') {
+					if ($db->Record['server_custid'] == 2304) {
 						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$goodIps[] = $license['ip'];
 						} else {
