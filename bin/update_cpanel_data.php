@@ -4,8 +4,8 @@
 * Updates our data with whats in cpanels db
 * @author Joe Huss <detain@interserver.net>
 * @package MyAdmin
-* @subpackage Scripts
-* @subpackage update_cpanel_data
+* @category Scripts
+* @category update_cpanel_data
 * @copyright 2017
 */
 
