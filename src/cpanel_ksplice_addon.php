@@ -15,7 +15,7 @@
  */
 function cpanel_ksplice_addon() {
 	page_title('CPanel KSplice Addon');
-	$settings = get_module_settings('licenses');
+	$settings = \get_module_settings('licenses');
 	$db = get_module_db('licenses');
 	$id = (int) $GLOBALS['tf']->variables->request['id'];
 	$servicesCpanelType = get_service_define('CPANEL');
