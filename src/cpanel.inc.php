@@ -21,7 +21,7 @@ function activate_cpanel($ipAddress, $package) {
 	myadmin_log('licenses', 'info', "activate_cpanel($ipAddress, $package) Called", __LINE__, __FILE__);
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	//$groups = $cpl->fetchGroups();
-	//myadmin_log('licenses', 'info', json_encode($groups));
+	//myadmin_log('licenses', 'info', json_encode($groups), __LINE__, __FILE__);
 	//$groupid = array_search(CPANEL_LICENSING_GROUP, $groups['groups']);
 	//myadmin_log('licenses', 'info', $groupid, __LINE__, __FILE__);
 	$request = [
