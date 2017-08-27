@@ -119,7 +119,7 @@ class Plugin {
 		$menu = $event->getSubject();
 		if ($GLOBALS['tf']->ima == 'admin') {
 			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', 'images/icons/database_warning_48.png', 'Unbilled CPanel');
-			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', 'whm/createacct.gif', 'List all CPanel Licenses');
+			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/whm/createacct.gif', 'List all CPanel Licenses');
 		}
 	}
 
