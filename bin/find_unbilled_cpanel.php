@@ -65,13 +65,11 @@ while ($dbVps->next_record(MYSQL_ASSOC))
 }
 */
 foreach ($tocheck as $ipAddress => $license) {
-	if (!isset($ipOutput[$license['ip']])) {
+	if (!isset($ipOutput[$license['ip']]))
 		$ipOutput[$license['ip']] = [];
-	}
 	$dbCms->query("select * from client_package, package_type where client_package.pack_id=package_type.pack_id and cp_comments like '%$license[ip]%' and pack_name like '%Cpanel%' and cp_status=2");
-	if ($dbCms->num_rows() > 0) {
+	if ($dbCms->num_rows() > 0)
 		$goodIps[] = $license['ip'];
-	}
 	if (!in_array($license['ip'], $goodIps)) {
 		$db->query("select licenses.*, services_name from licenses left join services on services_id=license_type where services_module='licensese' and license_ip='{$license['ip']}' and services_category=1");
 		if ($db->num_rows() > 0) {
@@ -149,9 +147,8 @@ foreach ($tocheck as $ipAddress => $license) {
 		$errors++;
 		echo 'IP '.$ipAddress.' Has errors ('.$license['hostname'].' '.$license['package'].")\n";
 		if (count($ipOutput[$ipAddress]) > 0) {
-			foreach ($ipOutput[$ipAddress] as $error) {
+			foreach ($ipOutput[$ipAddress] as $error)
 				echo '	'.$error.PHP_EOL;
-			}
 		} else {
 			echo 'I was unable to find this IP anywhere, so not sure where it might have come from.';
 		}

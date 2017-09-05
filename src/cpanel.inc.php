@@ -44,9 +44,8 @@ function activate_cpanel($ipAddress, $package) {
  * @return bool TRUE if successfull, flase otherwise
  */
 function deactivate_cpanel($ipAddress = FALSE) {
-	if ($GLOBALS['tf']->ima == 'admin' && $ipAddress === FALSE && isset($GLOBALS['tf']->variables->request['ip'])) {
+	if ($GLOBALS['tf']->ima == 'admin' && $ipAddress === FALSE && isset($GLOBALS['tf']->variables->request['ip']))
 		$ipAddress = $GLOBALS['tf']->variables->request['ip'];
-	}
 	if (trim($ipAddress) == '')
 		return TRUE;
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
@@ -88,9 +87,8 @@ function verify_cpanel($ipAddress) {
 	}
 	/*
 	$response = trim(`curl --connect-timeout 60 --max-time 60 -L 'http://verify.cpanel.net/index.cgi?ip=$ipAddress' 2>/dev/null | grep -A18 tblheader | cut -d\> -f3 | cut -d\< -f1 | grep -v "^$" | tail -n 1`);
-	if ($response == '}') {
-	$response = 'Not Active';
-	}
+	if ($response == '}')
+		$response = 'Not Active';
 	*/
 	return $response;
 }
@@ -127,9 +125,8 @@ function get_cpanel_license_data_by_ip($ipAddress) {
 	$request = ['ip' => $ipAddress];
 	$status = $cpl->fetchLicenseRaw($request);
 	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'fetchLicenseRaw', $request, $status);
-	if (!isset($status['license'])) {
+	if (!isset($status['license']))
 		return FALSE;
-	}
 	return $status['license'];
 }
 

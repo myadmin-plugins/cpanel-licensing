@@ -45,9 +45,8 @@ function cpanel_kcare_addon() {
 			add_output($table->get_table());
 		} else {
 			$serviceExtra = @myadmin_unstringify($serviceInfo['license_extra']);
-			if ($serviceExtra === FALSE) {
+			if ($serviceExtra === FALSE)
 				$serviceExtra = [];
-			}
 			$cl = new \Detain\Cloudlinux\Cloudlinux(CLOUDLINUX_LOGIN, CLOUDLINUX_KEY);
 			$type = 16;
 			//if (!$cl->isLicensed($db->Record[$settings['PREFIX'].'_ip'], $serviceTypes[$db->Record[$settings['PREFIX'].'_type']]['services_field1']))

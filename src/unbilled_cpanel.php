@@ -69,29 +69,24 @@ function unbilled_cpanel() {
 	}
 	$db->query("select services_field1, services_name from services where services_module='licenses'");
 	$services = [];
-	while ($db->next_record(MYSQL_ASSOC)) {
+	while ($db->next_record(MYSQL_ASSOC))
 		$services[$db->Record['services_field1']] = $db->Record['services_name'];
-	}
 	/*
 	$db->query("select license_ip from licenses left join services on services_id=license_type where services_category=1 and license_status='active' and license_ip in ('" . implode("','", array_keys($tocheck)) . "')", __LINE__, __FILE__);
-	while ($db->next_record(MYSQL_ASSOC)) {
-	unset($tocheck[$db->Record['license_ip']]);
-	}
+	while ($db->next_record(MYSQL_ASSOC))
+		unset($tocheck[$db->Record['license_ip']]);
 	*/
 	/*
 	$dbVps->query("select vps_ip from vps, repeat_invoices where vps_status='active' and concat('CPanel for VPS ', vps.vps_id)=repeat_invoices.repeat_invoices_description and vps_ip in ('" . implode("','", array_keys($tocheck)) . "')");
-	while ($dbVps->next_record(MYSQL_ASSOC)) {
-	unset($tocheck[$dbVps->Record['vps_ip']]);
-	}
+	while ($dbVps->next_record(MYSQL_ASSOC))
+		unset($tocheck[$dbVps->Record['vps_ip']]);
 	*/
 	foreach ($tocheck as $ipAddress => $license) {
-		if (!isset($ipOutput[$license['ip']])) {
+		if (!isset($ipOutput[$license['ip']]))
 			$ipOutput[$license['ip']] = [];
-		}
 		$dbCms->query("select * from client_package, package_type where client_package.pack_id=package_type.pack_id and cp_comments like '%{$license['ip']}%' and pack_name like '%Cpanel%' and cp_status=2");
-		if ($dbCms->num_rows() > 0) {
+		if ($dbCms->num_rows() > 0)
 			$goodIps[] = $license['ip'];
-		}
 		if (!in_array($license['ip'], $goodIps)) {
 			$db->query("select licenses.*, services_name, services_field1 from licenses left join services on services_id=license_type where license_ip='{$license['ip']}' and services_category={$type}");
 			if ($db->num_rows() > 0) {

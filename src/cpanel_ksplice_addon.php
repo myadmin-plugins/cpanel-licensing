@@ -56,9 +56,8 @@ function cpanel_ksplice_addon() {
 			add_output($table->get_table());
 		} else {
 			$serviceExtra = @myadmin_unstringify($serviceInfo['license_extra']);
-			if ($serviceExtra === FALSE) {
+			if ($serviceExtra === FALSE)
 				$serviceExtra = [];
-			}
 			$ksplice = new \Detain\MyAdminKsplice\Ksplice(KSPLICE_API_USERNAME, KSPLICE_API_KEY);
 			$uuid = $ksplice->ipToUuid($db->Record[$settings['PREFIX'].'_ip']);
 			myadmin_log('licenses', 'info', "Got UUID $uuid from IP ".$db->Record[$settings['PREFIX'].'_ip'], __LINE__, __FILE__);
