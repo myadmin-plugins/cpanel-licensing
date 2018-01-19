@@ -148,13 +148,13 @@ function unbilled_cpanel() {
 						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$goodIps[] = $license['ip'];
 						} else {
-							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'">'.$db->Record['id'].'</a>'.' found but no CPanel';
+							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['id']).'">'.$db->Record['id'].'</a>'.' found but no CPanel';
 						}
 					} else {
 						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
-							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'];
+							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'];
 						} else {
-							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_order.php', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'].' and no CPanel';
+							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'].' and no CPanel';
 						}
 					}
 				} else {
