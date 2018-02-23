@@ -63,6 +63,7 @@ function deactivate_cpanel($ipAddress = FALSE) {
 		else
 			return FALSE;
 	}
+	myadmin_log('licenses', 'error', 'deactivate_cpanel('.$ipAddress.') gave unexpected output:'.json_encode($response), __LINE__, __FILE__);
 	return FALSE;
 }
 
