@@ -15,7 +15,8 @@
  * @param integer $package the package type to activate
  * @return string the response and command sent to activate cpanel
  */
-function activate_cpanel($ipAddress, $package) {
+function activate_cpanel($ipAddress, $package)
+{
 	$module = 'licenses';
 	$package = (int) $package;
 	myadmin_log('licenses', 'info', "activate_cpanel($ipAddress, $package) Called", __LINE__, __FILE__);
@@ -43,28 +44,32 @@ function activate_cpanel($ipAddress, $package) {
  * @param bool|false|string $ipAddress the ip to deactivate, or FALSE to use the request variable ip
  * @return bool TRUE if successfull, flase otherwise
  */
-function deactivate_cpanel($ipAddress = FALSE) {
-	if ($GLOBALS['tf']->ima == 'admin' && $ipAddress === FALSE && isset($GLOBALS['tf']->variables->request['ip']))
+function deactivate_cpanel($ipAddress = false)
+{
+	if ($GLOBALS['tf']->ima == 'admin' && $ipAddress === false && isset($GLOBALS['tf']->variables->request['ip'])) {
 		$ipAddress = $GLOBALS['tf']->variables->request['ip'];
-	if (trim($ipAddress) == '')
-		return TRUE;
+	}
+	if (trim($ipAddress) == '') {
+		return true;
+	}
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$request = ['ip' => $ipAddress];
 	$response = $cpl->fetchLicenseId($request);
-	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'fetchLicenseId', $request, $response);
+	request_log('licenses', false, __FUNCTION__, 'cpanel', 'fetchLicenseId', $request, $response);
 	if (isset($response['licenseid']) && isset($response['licenseid']['value'])) {
 		$liscid = $response['licenseid']['value'];
 		$request = ['liscid' => $liscid];
 		$response = $cpl->expireLicense($request);
-		request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'expireLicense', $request, $response);
+		request_log('licenses', false, __FUNCTION__, 'cpanel', 'expireLicense', $request, $response);
 		myadmin_log('licenses', 'info', "deactivate_cpanel({$ipAddress}) returned ".json_encode($response['attr']), __LINE__, __FILE__);
-		if ($response['attr']['reason'] == 'OK')
-			return TRUE;
-		else
-			return FALSE;
+		if ($response['attr']['reason'] == 'OK') {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	myadmin_log('licenses', 'error', 'deactivate_cpanel('.$ipAddress.') gave unexpected output:'.json_encode($response), __LINE__, __FILE__);
-	return FALSE;
+	return false;
 }
 
 /**
@@ -74,13 +79,15 @@ function deactivate_cpanel($ipAddress = FALSE) {
  * @param mixed $ipAddress ip address
  * @return string the response from cpanel or 'Not Active' if no response
  */
-function verify_cpanel($ipAddress) {
-	if (!validIp($ipAddress, FALSE))
-		return FALSE;
+function verify_cpanel($ipAddress)
+{
+	if (!validIp($ipAddress, false)) {
+		return false;
+	}
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$request = ['ip' => $ipAddress];
 	$status = $cpl->fetchLicenseRaw($request);
-	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'expireLicense', $request, $status);
+	request_log('licenses', false, __FUNCTION__, 'cpanel', 'expireLicense', $request, $status);
 	if ($status['attr']['status'] == 1) {
 		$response = 'active';
 	} else {
@@ -119,25 +126,29 @@ function verify_cpanel($ipAddress) {
  * @param string $ipAddress ip address
  * @return array|bool
  */
-function get_cpanel_license_data_by_ip($ipAddress) {
-	if (!validIp($ipAddress, FALSE))
-		return FALSE;
+function get_cpanel_license_data_by_ip($ipAddress)
+{
+	if (!validIp($ipAddress, false)) {
+		return false;
+	}
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$request = ['ip' => $ipAddress];
 	$status = $cpl->fetchLicenseRaw($request);
-	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'fetchLicenseRaw', $request, $status);
-	if (!isset($status['license']))
-		return FALSE;
+	request_log('licenses', false, __FUNCTION__, 'cpanel', 'fetchLicenseRaw', $request, $status);
+	if (!isset($status['license'])) {
+		return false;
+	}
 	return $status['license'];
 }
 
 /**
  * @return array|mixed
  */
-function get_cpanel_licenses() {
+function get_cpanel_licenses()
+{
 	$cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 	$status = $cpl->fetchLicenses();
-	request_log('licenses', FALSE, __FUNCTION__, 'cpanel', 'fetchLicenses', '', $status);
+	request_log('licenses', false, __FUNCTION__, 'cpanel', 'fetchLicenses', '', $status);
 	return $status;
 	//return $status['licenses'];
 }

@@ -13,7 +13,8 @@
  * @throws \Exception
  * @throws \SmartyException
  */
-function cpanel_ksplice_addon() {
+function cpanel_ksplice_addon()
+{
 	page_title('CPanel KSplice Addon');
 	$settings = \get_module_settings('licenses');
 	$db = get_module_db('licenses');
@@ -56,12 +57,13 @@ function cpanel_ksplice_addon() {
 			add_output($table->get_table());
 		} else {
 			$serviceExtra = @myadmin_unstringify($serviceInfo['license_extra']);
-			if ($serviceExtra === FALSE)
+			if ($serviceExtra === false) {
 				$serviceExtra = [];
+			}
 			$ksplice = new \Detain\MyAdminKsplice\Ksplice(KSPLICE_API_USERNAME, KSPLICE_API_KEY);
 			$uuid = $ksplice->ipToUuid($db->Record[$settings['PREFIX'].'_ip']);
 			myadmin_log('licenses', 'info', "Got UUID $uuid from IP ".$db->Record[$settings['PREFIX'].'_ip'], __LINE__, __FILE__);
-			$ksplice->authorizeMachine($uuid, TRUE);
+			$ksplice->authorizeMachine($uuid, true);
 			myadmin_log('licenses', 'info', 'Response: '.$ksplice->responseRaw, __LINE__, __FILE__);
 			myadmin_log('licenses', 'info', 'Response: '.json_encode($ksplice->response), __LINE__, __FILE__);
 			$serviceExtra['ksplice_uuid'] = $uuid;

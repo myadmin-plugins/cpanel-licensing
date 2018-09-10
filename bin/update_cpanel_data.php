@@ -10,10 +10,10 @@
 */
 
 require_once __DIR__.'/../../../../include/functions.inc.php';
-$webpage = FALSE;
-define('VERBOSE_MODE', FALSE);
-$show_help = FALSE;
-$endprog = FALSE;
+$webpage = false;
+define('VERBOSE_MODE', false);
+$show_help = false;
+$endprog = false;
 $GLOBALS['tf']->session->create(160307, 'services');
 $GLOBALS['tf']->session->verify();
 $db = get_module_db('licenses');
