@@ -1,5 +1,5 @@
 {
-	"name": "detain/myadmin-cpanel-licensing",
+	"name": "detain/cpanel-licensing",
 	"type": "myadmin-plugin",
 	"description": "Cpanel Licensing Class",
 	"keywords": [

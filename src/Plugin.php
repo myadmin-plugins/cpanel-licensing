@@ -136,16 +136,16 @@ class Plugin
 	public static function getRequirements(GenericEvent $event)
 	{
 		$loader = $event->getSubject();
-		$loader->add_requirement('activate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
-		$loader->add_page_requirement('deactivate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
-		$loader->add_requirement('verify_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
-		$loader->add_requirement('get_cpanel_license_data_by_ip', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
-		$loader->add_requirement('get_cpanel_licenses', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
-		$loader->add_page_requirement('cpanel_list', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
-		$loader->add_page_requirement('unbilled_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/unbilled_cpanel.php');
-		$loader->add_page_requirement('unbilled_cpanel_old', '/../vendor/detain/myadmin-cpanel-licensing/src/unbilled_cpanel_old.php');
-		$loader->add_page_requirement('cpanel_ksplice_addon', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel_ksplice_addon.php');
-		$loader->add_page_requirement('cpanel_kcare_addon', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel_kcare_addon.php');
+		$loader->add_requirement('activate_cpanel', '/../vendor/detain/cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_page_requirement('deactivate_cpanel', '/../vendor/detain/cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('verify_cpanel', '/../vendor/detain/cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('get_cpanel_license_data_by_ip', '/../vendor/detain/cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_requirement('get_cpanel_licenses', '/../vendor/detain/cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_page_requirement('cpanel_list', '/../vendor/detain/cpanel-licensing/src/cpanel.inc.php');
+		$loader->add_page_requirement('unbilled_cpanel', '/../vendor/detain/cpanel-licensing/src/unbilled_cpanel.php');
+		$loader->add_page_requirement('unbilled_cpanel_old', '/../vendor/detain/cpanel-licensing/src/unbilled_cpanel_old.php');
+		$loader->add_page_requirement('cpanel_ksplice_addon', '/../vendor/detain/cpanel-licensing/src/cpanel_ksplice_addon.php');
+		$loader->add_page_requirement('cpanel_kcare_addon', '/../vendor/detain/cpanel-licensing/src/cpanel_kcare_addon.php');
 		$loader->add_requirement('class.Cpanel', '/../vendor/detain/cpanel-licensing/Cpanel.php', '\\Detain\\Cpanel\\');
 	}
 
