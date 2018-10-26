@@ -45,7 +45,7 @@ foreach ($status['licenses'] as $key => $license2) {
 	$tocheck[$license['ip']] = $license;
 }
 
-$dbInnertell->query("select primary_ipv4 from servers left join location on order_id=servers.server_id where servers.server_status='active' and primary_ipv4 is not NULL and (server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or server_dedicated_cp=1 or server_dedicated_cp=6) and primary_ipv4 in ('".implode("','", array_keys($tocheck))."')", __LINE__, __FILE__);
+$dbInnertell->query("select primary_ipv4 from servers left join assets on order_id=servers.server_id where servers.server_status='active' and primary_ipv4 is not NULL and (server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or server_dedicated_cp=1 or server_dedicated_cp=6) and primary_ipv4 in ('".implode("','", array_keys($tocheck))."')", __LINE__, __FILE__);
 while ($dbInnertell->next_record(MYSQL_ASSOC)) {
 	$goodIps[] = $dbInnertell->Record['primary_ipv4'];
 	unset($tocheck[$dbInnertell->Record['primary_ipv4']]);
