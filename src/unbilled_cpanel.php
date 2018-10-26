@@ -65,7 +65,7 @@ function unbilled_cpanel()
 		}
 		$tocheck[$license['ip']] = $license;
 	}
-	$db->query("select location.primary_ipv4 from servers left join location on location.order_id=servers.server_id where servers.server_status='active' and location.primary_ipv4 is not NULL and (servers.server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or servers.server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or servers.server_dedicated_cp=1 or servers.server_dedicated_cp=6) and location.primary_ipv4 in ('".implode("','", array_keys($tocheck))."')", __LINE__, __FILE__);
+	$db->query("select assets.primary_ipv4 from servers left join assets on assets.order_id=servers.server_id where servers.server_status='active' and assets.primary_ipv4 is not NULL and (servers.server_dedicated_tag like '%,%,%,%,%,%,%,6,%' or servers.server_dedicated_tag like '%,%,%,%,%,%,%,1,%' or servers.server_dedicated_cp=1 or servers.server_dedicated_cp=6) and assets.primary_ipv4 in ('".implode("','", array_keys($tocheck))."')", __LINE__, __FILE__);
 	while ($db->next_record(MYSQL_ASSOC)) {
 		$goodIps[] = $db->Record['primary_ipv4'];
 		unset($tocheck[$db->Record['primary_ipv4']]);
