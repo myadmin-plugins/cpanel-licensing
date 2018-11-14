@@ -125,8 +125,8 @@ class Plugin
 	{
 		$menu = $event->getSubject();
 		if ($GLOBALS['tf']->ima == 'admin') {
-			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', '/images/myadmin/payment-history.png', 'Unbilled CPanel');
-			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/myadmin/list.png', 'List all CPanel Licenses');
+			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', '/images/myadmin/payment-history.png', __('Unbilled CPanel'));
+			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/myadmin/list.png', __('List all CPanel Licenses'));
 		}
 	}
 
@@ -135,7 +135,10 @@ class Plugin
 	 */
 	public static function getRequirements(GenericEvent $event)
 	{
-		$loader = $event->getSubject();
+        /**
+         * @var \MyAdmin\Plugins\Loader $this->loader
+         */
+        $loader = $event->getSubject();
 		$loader->add_requirement('activate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_page_requirement('deactivate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_requirement('verify_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
@@ -152,12 +155,15 @@ class Plugin
 	/**
 	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
 	 */
-	public static function getSettings(GenericEvent $event)
-	{
-		$settings = $event->getSubject();
-		$settings->add_text_setting(self::$module, 'CPanel', 'cpanel_licensing_username', 'Cpanel Licensing Username:', 'Cpanel Licensing Username', $settings->get_setting('CPANEL_LICENSING_USERNAME'));
-		$settings->add_text_setting(self::$module, 'CPanel', 'cpanel_licensing_password', 'Cpanel Licensing Password:', 'Cpanel Licensing Password', $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
-		$settings->add_text_setting(self::$module, 'CPanel', 'cpanel_licensing_group', 'Cpanel Licensing Group:', 'Cpanel Licensing Group', $settings->get_setting('CPANEL_LICENSING_GROUP'));
-		$settings->add_dropdown_setting(self::$module, 'CPanel', 'outofstock_licenses_cpanel', 'Out Of Stock CPanel Licenses', 'Enable/Disable Sales Of This Type', $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), ['0', '1'], ['No', 'Yes']);
+    public static function getSettings(GenericEvent $event)
+    {
+        /**
+         * @var \MyAdmin\Settings $settings
+         **/
+        $settings = $event->getSubject();
+		$settings->add_text_setting(self::$module, __('CPanel'), 'cpanel_licensing_username', __('Cpanel Licensing Username'), __('Cpanel Licensing Username'), $settings->get_setting('CPANEL_LICENSING_USERNAME'));
+		$settings->add_text_setting(self::$module, __('CPanel'), 'cpanel_licensing_password', __('Cpanel Licensing Password'), __('Cpanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
+		$settings->add_text_setting(self::$module, __('CPanel'), 'cpanel_licensing_group', __('Cpanel Licensing Group'), __('Cpanel Licensing Group'), $settings->get_setting('CPANEL_LICENSING_GROUP'));
+		$settings->add_dropdown_setting(self::$module, __('CPanel'), 'outofstock_licenses_cpanel', __('Out Of Stock CPanel Licenses'), __('Enable/Disable Sales Of This Type'), $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), ['0', '1'], ['No', 'Yes']);
 	}
 }
