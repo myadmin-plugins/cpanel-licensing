@@ -125,8 +125,8 @@ class Plugin
 	{
 		$menu = $event->getSubject();
 		if ($GLOBALS['tf']->ima == 'admin') {
-			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', '/images/myadmin/payment-history.png', __('Unbilled CPanel'));
-			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/myadmin/list.png', __('List all CPanel Licenses'));
+			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', '/images/myadmin/payment-history.png', _('Unbilled CPanel'));
+			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/myadmin/list.png', _('List all CPanel Licenses'));
 		}
 	}
 
@@ -161,9 +161,9 @@ class Plugin
          * @var \MyAdmin\Settings $settings
          **/
         $settings = $event->getSubject();
-		$settings->add_text_setting(self::$module, __('CPanel'), 'cpanel_licensing_username', __('Cpanel Licensing Username'), __('Cpanel Licensing Username'), $settings->get_setting('CPANEL_LICENSING_USERNAME'));
-		$settings->add_text_setting(self::$module, __('CPanel'), 'cpanel_licensing_password', __('Cpanel Licensing Password'), __('Cpanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
-		$settings->add_text_setting(self::$module, __('CPanel'), 'cpanel_licensing_group', __('Cpanel Licensing Group'), __('Cpanel Licensing Group'), $settings->get_setting('CPANEL_LICENSING_GROUP'));
-		$settings->add_dropdown_setting(self::$module, __('CPanel'), 'outofstock_licenses_cpanel', __('Out Of Stock CPanel Licenses'), __('Enable/Disable Sales Of This Type'), $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), ['0', '1'], ['No', 'Yes']);
+		$settings->add_text_setting(self::$module, _('CPanel'), 'cpanel_licensing_username', _('Cpanel Licensing Username'), _('Cpanel Licensing Username'), $settings->get_setting('CPANEL_LICENSING_USERNAME'));
+		$settings->add_text_setting(self::$module, _('CPanel'), 'cpanel_licensing_password', _('Cpanel Licensing Password'), _('Cpanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
+		$settings->add_text_setting(self::$module, _('CPanel'), 'cpanel_licensing_group', _('Cpanel Licensing Group'), _('Cpanel Licensing Group'), $settings->get_setting('CPANEL_LICENSING_GROUP'));
+		$settings->add_dropdown_setting(self::$module, _('CPanel'), 'outofstock_licenses_cpanel', _('Out Of Stock CPanel Licenses'), _('Enable/Disable Sales Of This Type'), $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), ['0', '1'], ['No', 'Yes']);
 	}
 }
