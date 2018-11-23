@@ -12,8 +12,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Plugin
 {
-	public static $name = 'Cpanel Licensing';
-	public static $description = 'Allows selling of Cpanel Server and VPS License Types.  More info at https://cpanel.com/';
+	public static $name = 'cPanel Licensing';
+	public static $description = 'Allows selling of cPanel Server and VPS License Types.  More info at https://cpanel.com/';
 	public static $help = 'cPanel monthly license.  WHM/cPanel allows you to administer individual accounts, reseller accounts &amp; performing basic system and control panel maintenance via a secure interface. cPanel Control Panel (Client Interface) cPanel is designed for the end users of your system and allows them to control everything from adding / removing email accounts to administering MySQL databases.';
 	public static $module = 'licenses';
 	public static $type = 'service';
@@ -49,7 +49,7 @@ class Plugin
 	{
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
-			myadmin_log(self::$module, 'info', 'Cpanel Activation', __LINE__, __FILE__);
+			myadmin_log(self::$module, 'info', 'cPanel Activation', __LINE__, __FILE__);
 			function_requirements('activate_cpanel');
 			activate_cpanel($serviceClass->getIp(), $event['field1']);
 			$event->stopPropagation();
@@ -63,7 +63,7 @@ class Plugin
 	{
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
-			myadmin_log(self::$module, 'info', 'CPanel Deactivation', __LINE__, __FILE__);
+			myadmin_log(self::$module, 'info', 'cPanel Deactivation', __LINE__, __FILE__);
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($serviceClass->getIp());
 			$serviceExtra = @myadmin_unstringify($serviceClass->getExtra());
@@ -86,7 +86,7 @@ class Plugin
 	{
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
-			myadmin_log(self::$module, 'info', 'CPanel Deactivation', __LINE__, __FILE__);
+			myadmin_log(self::$module, 'info', 'cPanel Deactivation', __LINE__, __FILE__);
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($serviceClass->getIp());
 			$event->stopPropagation();
@@ -125,8 +125,8 @@ class Plugin
 	{
 		$menu = $event->getSubject();
 		if ($GLOBALS['tf']->ima == 'admin') {
-			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', '/images/myadmin/payment-history.png', _('Unbilled CPanel'));
-			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/myadmin/list.png', _('List all CPanel Licenses'));
+			$menu->add_link(self::$module, 'choice=none.unbilled_cpanel', '/images/myadmin/payment-history.png', _('Unbilled cPanel'));
+			$menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/myadmin/list.png', _('List all cPanel Licenses'));
 		}
 	}
 
@@ -161,9 +161,9 @@ class Plugin
          * @var \MyAdmin\Settings $settings
          **/
         $settings = $event->getSubject();
-		$settings->add_text_setting(self::$module, _('CPanel'), 'cpanel_licensing_username', _('Cpanel Licensing Username'), _('Cpanel Licensing Username'), $settings->get_setting('CPANEL_LICENSING_USERNAME'));
-		$settings->add_text_setting(self::$module, _('CPanel'), 'cpanel_licensing_password', _('Cpanel Licensing Password'), _('Cpanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
-		$settings->add_text_setting(self::$module, _('CPanel'), 'cpanel_licensing_group', _('Cpanel Licensing Group'), _('Cpanel Licensing Group'), $settings->get_setting('CPANEL_LICENSING_GROUP'));
-		$settings->add_dropdown_setting(self::$module, _('CPanel'), 'outofstock_licenses_cpanel', _('Out Of Stock CPanel Licenses'), _('Enable/Disable Sales Of This Type'), $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), ['0', '1'], ['No', 'Yes']);
+		$settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_username', _('cPanel Licensing Username'), _('cPanel Licensing Username'), $settings->get_setting('CPANEL_LICENSING_USERNAME'));
+		$settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_password', _('cPanel Licensing Password'), _('cPanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
+		$settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_group', _('cPanel Licensing Group'), _('cPanel Licensing Group'), $settings->get_setting('CPANEL_LICENSING_GROUP'));
+		$settings->add_dropdown_setting(self::$module, _('cPanel'), 'outofstock_licenses_cpanel', _('Out Of Stock cPanel Licenses'), _('Enable/Disable Sales Of This Type'), $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), ['0', '1'], ['No', 'Yes']);
 	}
 }
