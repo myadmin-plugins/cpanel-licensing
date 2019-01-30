@@ -51,7 +51,10 @@ class Plugin
 		if ($event['category'] == get_service_define('CPANEL')) {
 			myadmin_log(self::$module, 'info', 'cPanel Activation', __LINE__, __FILE__);
 			function_requirements('activate_cpanel');
-			activate_cpanel($serviceClass->getIp(), $event['field1']);
+			$response = activate_cpanel($serviceClass->getIp(), $event['field1']);
+            $serviceClass
+                ->setKey($response['licenseid'])
+                ->save;
 			$event->stopPropagation();
 		}
 	}

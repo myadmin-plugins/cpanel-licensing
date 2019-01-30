@@ -33,7 +33,7 @@ function activate_cpanel($ipAddress, $package)
 		'reactivateok' => 1
 	];
 	$response = $cpl->activateLicense($request);
-	request_log($module, convert_custid($GLOBALS['tf']->session->account_id, $module), __FUNCTION__, 'cpanel', 'activateLicense', $request, $response);
+	request_log($module, $GLOBALS['tf']->session->account_id, __FUNCTION__, 'cpanel', 'activateLicense', $request, $response);
 	myadmin_log('licenses', 'info', json_encode($response['attr']), __LINE__, __FILE__);
 	return $response['attr'];
 }
