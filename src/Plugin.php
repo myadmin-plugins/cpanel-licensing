@@ -54,7 +54,7 @@ class Plugin
 			$response = activate_cpanel($serviceClass->getIp(), $event['field1']);
             $serviceClass
                 ->setKey($response['licenseid'])
-                ->save;
+                ->save();
 			$event->stopPropagation();
 		}
 	}
