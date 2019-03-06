@@ -49,7 +49,7 @@ class Plugin
 	{
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
-			myadmin_log(self::$module, 'info', 'cPanel Activation', __LINE__, __FILE__);
+			myadmin_log(self::$module, 'info', 'cPanel Activation', __LINE__, __FILE__, self::$module, $serviceClass->getId());
 			function_requirements('activate_cpanel');
 			$response = activate_cpanel($serviceClass->getIp(), $event['field1']);
             $serviceClass
@@ -66,7 +66,7 @@ class Plugin
 	{
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
-			myadmin_log(self::$module, 'info', 'cPanel Deactivation', __LINE__, __FILE__);
+			myadmin_log(self::$module, 'info', 'cPanel Deactivation', __LINE__, __FILE__, self::$module, $serviceClass->getId());
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($serviceClass->getIp());
 			$serviceExtra = @myadmin_unstringify($serviceClass->getExtra());
@@ -89,7 +89,7 @@ class Plugin
 	{
 		$serviceClass = $event->getSubject();
 		if ($event['category'] == get_service_define('CPANEL')) {
-			myadmin_log(self::$module, 'info', 'cPanel Deactivation', __LINE__, __FILE__);
+			myadmin_log(self::$module, 'info', 'cPanel Deactivation', __LINE__, __FILE__, self::$module, $serviceClass->getId());
 			function_requirements('deactivate_cpanel');
 			deactivate_cpanel($serviceClass->getIp());
 			$event->stopPropagation();
