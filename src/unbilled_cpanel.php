@@ -181,7 +181,8 @@ function unbilled_cpanel()
 		if (!in_array($ipAddress, $goodIps)) {
 			$errors++;
 			if ($outType == 'table') {
-				add_output('<tr style="vertical-align: top;"><td>
+				add_output(
+					'<tr style="vertical-align: top;"><td>
 				<a href="search.php?comments=no&search='.$ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a>
 				(<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip='.$ipAddress).'" target=_blank>cancel</a>)</td>
 				<td>'.$license['hostname'].'</td><td>'.str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]).'</td><td>'

@@ -52,9 +52,9 @@ class Plugin
 			myadmin_log(self::$module, 'info', 'cPanel Activation', __LINE__, __FILE__, self::$module, $serviceClass->getId());
 			function_requirements('activate_cpanel');
 			$response = activate_cpanel($serviceClass->getIp(), $event['field1']);
-            $serviceClass
-                ->setKey($response['licenseid'])
-                ->save();
+			$serviceClass
+				->setKey($response['licenseid'])
+				->save();
 			$event->stopPropagation();
 		}
 	}
@@ -138,10 +138,10 @@ class Plugin
 	 */
 	public static function getRequirements(GenericEvent $event)
 	{
-        /**
-         * @var \MyAdmin\Plugins\Loader $this->loader
-         */
-        $loader = $event->getSubject();
+		/**
+		 * @var \MyAdmin\Plugins\Loader $this->loader
+		 */
+		$loader = $event->getSubject();
 		$loader->add_requirement('activate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_page_requirement('deactivate_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
 		$loader->add_requirement('verify_cpanel', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel.inc.php');
@@ -158,12 +158,12 @@ class Plugin
 	/**
 	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
 	 */
-    public static function getSettings(GenericEvent $event)
-    {
-        /**
-         * @var \MyAdmin\Settings $settings
-         **/
-        $settings = $event->getSubject();
+	public static function getSettings(GenericEvent $event)
+	{
+		/**
+		 * @var \MyAdmin\Settings $settings
+		 **/
+		$settings = $event->getSubject();
 		$settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_username', _('cPanel Licensing Username'), _('cPanel Licensing Username'), $settings->get_setting('CPANEL_LICENSING_USERNAME'));
 		$settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_password', _('cPanel Licensing Password'), _('cPanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
 		$settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_group', _('cPanel Licensing Group'), _('cPanel Licensing Group'), $settings->get_setting('CPANEL_LICENSING_GROUP'));
