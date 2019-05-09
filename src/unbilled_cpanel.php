@@ -149,13 +149,13 @@ function unbilled_cpanel()
 						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
 							$goodIps[] = $license['ip'];
 						} else {
-							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['id']).'">'.$db->Record['id'].'</a>'.' found but no CPanel';
+							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['server_id']).'">'.$db->Record['server_id'].'</a>'.' found but no CPanel';
 						}
 					} else {
 						if ((count($dedicatedTag) > 8 && ($dedicatedTag[7] == 1 || $dedicatedTag[7] == 6)) || $db->Record['server_dedicated_cp'] == 1 || $db->Record['server_dedicated_cp'] == 6) {
-							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'];
+							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['server_id']).'" target=_blank>'.$db->Record['server_id'].'</a>'.' found but status '.$db->Record['server_status'];
 						} else {
-							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['id']).'" target=_blank>'.$db->Record['id'].'</a>'.' found but status '.$db->Record['server_status'].' and no CPanel';
+							$ipOutput[$license['ip']][] = 'Innertell Order '.'<a href="'.$GLOBALS['tf']->link('view_server_order', 'id='.$db->Record['server_id']).'" target=_blank>'.$db->Record['server_id'].'</a>'.' found but status '.$db->Record['server_status'].' and no CPanel';
 						}
 					}
 				} else {
@@ -178,13 +178,13 @@ function unbilled_cpanel()
 			if ($outType == 'table') {
 				add_output(
 					'<tr style="vertical-align: top;"><td>
-				<a href="search.php?comments=no&search='.$ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a>
+				<a href="search?comments=no&search='.$ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a>
 				(<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip='.$ipAddress).'" target=_blank>cancel</a>)</td>
 				<td>'.$license['hostname'].'</td><td>'.str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]).'</td><td>'
 				);
 			} elseif ($outType == 'tftable') {
 				$table->set_col_options('style="width: 210px;"');
-				$table->add_field('<a href="search.php?comments=no&search='.$ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a> (<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip='.$ipAddress).'" target=_blank>cancel</a>)', 'r');
+				$table->add_field('<a href="search?comments=no&search='.$ipAddress.'&expand=1" target=_blank>'.$ipAddress.'</a> (<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.deactivate_cpanel&ip='.$ipAddress).'" target=_blank>cancel</a>)', 'r');
 				$table->set_col_options('');
 				//					$table->set_col_options('style="width: 225px;"');
 				$table->add_field($license['hostname'], 'r');
