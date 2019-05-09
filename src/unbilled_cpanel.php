@@ -23,7 +23,6 @@ function unbilled_cpanel()
 	$db = get_module_db('licenses');
 	$dbVps = get_module_db('vps');
 	$dbVps2 = get_module_db('vps');
-	$dbCms = get_module_db('mb');
 	$type = get_service_define('CPANEL');
 	if (!isset($GLOBALS['webpage']) || $GLOBALS['webpage'] != false) {
 		page_title('Unbilled CPanel Licenses');
@@ -88,10 +87,6 @@ function unbilled_cpanel()
 	foreach ($tocheck as $ipAddress => $license) {
 		if (!isset($ipOutput[$license['ip']])) {
 			$ipOutput[$license['ip']] = [];
-		}
-		$dbCms->query("select * from client_package, package_type where client_package.pack_id=package_type.pack_id and cp_comments like '%{$license['ip']}%' and pack_name like '%Cpanel%' and cp_status=2");
-		if ($dbCms->num_rows() > 0) {
-			$goodIps[] = $license['ip'];
 		}
 		if (!in_array($license['ip'], $goodIps)) {
 			$db->query("select licenses.*, services_name, services_field1 from licenses left join services on services_id=license_type where license_ip='{$license['ip']}' and services_category={$type}");
