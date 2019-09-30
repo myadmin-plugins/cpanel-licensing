@@ -31,14 +31,16 @@ foreach ($status['licenses'] as $key => $license2) {
 	$license['distro'] = $license2['distro'];
 	$license['version'] = $license2['version'];
 	$license['envtype'] = $license2['envtype'];
+    $license['host_type'] = $license2['host_type'];
 	$license['osver'] = $license2['osver'];
 	$license['package'] = $license2['packageid'];
 	$license['status'] = $license2['status'];
 	$line = implode(',', [$license['ip'], $license['liscid'], $license['hostname'], $license['os'], $license['distro'], $license['version'], $license['envtype'], $license['osver'], $license['package'], $license['status']]);
-    $db->query("select * from repeat_invoices, licenses, services where repeat_invoices_service=license_id and repeat_invoices_module='licenses' and license_type=services_id and services_module='licenses' and services_category=500 and license_ip='{$license['ip']}' and license_status='active' and services_field1='{$license['package']}'", __LINE__, __FILE__);
+    $db->query("select * from repeat_invoices, licenses, services where repeat_invoices_service=license_id and repeat_invoices_module='licenses' and repeat_invoices_id=license_invoice and license_type=services_id and services_module='licenses' and services_category=500 and license_ip='{$license['ip']}' and license_status='active' and services_field1='{$license['package']}'", __LINE__, __FILE__);
     if ($db->num_rows() > 0) {
         while ($db->next_record(MYSQL_ASSOC)) {
-            $query = "update repeat_invoices set repeat_invoices_description='{$db->Record['services_name']} {$license['accounts']} Accounts' where repeat_invoices_id={$db->Record['repeat_invoices_id']}";
+            $costData = getCpanelCost($license['accounts'], $license['host_type'] == 'dedicated' ? true : false, in_array($license['package'], ['559', '560', '401', '21175', '21179', '21183', '21187', '21897']) ? true : false);
+            $query = "update repeat_invoices set repeat_invoices_cost = '{$costData['cost']}', repeat_invoices_description='{$db->Record['services_name']} {$license['accounts']} Accounts' where repeat_invoices_id={$db->Record['repeat_invoices_id']}";
             //echo $query.PHP_EOL;
             $db2->query($query, __LINE__, __FILE__);
         }

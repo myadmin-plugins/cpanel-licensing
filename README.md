@@ -3,6 +3,10 @@
 Cpanel Licensing Class
 
 
+In admin Licensing menu theres a 'CPanel Packages' link now that shows a display of the packages
+
+
+
 ## New Cpanel Licenses Type Update
 
 The CPanel licenses are undergoing as major change heres wwhats left on the work to migrate to the new setup
@@ -12,7 +16,7 @@ The CPanel licenses are undergoing as major change heres wwhats left on the work
 
 * If there is a commmunication problem loading the license data from cpanel ensure that it does not set some crazy values; but instead bails or retries
 * For reactivation of a license, it would go by the last known / billed invoice amount right or would the cost for reactivation be reset back to the minimmum amounts where we assume no accounts? 
-
+* Price increase is scheduled for September 1st, 2019. https://www.interserver.net/tips/kb/cpanel-price-increase-and-alternative-control-panels/
 
 ### Full New Package Offering
 

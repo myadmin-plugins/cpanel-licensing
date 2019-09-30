@@ -152,3 +152,10 @@ function get_cpanel_licenses()
 	return $status;
 	//return $status['licenses'];
 }
+
+function get_cpanel_accounts_for_license_ip($ip) {
+    $data = get_cpanel_license_data_by_ip($ip);
+    if ($data === false)
+        return false;
+    return $data['accounts'];
+}
