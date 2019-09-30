@@ -2,6 +2,106 @@
 
 Cpanel Licensing Class
 
+
+## New Cpanel Licenses Type Update
+
+The CPanel licenses are undergoing as major change heres wwhats left on the work to migrate to the new setup
+
+
+### Potential Issues and thigns to address
+
+* If there is a commmunication problem loading the license data from cpanel ensure that it does not set some crazy values; but instead bails or retries
+* For reactivation of a license, it would go by the last known / billed invoice amount right or would the cost for reactivation be reset back to the minimmum amounts where we assume no accounts? 
+
+
+### Full New Package Offering
+
+This is the complete list of licenses we can order including both old and new ones.
+
+* P1814 INTERSERVER-INTERNAL-VPS
+* P188 INTERSERVER-INTERNAL-VZZO
+* P21159 cPanel Admin Cloud
+* P21163 cPanel Pro Cloud
+* P21167 cPanel Premier Cloud
+* P21171 cPanel Premier Metal
+* P21175 cPanel Admin Cloud (Distributor)
+* P21179 cPanel Pro Cloud (Distributor)
+* P21183 cPanel Premier Cloud (Distributor)
+* P21187 cPanel Premier Metal (Distributor)
+* P21893 cPanel Autoscale (Internal)
+* P21897 cPanel Autoscale (External)
+* P22081 cPanel Plus Cloud
+* P2466 INTERSERVER-ENKOMP-INTERNAL-A500
+* P2470 INTERSERVER-ENKOMP-EXTERNAL-A500
+* P24765 DNSNODECLOUD
+* P24769 DNSNODEMETAL
+* P24925 cPanel Premier Cloud 150
+* P24929 cPanel Premier Cloud 200
+* P24933 cPanel Premier Cloud 250
+* P24937 cPanel Premier Cloud 300
+* P24941 cPanel Premier Cloud 350
+* P24945 cPanel Premier Cloud 400
+* P24949 cPanel Premier Cloud 450
+* P24953 cPanel Premier Cloud 500
+* P24957 cPanel Premier Cloud 550
+* P24961 cPanel Premier Cloud 600
+* P24965 cPanel Premier Cloud 650
+* P24969 cPanel Premier Cloud 700
+* P24973 cPanel Premier Cloud 750
+* P24977 cPanel Premier Cloud 800
+* P24981 cPanel Premier Cloud 850
+* P24985 cPanel Premier Cloud 900
+* P24989 cPanel Premier Cloud 950
+* P24993 cPanel Premier Cloud 1000
+* P25277 cPanel Premier Metal 150
+* P25281 cPanel Premier Metal 200
+* P25285 cPanel Premier Metal 250
+* P25289 cPanel Premier Metal 300
+* P25293 cPanel Premier Metal 350
+* P25297 cPanel Premier Metal 400
+* P25301 cPanel Premier Metal 450
+* P25305 cPanel Premier Metal 500
+* P25309 cPanel Premier Metal 550
+* P25313 cPanel Premier Metal 600
+* P25317 cPanel Premier Metal 650
+* P25321 cPanel Premier Metal 700
+* P25325 cPanel Premier Metal 750
+* P25329 cPanel Premier Metal 800
+* P25333 cPanel Premier Metal 850
+* P25337 cPanel Premier Metal 900
+* P25341 cPanel Premier Metal 950
+* P25345 cPanel Premier Metal 1000
+* P29017 cPanel Premier Cloud 100
+* P29021 cPanel Premier Metal 100
+* P401 INTERSERVER-EXTERNAL
+* P559 INTERSERVER-EXTERNAL-VPS
+* P560 INTERSERVER-EXTERNAL-VZZO
+* P576 INTERSERVER-INTERNAL
+
+
+### Current/Old Packages
+
+We currently use these packages (which will be getting changed intot he new ones)
+
+* P1814 INTERSERVER-INTERNAL-VPS
+* P188 INTERSERVER-INTERNAL-VZZO
+* P576 INTERSERVER-INTERNAL
+* P559 INTERSERVER-EXTERNAL-VPS
+* P560 INTERSERVER-EXTERNAL-VZZO
+* P401 INTERSERVER-EXTERNAL
+
+
+## New Packages
+
+These are the packages we'll be using and vonerting all the existing packages to
+
+* P21893 cPanel Autoscale (Internal)
+* P21897 cPanel Autoscale (External)
+
+
+https://tldr.ostera.io/
+
+
 ## Build Status and Code Analysis
 
 Site          | Status

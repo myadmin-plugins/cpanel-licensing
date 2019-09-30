@@ -43,7 +43,7 @@ foreach ($status['licenses'] as $key => $license2) {
             $db2->query($query, __LINE__, __FILE__);
         }
     }
-    $query = "update licenses set license_extra='".$db->real_escape($line)."' where license_ip='{$license['ip']}' and license_type in (5000,5001,5002,5005,5008,5009,5014)";
+    $query = "update licenses set license_extra='".$db->real_escape($line)."' where license_ip='{$license['ip']}' and license_type in (5000,5001,5002,5005,5008,5009,5014,10682,10683)";
 	$db->query($query, __LINE__, __FILE__);
 	if ($license['hostname'] != '') {
 		$query = "update licenses set license_hostname='".$db->real_escape($license['hostname'])."' where license_ip='{$license['ip']}'";
