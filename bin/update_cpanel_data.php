@@ -40,7 +40,8 @@ foreach ($status['licenses'] as $key => $license2) {
     if ($db->num_rows() > 0) {
         while ($db->next_record(MYSQL_ASSOC)) {
             $costData = getCpanelCost($license['accounts'], $license['host_type'] == 'dedicated' ? true : false, in_array($license['package'], ['559', '560', '401', '21175', '21179', '21183', '21187', '21897']) ? true : false);
-            $query = "update repeat_invoices set repeat_invoices_cost = '{$costData['cost']}', repeat_invoices_description='{$db->Record['services_name']} {$license['accounts']} Accounts' where repeat_invoices_id={$db->Record['repeat_invoices_id']}";
+            //$query = "update repeat_invoices set repeat_invoices_cost = '{$costData['cost']}', repeat_invoices_description='{$db->Record['services_name']} {$license['accounts']} Accounts' where repeat_invoices_id={$db->Record['repeat_invoices_id']}";
+            $query = "update repeat_invoices set repeat_invoices_description='{$db->Record['services_name']} {$license['accounts']} Accounts' where repeat_invoices_id={$db->Record['repeat_invoices_id']}";
             //echo $query.PHP_EOL;
             $db2->query($query, __LINE__, __FILE__);
         }
