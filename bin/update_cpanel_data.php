@@ -35,7 +35,7 @@ foreach ($status['licenses'] as $key => $license2) {
 	$license['osver'] = $license2['osver'];
 	$license['package'] = $license2['packageid'];
 	$license['status'] = $license2['status'];
-	$line = implode(',', [$license['ip'], $license['liscid'], $license['hostname'], $license['os'], $license['distro'], $license['version'], $license['envtype'], $license['osver'], $license['package'], $license['status']]);
+	$line = implode(',', [$license['ip'], $license['liscid'], $license['hostname'], $license['os'], $license['distro'], $license['version'], $license['envtype'], $license['osver'], $license['package'], $license['status'], $license['accounts']]);
     $db->query("select * from repeat_invoices, licenses, services where repeat_invoices_service=license_id and repeat_invoices_module='licenses' and repeat_invoices_id=license_invoice and license_type=services_id and services_module='licenses' and services_category=500 and license_ip='{$license['ip']}' and license_status='active' and services_field1='{$license['package']}'", __LINE__, __FILE__);
     if ($db->num_rows() > 0) {
         while ($db->next_record(MYSQL_ASSOC)) {
