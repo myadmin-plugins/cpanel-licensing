@@ -68,7 +68,7 @@ function deactivate_cpanel($ipAddress = false)
 			return false;
 		}
 	}
-	myadmin_log('licenses', 'error', 'deactivate_cpanel('.$ipAddress.') gave unexpected output:'.json_encode($response), __LINE__, __FILE__, $module);
+	myadmin_log('licenses', 'error', 'deactivate_cpanel('.$ipAddress.') gave unexpected output:'.json_encode($response), __LINE__, __FILE__, 'licenses');
 	return false;
 }
 
@@ -154,8 +154,8 @@ function get_cpanel_licenses()
 }
 
 function get_cpanel_accounts_for_license_ip($ip) {
-    $data = get_cpanel_license_data_by_ip($ip);
-    if ($data === false)
-        return false;
-    return $data['accounts'];
+	$data = get_cpanel_license_data_by_ip($ip);
+	if ($data === false)
+		return false;
+	return $data['accounts'];
 }
