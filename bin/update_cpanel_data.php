@@ -54,7 +54,7 @@ foreach ($status['licenses'] as $key => $license2) {
 	$license['status'] = $license2['status'];
 	$line = implode(',', [$license['ip'], $license['liscid'], $license['hostname'], $license['os'], $license['distro'], $license['version'], $license['envtype'], $license['osver'], $license['package'], $license['status'], $license['accounts']]);
 	$isExternal = in_array($license['package'], [559, 560, 401, 21175, 21179, 21183, 21187, 21897, 31365]) ? true : false;
-	$isServer = $license['host_type'] == 'dedicated' ? true : false;
+	$isServer = $license['host_type'] == 'virtual' ? false : true;
 	$costData = getCpanelCost($license['accounts'], $isServer, $isExternal);
 	$package = array_key_exists($license['package'], $cpanelPackages) ? $cpanelPackages[$license['package']] : false;
 	$oldService = $package !== false ? $package['services_id'] : false;
@@ -89,7 +89,7 @@ foreach ($status['licenses'] as $key => $license2) {
 			}
 			if (count($changes) > 0) {
 				$repeatObj = new \MyAdmin\Orm\Repeat_Invoice();
-				$repeatObj->load_real($db->Record['license_id']);
+				$repeatObj->load_real($db->Record['repeat_invoices_id']);
 				foreach ($changes as $change) {
 					echo "Making Changes to {$license['ip']} Repeat Invoice {$db->Record['repeat_invoices_id']} setting {$change[0]} from '{$change[1]}' to '{$change[2]}'".PHP_EOL;
 					$out['updates'][] = [$license['ip'], $db->Record['license_id'], $change[0], $change[1], $change[2], $db->Record['repeat_invoices_id']];
