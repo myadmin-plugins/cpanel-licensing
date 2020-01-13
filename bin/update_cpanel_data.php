@@ -61,24 +61,11 @@ foreach ($status['licenses'] as $key => $license2) {
 	$oldService = $package !== false ? $package['services_id'] : false;
 	$newService = $costData['service'];
 	$found = false;
-	// here are most likely vps/qs addon type orders in our system
-	$db->query("select * from vps left join repeat_invoices on repeat_invoices_module='vps' and repeat_invoices_service=vps_id and repeat_invoices_description like 'CPanel %' where vps_status='active' and vps_ip='{$license['ip']}'", __LINE__, __FILE__);
-	if ($db->num_rows() > 1) {
-		$found = true;
-		echo "Multiple Entries found for {$license['ip']}".PHP_EOL;
-		$ids = [];
-		while ($db->next_record(MYSQL_ASSOC)) {
-			$ids[] = $db->Record['vps_id'];
-			echo "	Found ".json_encode($db->Record).PHP_EOL;
-		}
-		$out['problems']['multiple'][$license['ip']] = ['vps', $ids]; 
-	} elseif ($db->num_rows() == 1) {
-		$found = true;
-		$db->next_record(MYSQL_ASSOC);
-		if (is_null($db->Record['repeat_invoices_id'])) {
-			echo "Null Repeat Invoice found for License {$license['ip']}".PHP_EOL;
-			$out['problems']['null_repeat'][$license['ip']] = ['vps', $db->Record['vps_id']]; 
-		} else {
+	if ($found == false) {
+		$db->query("select * from licenses, repeat_invoices left join services on license_type=services_id and services_type=500 where license_status='active' and services_id is not null and license_ip='{$license['ip']}' and  repeat_invoices_module='licenses' and repeat_invoices_id=license_invoice and repeat_invoices_service=license_id ", __LINE__, __FILE__);
+		if ($db->num_rows() == 1) {
+			$found = true;
+			$db->next_record(MYSQL_ASSOC);
 			$changes = [];
 			if ($db->Record['repeat_invoices_frequency'] != 1) {
 				$changes[] = ['repeat_invoices_frequency', $db->Record['repeat_invoices_frequency'], 1];
@@ -86,39 +73,74 @@ foreach ($status['licenses'] as $key => $license2) {
 			if ((float)$db->Record['repeat_invoices_cost'] != (float)$costData['cost']) {
 				$changes[] = ['repeat_invoices_cost', $db->Record['repeat_invoices_cost'], (float)$costData['cost']];
 			}
-			if ($db->Record['repeat_invoices_description'] != "CPanel {$license['accounts']} Accounts for VPS {$db->Record['vps_id']}") {
-				$changes[] = ['repeat_invoices_description', $db->Record['repeat_invoices_description'], "CPanel {$license['accounts']} Accounts for VPS {$db->Record['vps_id']}"];
+			if ($db->Record['repeat_invoices_description'] != "{$serviceTypes[$newService]['services_name']} {$license['accounts']} Accounts") {
+				$changes[] = ['repeat_invoices_description', $db->Record['repeat_invoices_description'], "{$serviceTypes[$newService]['services_name']} {$license['accounts']} Accounts"];
 			}
 			if (count($changes) > 0) {
 				$repeatObj = new \MyAdmin\Orm\Repeat_Invoice();
 				$repeatObj->load_real($db->Record['repeat_invoices_id']);
 				foreach ($changes as $change) {
 					echo "Making Changes to {$license['ip']} Repeat Invoice {$db->Record['repeat_invoices_id']} setting {$change[0]} from '{$change[1]}' to '{$change[2]}'".PHP_EOL;
-					$out['updates'][] = [$license['ip'], 'vps', $db->Record['vps_id'], $change[0], $change[1], $change[2], $db->Record['repeat_invoices_id']];
+					$out['updates'][] = [$license['ip'], 'licenses', $db->Record['license_id'], $change[0], $change[1], $change[2], $db->Record['repeat_invoices_id']];
 					$func = 'set'.ucwords(str_replace('repeat_invoices_', '', $change[0]));
 					$repeatObj->$func($change[2]);
 				}
 				$repeatObj->save();
 			}
+			$changes = [];
+			if ($db->Record['license_frequency'] != 1) {
+				$changes[] = ['license_frequency', $db->Record['license_frequency'], 1];
+			}
+			if ((float)$db->Record['license_cost'] != (float)$costData['cost']) {
+				$changes[] = ['license_cost', $db->Record['license_cost'], (float)$costData['cost']];
+			}
+			if ($db->Record['license_type'] != $newService) {
+				$changes[] = ['license_type', $db->Record['license_type'], $newService];
+			}
+			if (count($changes) > 0) {
+				$serviceObj = new \MyAdmin\Orm\License();
+				$serviceObj->load_real($db->Record['license_id']);
+				foreach ($changes as $change) {
+					echo "Making Changes to {$license['ip']} License {$db->Record['license_id']} setting {$change[0]} from '{$change[1]}' to '{$change[2]}'".PHP_EOL;
+					$out['updates'][] = [$license['ip'], 'licenses', $db->Record['license_id'], $change[0], $change[1], $change[2], $db->Record['license_id']];
+					$func = 'set'.ucwords(str_replace('license_', '', $change[0]));
+					$serviceObj->$func($change[2]);
+				}
+				$serviceObj->save();
+			}
+			$query = "update licenses set license_extra='".$db->real_escape($line)."' where license_ip='{$license['ip']}' and license_type in (5000,5001,5002,5005,5008,5009,5014,10682,10683)";
+			$db2->query($query, __LINE__, __FILE__);
+			if ($license['hostname'] != '') {
+				$query = "update licenses set license_hostname='".$db->real_escape($license['hostname'])."' where license_ip='{$license['ip']}'";
+				$db2->query($query, __LINE__, __FILE__);
+				//echo '('.$license['hostname'].' = '.$license['ip'].") ";
+				//echo '.';
+			}
 		}
 	}
-	if ($found == false) {
-		$db->query("select * from quickservers left join repeat_invoices on repeat_invoices_module='quickservers' and repeat_invoices_service=qs_id and repeat_invoices_description like 'CPanel %' where qs_status='active' and qs_ip='{$license['ip']}'", __LINE__, __FILE__);
+
+	// here are most likely vps/qs addon type orders in our system
+	foreach (['vps', 'quickservers'] as $module) {
+		$settings = get_module_settings($module);
+		if ($found == true) {
+			break;
+		}
+		$db->query("select * from {$settings['TABLE']} left join repeat_invoices on repeat_invoices_module='{$module}' and repeat_invoices_service={$settings['PREFIX']}_id and repeat_invoices_description like 'CPanel %' where {$settings['PREFIX']}_status='active' and {$settings['PREFIX']}_ip='{$license['ip']}'", __LINE__, __FILE__);
 		if ($db->num_rows() > 1) {
 			$found = true;
 			echo "Multiple Entries found for {$license['ip']}".PHP_EOL;
 			$ids = [];
 			while ($db->next_record(MYSQL_ASSOC)) {
-				$ids[] = $db->Record['qs_id'];
+				$ids[] = $db->Record[$settings['PREFIX'].'_id'];
 				echo "	Found ".json_encode($db->Record).PHP_EOL;
 			}
-			$out['problems']['multiple'][$license['ip']] = ['quickservers', $ids]; 
+			$out['problems']['multiple'][$license['ip']] = [$module, $ids]; 
 		} elseif ($db->num_rows() == 1) {
 			$found = true;
 			$db->next_record(MYSQL_ASSOC);
 			if (is_null($db->Record['repeat_invoices_id'])) {
 				echo "Null Repeat Invoice found for License {$license['ip']}".PHP_EOL;
-				$out['problems']['null_repeat'][$license['ip']] = ['quickservers', $db->Record['qs_id']]; 
+				$out['problems']['null_repeat'][$license['ip']] = [$module, $db->Record[$settings['PREFIX'].'_id']]; 
 			} else {
 				$changes = [];
 				if ($db->Record['repeat_invoices_frequency'] != 1) {
@@ -127,15 +149,15 @@ foreach ($status['licenses'] as $key => $license2) {
 				if ((float)$db->Record['repeat_invoices_cost'] != (float)$costData['cost']) {
 					$changes[] = ['repeat_invoices_cost', $db->Record['repeat_invoices_cost'], (float)$costData['cost']];
 				}
-				if ($db->Record['repeat_invoices_description'] != "CPanel {$license['accounts']} Accounts for Rapid Deploy Servers {$db->Record['qs_id']}") {
-					$changes[] = ['repeat_invoices_description', $db->Record['repeat_invoices_description'], "CPanel {$license['accounts']} Accounts for Rapid Deploy Servers {$db->Record['qs_id']}"];
+				if ($db->Record['repeat_invoices_description'] != "CPanel {$license['accounts']} Accounts for {$settings['TBLAME']} {$db->Record[$settings['PREFIX'].'_id']}") {
+					$changes[] = ['repeat_invoices_description', $db->Record['repeat_invoices_description'], "CPanel {$license['accounts']} Accounts for {$settings['TBLAME']} {$db->Record[$settings['PREFIX'].'_id']}"];
 				}
 				if (count($changes) > 0) {
 					$repeatObj = new \MyAdmin\Orm\Repeat_Invoice();
 					$repeatObj->load_real($db->Record['repeat_invoices_id']);
 					foreach ($changes as $change) {
 						echo "Making Changes to {$license['ip']} Repeat Invoice {$db->Record['repeat_invoices_id']} setting {$change[0]} from '{$change[1]}' to '{$change[2]}'".PHP_EOL;
-						$out['updates'][] = [$license['ip'], 'quickservers', $db->Record['qs_id'], $change[0], $change[1], $change[2], $db->Record['repeat_invoices_id']];
+						$out['updates'][] = [$license['ip'], $module, $db->Record[$settings['PREFIX'].'_id'], $change[0], $change[1], $change[2], $db->Record['repeat_invoices_id']];
 						$func = 'set'.ucwords(str_replace('repeat_invoices_', '', $change[0]));
 						$repeatObj->$func($change[2]);
 					}
