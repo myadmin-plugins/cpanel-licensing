@@ -62,7 +62,10 @@ foreach ($status['licenses'] as $key => $license2) {
 	$newService = $costData['service'];
 	$found = false;
 	if ($found == false) {
-		$db->query("select * from licenses, repeat_invoices left join services on license_type=services_id and services_type=500 where license_status='active' and services_id is not null and license_ip='{$license['ip']}' and  repeat_invoices_module='licenses' and repeat_invoices_id=license_invoice and repeat_invoices_service=license_id ", __LINE__, __FILE__);
+		$db->query("SELECT * FROM licenses
+  LEFT JOIN repeat_invoices ON repeat_invoices_module = 'licenses' AND repeat_invoices_id = license_invoice AND repeat_invoices_service = license_id
+  LEFT JOIN services ON license_type = services_id AND services_type = 500
+WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$license['ip']}' AND repeat_invoices_id IS NOT NULL", __LINE__, __FILE__);
 		if ($db->num_rows() == 1) {
 			$found = true;
 			$db->next_record(MYSQL_ASSOC);
@@ -149,8 +152,8 @@ foreach ($status['licenses'] as $key => $license2) {
 				if ((float)$db->Record['repeat_invoices_cost'] != (float)$costData['cost']) {
 					$changes[] = ['repeat_invoices_cost', $db->Record['repeat_invoices_cost'], (float)$costData['cost']];
 				}
-				if ($db->Record['repeat_invoices_description'] != "CPanel {$license['accounts']} Accounts for {$settings['TBLAME']} {$db->Record[$settings['PREFIX'].'_id']}") {
-					$changes[] = ['repeat_invoices_description', $db->Record['repeat_invoices_description'], "CPanel {$license['accounts']} Accounts for {$settings['TBLAME']} {$db->Record[$settings['PREFIX'].'_id']}"];
+				if ($db->Record['repeat_invoices_description'] != "CPanel {$license['accounts']} Accounts for {$settings['TBLNAME']} {$db->Record[$settings['PREFIX'].'_id']}") {
+					$changes[] = ['repeat_invoices_description', $db->Record['repeat_invoices_description'], "CPanel {$license['accounts']} Accounts for {$settings['TBLNAME']} {$db->Record[$settings['PREFIX'].'_id']}"];
 				}
 				if (count($changes) > 0) {
 					$repeatObj = new \MyAdmin\Orm\Repeat_Invoice();
