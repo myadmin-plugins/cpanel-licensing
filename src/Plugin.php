@@ -68,7 +68,7 @@ class Plugin
 		if ($event['category'] == get_service_define('CPANEL')) {
 			myadmin_log(self::$module, 'info', 'cPanel Deactivation', __LINE__, __FILE__, self::$module, $serviceClass->getId());
 			function_requirements('deactivate_cpanel');
-			deactivate_cpanel($serviceClass->getIp());
+			$event['success'] = deactivate_cpanel($serviceClass->getIp());
 			$serviceExtra = @myadmin_unstringify($serviceClass->getExtra());
 			if ($serviceExtra !== false && isset($serviceExtra['ksplice']) && $serviceExtra['ksplice'] == 1 && isset($serviceExtra['ksplice_uuid']) && $serviceExtra['ksplice_uuid'] != '') {
 				function_requirements('deactivate_ksplice');
