@@ -67,7 +67,7 @@ function deactivate_cpanel($ipAddress = false)
 		} else {
 			$bodyRows = [];
 			$bodyRows[] = 'License IP: '.$ipAddress.' unable to deactivate.';
-			$bodyRows[] = 'Deactivation Response: .'.print_r($response, true);
+			$bodyRows[] = 'Deactivation Response: .'.json_encode($response);
 			$subject = 'Cpanel License Deactivation Issue IP: '.$ipAddress;
 			$smartyE = new TFSmarty;
 			$smartyE->assign('h1', 'Cpanel License Deactivation');
@@ -77,6 +77,15 @@ function deactivate_cpanel($ipAddress = false)
 			return false;
 		}
 	}
+	$bodyRows = [];
+	$bodyRows[] = 'License IP: '.$ipAddress.' unable to fetch for deactivation.';
+	$bodyRows[] = 'Fetch License ID Response: .'.json_encode($response);
+	$subject = 'Cpanel License Fetch Issue IP: '.$ipAddress;
+	$smartyE = new TFSmarty;
+	$smartyE->assign('h1', 'Cpanel License Fetch Issue For Deactivation');
+	$smartyE->assign('body_rows', $bodyRows);
+	$msg = $smartyE->fetch('email/client/client_email.tpl');
+	(new \MyAdmin\Mail())->multiMail($subject, $msg, ADMIN_EMAIL, 'client/client_email.tpl');
 	myadmin_log('licenses', 'error', 'deactivate_cpanel('.$ipAddress.') gave unexpected output:'.json_encode($response), __LINE__, __FILE__, 'licenses');
 	return false;
 }
