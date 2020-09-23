@@ -65,6 +65,15 @@ function deactivate_cpanel($ipAddress = false)
 		if ($response['attr']['reason'] == 'OK') {
 			return true;
 		} else {
+			$bodyRows = [];
+			$bodyRows[] = 'License IP: '.$ipAddress.' unable to deactivate.';
+			$bodyRows[] = 'Deactivation Response: .'.print_r($response, true);
+			$subject = 'Cpanel License Deactivation Issue IP: '.$ipAddress;
+			$smartyE = new TFSmarty;
+			$smartyE->assign('h1', 'Cpanel License Deactivation');
+			$smartyE->assign('body_rows', $bodyRows);
+			$msg = $smartyE->fetch('email/client/client_email.tpl');
+			(new \MyAdmin\Mail())->multiMail($subject, $msg, ADMIN_EMAIL, 'client/client_email.tpl');
 			return false;
 		}
 	}
