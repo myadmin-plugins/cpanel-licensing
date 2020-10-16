@@ -57,6 +57,7 @@ foreach ($status['licenses'] as $key => $license2) {
 	$isExternal = in_array($license['package'], [559, 560, 401, 21175, 21179, 21183, 21187, 21897, 31365]) ? true : false;
 	$isServer = $license['host_type'] == 'virtual' ? false : true;
 	$costData = getCpanelCost($license['accounts'], $isServer, $isExternal);
+	$costData['orig_cost'] = $costData['cost'];
 	$package = array_key_exists($license['package'], $cpanelPackages) ? $cpanelPackages[$license['package']] : false;
 	$oldService = $package !== false ? $package['services_id'] : false;
 	$newService = $costData['service'];
@@ -69,6 +70,8 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 		if ($db->num_rows() == 1) {
 			$found = true;
 			$db->next_record(MYSQL_ASSOC);
+			$currency = $db->Record['license_currency'];
+			$costData['cost'] = convertCurrency($costData['orig_cost'], $currency, 'USD')->getAmount()->toFloat();
 			$changes = [];
 			if ($db->Record['repeat_invoices_frequency'] != 1) {
 				$changes[] = ['repeat_invoices_frequency', $db->Record['repeat_invoices_frequency'], 1];
@@ -146,6 +149,8 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 				$out['problems']['null_repeat'][$license['ip']] = [$module, $db->Record[$settings['PREFIX'].'_id']]; 
 			} else {
 				$changes = [];
+				$currency = $db->Record[$settings['PREFIX'].'_currency'];
+				$costData['cost'] = convertCurrency($costData['orig_cost'], $currency, 'USD')->getAmount()->toFloat();
 				if ($db->Record['repeat_invoices_frequency'] != 1) {
 					$changes[] = ['repeat_invoices_frequency', $db->Record['repeat_invoices_frequency'], 1];
 				}
@@ -189,6 +194,8 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 				$out['problems']['null_repeat'][$license['ip']] = ['licenses', $db->Record['license_id']]; 
 			} else {
 				$changes = [];
+				$currency = $db->Record['license_currency'];
+				$costData['cost'] = convertCurrency($costData['orig_cost'], $currency, 'USD')->getAmount()->toFloat();
 				if ($db->Record['repeat_invoices_frequency'] != 1) {
 					$changes[] = ['repeat_invoices_frequency', $db->Record['repeat_invoices_frequency'], 1];
 				}
