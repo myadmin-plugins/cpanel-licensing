@@ -37,7 +37,7 @@ $out = [
 		'multiple' => [],
 		'null_repeat' => [],
 		'nothing' => [],
-	], 
+	],
 ];
 foreach ($status['licenses'] as $key => $license2) {
 	$license = [];
@@ -94,12 +94,6 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 				$repeatObj->save();
 			}
 			$changes = [];
-			if ($db->Record['license_frequency'] != 1) {
-				$changes[] = ['license_frequency', $db->Record['license_frequency'], 1];
-			}
-			if ((float)$db->Record['license_cost'] != (float)$costData['cost']) {
-				$changes[] = ['license_cost', $db->Record['license_cost'], (float)$costData['cost']];
-			}
 			if ($db->Record['license_type'] != $newService) {
 				$changes[] = ['license_type', $db->Record['license_type'], $newService];
 			}
@@ -144,7 +138,7 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 				$ids[] = $db->Record[$settings['PREFIX'].'_id'];
 				echo "	Found ".json_encode($db->Record).PHP_EOL;
 			}
-			$out['problems']['multiple'][$license['ip']] = [$module, $ids]; 
+			$out['problems']['multiple'][$license['ip']] = [$module, $ids];
 		} elseif ($db->num_rows() == 1) {
 */
 		if ($db->num_rows() >= 1) {
@@ -152,7 +146,7 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 			while ($db->next_record(MYSQL_ASSOC)) {
 				if (is_null($db->Record['repeat_invoices_id'])) {
 					echo "Null Repeat Invoice found for License {$license['ip']}".PHP_EOL;
-					$out['problems']['null_repeat'][$license['ip']] = [$module, $db->Record[$settings['PREFIX'].'_id']]; 
+					$out['problems']['null_repeat'][$license['ip']] = [$module, $db->Record[$settings['PREFIX'].'_id']];
 				} else {
 					$changes = [];
 					$currency = $db->Record[$settings['PREFIX'].'_currency'];
@@ -197,14 +191,14 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 				$ids[] = $db->Record['license_id'];
 				echo "	Found ".json_encode($db->Record).PHP_EOL;
 			}
-			$out['problems']['multiple'][$license['ip']] = ['licenses', $ids]; 
+			$out['problems']['multiple'][$license['ip']] = ['licenses', $ids];
 		} elseif ($db->num_rows() == 1) {
 */
-		if ($db->num_rows() >= 1) {			
+		if ($db->num_rows() >= 1) {
 			while ($db->next_record(MYSQL_ASSOC)) {
 				if (is_null($db->Record['repeat_invoices_id'])) {
 					echo "Null Repeat Invoice found for License {$license['ip']}".PHP_EOL;
-					$out['problems']['null_repeat'][$license['ip']] = ['licenses', $db->Record['license_id']]; 
+					$out['problems']['null_repeat'][$license['ip']] = ['licenses', $db->Record['license_id']];
 				} else {
 					$changes = [];
 					$currency = $db->Record['license_currency'];
@@ -230,12 +224,6 @@ WHERE license_status = 'active' AND services_id IS NOT NULL AND license_ip = '{$
 						$repeatObj->save();
 					}
 					$changes = [];
-					if ($db->Record['license_frequency'] != 1) {
-						$changes[] = ['license_frequency', $db->Record['license_frequency'], 1];
-					}
-					if ((float)$db->Record['license_cost'] != (float)$costData['cost']) {
-						$changes[] = ['license_cost', $db->Record['license_cost'], (float)$costData['cost']];
-					}
 					if ($db->Record['license_type'] != $newService) {
 						$changes[] = ['license_type', $db->Record['license_type'], $newService];
 					}
