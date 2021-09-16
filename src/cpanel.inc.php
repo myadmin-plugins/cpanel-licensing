@@ -73,7 +73,7 @@ function deactivate_cpanel($ipAddress = false)
 			$smartyE->assign('h1', 'Cpanel License Deactivation');
 			$smartyE->assign('body_rows', $bodyRows);
 			$msg = $smartyE->fetch('email/client/client_email.tpl');
-			(new \MyAdmin\Mail())->adminMail($subject, $msg, ADMIN_EMAIL, 'client/client_email.tpl');
+			(new \MyAdmin\Mail())->adminMail($subject, $msg, false, 'client/client_email.tpl');
 			return false;
 		}
 	}
@@ -85,7 +85,7 @@ function deactivate_cpanel($ipAddress = false)
 	$smartyE->assign('h1', 'Cpanel License Fetch Issue For Deactivation');
 	$smartyE->assign('body_rows', $bodyRows);
 	$msg = $smartyE->fetch('email/client/client_email.tpl');
-	(new \MyAdmin\Mail())->adminMail($subject, $msg, ADMIN_EMAIL, 'client/client_email.tpl');
+	(new \MyAdmin\Mail())->adminMail($subject, $msg, false, 'client/client_email.tpl');
 	myadmin_log('licenses', 'error', 'deactivate_cpanel('.$ipAddress.') gave unexpected output:'.json_encode($response), __LINE__, __FILE__, 'licenses');
 	return false;
 }
