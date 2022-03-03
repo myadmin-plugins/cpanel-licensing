@@ -23,15 +23,15 @@
 		"ext-soap": "*",
 		"symfony/event-dispatcher": ">=2.8.26",
 		"detain/myadmin-plugin-installer": "dev-master",
-		"detain/myadmin-cpanel-licensing": "dev-master"
+		"detain/cpanel-licensing": "dev-master"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*",
 		"phpunit/phpunit-mock-objects": "*",
 		"vlucas/phpdotenv": "*",
-		"codeclimate/php-test-reporter": "dev-master",
+		"codeclimate/php-test-reporter": "*",
 		"satooshi/php-coveralls": "*",
-		"codacy/coverage": "dev-master"
+		"codacy/coverage": "*"
 	},
 	"autoload": {
 		"psr-4": {
