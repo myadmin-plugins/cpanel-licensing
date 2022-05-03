@@ -9,7 +9,7 @@ $webpage = (isset($_SERVER['HTTP_HOST']) ? true : false);
 require_once realpath(__DIR__).'/../../../include/functions.inc.php';
 define('VERBOSE_MODE', false);
 if ($webpage == true) {
-	add_output('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	add_output('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
