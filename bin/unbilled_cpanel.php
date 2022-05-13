@@ -16,7 +16,7 @@ if ($webpage == true) {
 <title>Unbilled CPanel Licenses</title>
 <link rel="stylesheet" href="https://my.interserver.net/jquery/jquery-ui/themes/start/jquery-ui.css" type="text/css" media="all" />
 <link rel="stylesheet" href="https://my.interserver.net/templates/my/style.css" type="text/css" media="all" />
-<!-- <script src="/lib/jquery-3.x/dist/jquery.min.js"></script> -->
+<!-- <script src="/lib/jquery/dist/jquery.min.js"></script> -->
 <!-- <script src="/lib/jquery-ui/jquery-ui.min.js"></script> -->
 </head>
 <body>
