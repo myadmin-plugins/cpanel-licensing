@@ -165,7 +165,7 @@ class Plugin
          **/
         $settings = $event->getSubject();
         $settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_username', _('cPanel Licensing Username'), _('cPanel Licensing Username'), $settings->get_setting('CPANEL_LICENSING_USERNAME'));
-        $settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_password', _('cPanel Licensing Password'), _('cPanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
+        $settings->add_password_setting(self::$module, _('cPanel'), 'cpanel_licensing_password', _('cPanel Licensing Password'), _('cPanel Licensing Password'), $settings->get_setting('CPANEL_LICENSING_PASSWORD'));
         $settings->add_text_setting(self::$module, _('cPanel'), 'cpanel_licensing_group', _('cPanel Licensing Group'), _('cPanel Licensing Group'), $settings->get_setting('CPANEL_LICENSING_GROUP'));
         $settings->add_dropdown_setting(self::$module, _('cPanel'), 'outofstock_licenses_cpanel', _('Out Of Stock cPanel Licenses'), _('Enable/Disable Sales Of This Type'), $settings->get_setting('OUTOFSTOCK_LICENSES_CPANEL'), ['0', '1'], ['No', 'Yes']);
     }
