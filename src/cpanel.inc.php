@@ -62,7 +62,7 @@ function deactivate_cpanel($ipAddress = false)
         $response = $cpl->expireLicense($request);
         request_log('licenses', false, __FUNCTION__, 'cpanel', 'expireLicense', $request, $response);
         myadmin_log('licenses', 'info', "deactivate_cpanel({$ipAddress}) returned ".json_encode($response['attr']), __LINE__, __FILE__);
-        if ($response['attr']['reason'] == 'OK') {
+        if (in_array($response['attr']['reason'], ['OK', 'No Licenses Found'])) {
             return true;
         } else {
             $bodyRows = [];
