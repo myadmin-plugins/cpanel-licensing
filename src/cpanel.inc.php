@@ -56,6 +56,8 @@ function deactivate_cpanel($ipAddress = false)
     $request = ['ip' => $ipAddress];
     $response = $cpl->fetchLicenseId($request);
     request_log('licenses', false, __FUNCTION__, 'cpanel', 'fetchLicenseId', $request, $response);
+	if (isset($response['attr']['response']) && $response['attr']['response'] == 'No Licenses Found')
+		return true;
     if (isset($response['licenseid']) && isset($response['licenseid']['value'])) {
         $liscid = $response['licenseid']['value'];
         $request = ['liscid' => $liscid];
