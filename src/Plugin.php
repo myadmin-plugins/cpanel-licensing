@@ -152,7 +152,7 @@ class Plugin
         $loader->add_page_requirement('unbilled_cpanel_old', '/../vendor/detain/myadmin-cpanel-licensing/src/unbilled_cpanel_old.php');
         $loader->add_page_requirement('cpanel_ksplice_addon', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel_ksplice_addon.php');
         $loader->add_page_requirement('cpanel_kcare_addon', '/../vendor/detain/myadmin-cpanel-licensing/src/cpanel_kcare_addon.php');
-        $loader->add_requirement('class.Cpanel', '/../vendor/detain/myadmin-cpanel-licensing/Cpanel.php', '\\Detain\\Cpanel\\');
+//        $loader->add_requirement('class.Cpanel', '/../vendor/detain/myadmin-cpanel-licensing/Cpanel.php', '\\Detain\\Cpanel\\');
     }
 
     /**
