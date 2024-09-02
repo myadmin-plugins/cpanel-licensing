@@ -37,7 +37,7 @@ function unbilled_cpanel()
         $outType = 'text';
     }
     //209.159.155.230,4893465,Printnow.Gr,Linux,centos enterprise 5.8,11.32.3.19,virtuozzo,2.6.18-238.19.1.el5.028stab092.2PAE,INTERSERVER-INTERNAL-VZZO,1
-    $whitelist = explode("\n", trim(`cat /home/interser/public_html/misha/cpanel_whitelist.txt`));
+    $whitelist = file_exists('/home/interser/public_html/misha/cpanel_whitelist.txt') ? explode("\n", trim(`cat /home/interser/public_html/misha/cpanel_whitelist.txt`)) : [];
     $licenses = [];
     $tocheck = [];
     $goodIps = [];
@@ -99,6 +99,8 @@ function unbilled_cpanel()
                     // $db->query("update licenses set license_type=$license_type where license_id='{$db->Record['license_id']}'");
                     } elseif ($db->Record['license_status'] == 'active' && $db->Record['services_field1'] != $license['package']) {
                         $ipOutput[$license['ip']][] = 'CPanelDirect License '.'<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.view_license&id='.$db->Record['license_id']).'" target=_blank>'.$db->Record['license_id'].'</a>'.' Found but type is '.str_replace('INTERSERVER-', '', $db->Record['services_name']).' instead of '.str_replace('INTERSERVER-', '', $services[$license['package']]);
+                    } elseif (!isset($services[$license['package']])) {
+                        $ipOutput[$license['ip']][] = 'CPanelDirect License '.'<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.view_license&id='.$db->Record['license_id']).'" target=_blank>'.$db->Record['license_id'].'</a>'.' Found but status is '.$db->Record['license_status'].' and type is '.$db->Record['services_name'].' with no local package matching the '.$license['package'].' type';
                     } else {
                         $ipOutput[$license['ip']][] = 'CPanelDirect License '.'<a href="'.$GLOBALS['tf']->link('index.php', 'choice=none.view_license&id='.$db->Record['license_id']).'" target=_blank>'.$db->Record['license_id'].'</a>'.' Found but status is '.$db->Record['license_status'].' and type is '.str_replace('INTERSERVER-', '', $db->Record['services_name']).' instead of '.str_replace('INTERSERVER-', '', $services[$license['package']]);
                     }
@@ -189,7 +191,7 @@ function unbilled_cpanel()
                 //					$table->set_col_options('style="width: 225px;"');
                 $table->add_field($license['hostname'], 'r');
                 $table->set_col_options('style="min-width: 135px; max-width: 150px;"');
-                $table->add_field(str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]), 'r');
+                $table->add_field(isset($services[$license['package']]) ? str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]) : 'No Package Matching '.$license['package'], 'r');
                 $table->set_col_options('style="min-width: 350px;"');
             } else {
                 echo "$ipAddress	".$license['hostname'].'	'.str_replace(['INTERSERVER-', ' License'], ['', ''], $services[$license['package']]).'	';
