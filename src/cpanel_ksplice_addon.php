@@ -2,7 +2,7 @@
 /**
  * Licensing Functionality
  * @author Joe Huss <detain@interserver.net>
- * @copyright 2019
+ * @copyright 2025
  * @package MyAdmin
  * @category Licenses
  */
