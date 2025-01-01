@@ -6,7 +6,7 @@
 * @package MyAdmin
 * @category Scripts
 * @category update_cpanel_data
-* @copyright 2019
+* @copyright 2025
 */
 
 require_once __DIR__.'/../../../../include/functions.inc.php';
