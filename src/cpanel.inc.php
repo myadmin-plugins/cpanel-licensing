@@ -169,7 +169,7 @@ function get_cpanel_licenses()
 {
     $cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
     $status = $cpl->fetchLicenses();
-    request_log('licenses', false, __FUNCTION__, 'cpanel', 'fetchLicenses', '', $status);
+    //request_log('licenses', false, __FUNCTION__, 'cpanel', 'fetchLicenses', '', $status);
     return $status;
     //return $status['licenses'];
 }
