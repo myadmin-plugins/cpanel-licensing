@@ -26,16 +26,16 @@
 		"detain/cpanel-licensing": "dev-master"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "*",
-		"phpunit/phpunit-mock-objects": "*",
-		"vlucas/phpdotenv": "*",
-		"codeclimate/php-test-reporter": "*",
-		"satooshi/php-coveralls": "*",
-		"codacy/coverage": "*"
+		"phpunit/phpunit": "^9.6"
 	},
 	"autoload": {
 		"psr-4": {
 			"MyAdmin\\Licenses\\Cpanel\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"MyAdmin\\Licenses\\Cpanel\\Tests\\": "tests/"
 		}
 	}
 }
