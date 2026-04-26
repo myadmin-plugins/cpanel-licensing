@@ -109,7 +109,7 @@ class Plugin
             myadmin_log(self::$module, 'info', 'IP Change - (OLD:'.$serviceClass->getIp().") (NEW:{$event['newip']})", __LINE__, __FILE__, self::$module, $serviceClass->getId());
             if (deactivate_cpanel($serviceClass->getIp()) == true) {
                 activate_cpanel($event['newip'], $event['field1']);
-                $GLOBALS['tf']->history->add($settings['TABLE'], 'change_ip', $event['newip'], $serviceClass->getId(), $serviceClass->getCustid());
+                \MyAdmin\App::history()->add($settings['TABLE'], 'change_ip', $event['newip'], $serviceClass->getId(), $serviceClass->getCustid());
                 $serviceClass->set_ip($event['newip'])->save();
                 $event['status'] = 'ok';
                 $event['status_text'] = 'The IP Address has been changed.';
@@ -127,7 +127,7 @@ class Plugin
     public static function getMenu(GenericEvent $event)
     {
         $menu = $event->getSubject();
-        if ($GLOBALS['tf']->ima == 'admin') {
+        if (\MyAdmin\App::ima() == 'admin') {
             $menu->add_link(self::$module, 'choice=none.unbilled_cpanel', '/images/myadmin/payment-history.png', _('Unbilled cPanel'));
             $menu->add_link(self::$module.'api', 'choice=none.cpanel_list', '/images/myadmin/list.png', _('List all cPanel Licenses'));
         }

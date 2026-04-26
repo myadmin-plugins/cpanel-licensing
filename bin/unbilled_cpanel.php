@@ -24,7 +24,7 @@ if ($webpage == true) {
 }
 
 function_requirements('unbilled_cpanel');
-$GLOBALS['tf']->ima = 'admin';
+\MyAdmin\App::tf()->ima = 'admin';
 unbilled_cpanel();
 if ($webpage == true) {
     add_output('</body></html>');

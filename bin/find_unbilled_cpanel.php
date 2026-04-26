@@ -14,14 +14,14 @@ $dbVps = get_module_db('vps');
 $dbVps2 = get_module_db('vps');
 $dbInnertell = get_module_db('innertell');
 $dbCms = get_module_db('mb');
-$GLOBALS['tf']->session->create(160308, 'services');
-$GLOBALS['tf']->session->verify();
+\MyAdmin\App::session()->create(160308, 'services');
+\MyAdmin\App::session()->verify();
 $whitelist = explode("\n", trim(`export PATH="\$PATH:/bin:/usr/bin:/sbin:/usr/sbin"; cat /home/interser/public_html/misha/cpanel_whitelist.txt`));
 $licenses = [];
 $tocheck = [];
 $goodIps = [];
 $ipOutput = [];
-$session_id = $GLOBALS['tf']->session->sessionid;
+$session_id = \MyAdmin\App::session()->sessionid;
 $serviceTypes = get_license_types();
 $cpl = new \Detain\Cpanel\Cpanel(CPANEL_LICENSING_USERNAME, CPANEL_LICENSING_PASSWORD);
 $status = $cpl->fetchLicenses();
@@ -158,4 +158,4 @@ foreach ($tocheck as $ipAddress => $license) {
     }
 }
 echo $errors.'/'.count($licenses).' Licenses have matching problems'.PHP_EOL;
-$GLOBALS['tf']->session->destroy();
+\MyAdmin\App::session()->destroy();

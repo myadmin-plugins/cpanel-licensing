@@ -10,7 +10,7 @@
 function cpanel_list()
 {
     page_title('CPanel License List');
-    if ($GLOBALS['tf']->ima == 'admin') {
+    if (\MyAdmin\App::ima() == 'admin') {
         $table = new \TFTable();
         $table->set_title('CPanel License List');
         $header = false;

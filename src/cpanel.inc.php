@@ -33,7 +33,7 @@ function activate_cpanel($ipAddress, $package)
         'reactivateok' => 1
     ];
     $response = $cpl->activateLicense($request);
-    request_log($module, $GLOBALS['tf']->session->account_id, __FUNCTION__, 'cpanel', 'activateLicense', $request, $response);
+    request_log($module, \MyAdmin\App::session()->account_id, __FUNCTION__, 'cpanel', 'activateLicense', $request, $response);
     myadmin_log('licenses', 'info', json_encode($response['attr']), __LINE__, __FILE__);
     return $response['attr'];
 }
@@ -46,8 +46,8 @@ function activate_cpanel($ipAddress, $package)
  */
 function deactivate_cpanel($ipAddress = false)
 {
-    if ($GLOBALS['tf']->ima == 'admin' && $ipAddress === false && isset($GLOBALS['tf']->variables->request['ip'])) {
-        $ipAddress = $GLOBALS['tf']->variables->request['ip'];
+    if (\MyAdmin\App::ima() == 'admin' && $ipAddress === false && isset(\MyAdmin\App::variables()->request['ip'])) {
+        $ipAddress = \MyAdmin\App::variables()->request['ip'];
     }
     if (trim($ipAddress) == '') {
         return true;
