@@ -14,8 +14,10 @@ $dbVps = get_module_db('vps');
 $dbVps2 = get_module_db('vps');
 $dbInnertell = get_module_db('innertell');
 $dbCms = get_module_db('mb');
-\MyAdmin\App::session()->create(160308, 'services');
-\MyAdmin\App::session()->verify();
+\MyAdmin\App::session()->sessionid = substr(basename($_SERVER['argv'][0], '.php'), 0, 32);
+\MyAdmin\App::session()->account_id = 160308;
+\MyAdmin\App::session()->appnocache('ima', 'services');
+\MyAdmin\App::tf()->ima = 'services';
 $whitelist = explode("\n", trim(`export PATH="\$PATH:/bin:/usr/bin:/sbin:/usr/sbin"; cat /home/interser/public_html/misha/cpanel_whitelist.txt`));
 $licenses = [];
 $tocheck = [];
@@ -158,4 +160,3 @@ foreach ($tocheck as $ipAddress => $license) {
     }
 }
 echo $errors.'/'.count($licenses).' Licenses have matching problems'.PHP_EOL;
-\MyAdmin\App::session()->destroy();
