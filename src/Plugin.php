@@ -52,9 +52,16 @@ class Plugin
             myadmin_log(self::$module, 'info', 'cPanel Activation', __LINE__, __FILE__, self::$module, $serviceClass->getId());
             function_requirements('activate_cpanel');
             $response = activate_cpanel($serviceClass->getIp(), $event['field1']);
-            $serviceClass
-                ->setKey($response['licenseid'])
-                ->save();
+            if ($response === false || !is_array($response) || empty($response['licenseid'])) {
+                $event['success'] = false;
+                $errText = is_array($response) ? json_encode($response) : var_export($response, true);
+                myadmin_log(self::$module, 'error', 'cPanel activate_cpanel failed for IP '.$serviceClass->getIp().' Response: '.$errText, __LINE__, __FILE__, self::$module, $serviceClass->getId());
+                chatNotify('Failed [License '.$serviceClass->getId().'](https://my.interserver.net/admin/view_service?id='.$serviceClass->getId().'&module=licenses) cPanel Activation IP:'.$serviceClass->getIp().' Type:'.$event['field1'].' - '.$errText, 'notifications');
+            } else {
+                $serviceClass
+                    ->setKey($response['licenseid'])
+                    ->save();
+            }
             $event->stopPropagation();
         }
     }
