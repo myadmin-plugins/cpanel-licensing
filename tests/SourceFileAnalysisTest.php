@@ -364,15 +364,14 @@ class SourceFileAnalysisTest extends TestCase
         $this->assertSame('', trim($matches[1]), 'cpanel_list should have no parameters');
     }
 
-    /**
-     * Tests that cpanel_list.php checks for admin access.
-     * Only admins should be able to view license lists.
+    /*
+     * The admin gate on cpanel_list() is verified behaviourally in
+     * AuthorizationTest::testCpanelListFetchesNothingAndRendersNothingForNonAdmin()
+     * and ::testCpanelListRendersEveryLicenseForAdmin(). The grep that used to live
+     * here asserted only that the literal text "ima == 'admin'" appeared in the file,
+     * which said nothing about whether the gate is enforced and broke as soon as the
+     * page switched from $GLOBALS['tf']->ima to \MyAdmin\App::ima().
      */
-    public function testCpanelListChecksAdmin(): void
-    {
-        $content = file_get_contents(self::$srcDir . '/cpanel_list.php');
-        $this->assertStringContainsString("ima == 'admin'", $content);
-    }
 
     /**
      * Tests that cpanel_list.php calls get_cpanel_licenses.
@@ -424,16 +423,15 @@ class SourceFileAnalysisTest extends TestCase
         $this->assertSame('', trim($matches[1]), 'unbilled_cpanel should have no parameters');
     }
 
-    /**
-     * Tests that unbilled_cpanel.php checks admin + ACL permissions.
-     * This page should only be accessible to admins with the view_service ACL.
+    /*
+     * The admin + view_service ACL gate on unbilled_cpanel() is verified
+     * behaviourally in AuthorizationTest::testUnbilledCpanelRefusesNonAdmin(),
+     * ::testUnbilledCpanelRefusesAdminWithoutViewServiceAcl() and
+     * ::testUnbilledCpanelAllowsAdminWithViewServiceAcl(). The grep that used to live
+     * here matched the literal text "ima != 'admin'", so it would have passed on a
+     * commented-out gate and failed on an intact one — as it did once the page moved
+     * to \MyAdmin\App::ima().
      */
-    public function testUnbilledCpanelChecksPermissions(): void
-    {
-        $content = file_get_contents(self::$srcDir . '/unbilled_cpanel.php');
-        $this->assertStringContainsString("ima != 'admin'", $content);
-        $this->assertStringContainsString("has_acl('view_service')", $content);
-    }
 
     /**
      * Tests that unbilled_cpanel.php references the cPanel API class.

@@ -16,7 +16,7 @@ function cpanel_list()
         $header = false;
         function_requirements('get_cpanel_licenses');
         $licenses = get_cpanel_licenses();
-        $licensesValues = array_values($licenses['lienses']);
+        $licensesValues = array_values($licenses['licenses']);
         foreach ($licensesValues as $data) {
             if (!$header) {
                 $dataKeys = array_keys($data);
