@@ -6,3 +6,5 @@ vendor/
 
 # Caliber local state
 .caliber/
+.phpunit.cache/
+.phpunit.result.cache
