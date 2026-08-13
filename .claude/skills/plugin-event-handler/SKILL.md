@@ -1,6 +1,6 @@
 ---
 name: plugin-event-handler
-description: Adds a new event handler to src/Plugin.php following the static GenericEvent pattern. Registers hook in getHooks(), implements handler with category check, myadmin_log, function_requirements, and stopPropagation. Use when user says 'add hook', 'new event handler', 'handle event', or 'add plugin method'. Do NOT use for modifying existing handlers. NOTE: for a plugin's contract/behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
+description: Adds a new event handler to src/Plugin.php following the static GenericEvent pattern. Registers hook in getHooks(), implements handler with category check, myadmin_log, function_requirements, and stopPropagation. Use when user says 'add hook', 'new event handler', 'handle event', or 'add plugin method'. Do NOT use for modifying existing handlers. For a plugin's contract or behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
 ---
 <!-- myadmin-contract-harness-notice -->
 > ### ⚠️ Read this before the rest of the file
